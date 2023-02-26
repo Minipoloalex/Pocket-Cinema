@@ -1,5 +1,25 @@
 import 'package:flutter/material.dart';
 
+
+class ExampleDestination {
+  const ExampleDestination(this.label, this.icon, this.selectedIcon);
+
+  final String label;
+  final Widget icon;
+  final Widget selectedIcon;
+}
+
+const List<ExampleDestination> destinations = <ExampleDestination>[
+  ExampleDestination(
+      'page 0', Icon(Icons.widgets_outlined), Icon(Icons.widgets)),
+  ExampleDestination(
+      'page 1', Icon(Icons.format_paint_outlined), Icon(Icons.format_paint)),
+  ExampleDestination(
+      'page 2', Icon(Icons.text_snippet_outlined), Icon(Icons.text_snippet)),
+  ExampleDestination(
+      'page 3', Icon(Icons.invert_colors_on_outlined), Icon(Icons.opacity)),
+];
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
   final String title;
@@ -43,6 +63,20 @@ class _MyHomePageState extends State<HomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: 0,
+        onDestinationSelected: (int index) {
+
+        },
+        destinations: destinations.map((ExampleDestination destination) {
+          return NavigationDestination(
+            label: destination.label,
+            icon: destination.icon,
+            selectedIcon: destination.selectedIcon,
+            tooltip: destination.label,
+          );
+        }).toList(),
       ),
     );
   }
