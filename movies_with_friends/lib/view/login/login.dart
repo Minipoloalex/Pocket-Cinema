@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:movies_with_friends/view/home/home.dart';
+
 
 class ExampleDestination {
   const ExampleDestination(this.label, this.icon, this.selectedIcon);
@@ -20,21 +22,24 @@ const List<ExampleDestination> destinations = <ExampleDestination>[
 ];
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key, required this.title});
-  final String title;
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-            child: Container(
-                margin: const EdgeInsets.all(20),
-                child: Column(children: [
+        body: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 40),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
                   const Text("Pocket Movies"),
                   TextFormField(
                     decoration: const InputDecoration(labelText: "Username"),
@@ -46,9 +51,16 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {}, 
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/');
+                    }, 
                     child: const Text('Login'),
-                    )
-                ]))));
+                    ),
+                    const Divider(),
+                  ElevatedButton(
+                  onPressed: () {}, 
+                  child: const Text('Login with Google'),
+                  ),
+                ])));
   }
 }

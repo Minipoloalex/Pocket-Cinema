@@ -21,8 +21,7 @@ const List<ExampleDestination> destinations = <ExampleDestination>[
 ];
 
 class LibraryPage extends StatefulWidget {
-  const LibraryPage({super.key, required this.title});
-  final String title;
+  const LibraryPage({super.key});
 
   @override
   State<LibraryPage> createState() => _MyLibraryPageState();
@@ -42,9 +41,6 @@ class _MyLibraryPageState extends State<LibraryPage> {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
