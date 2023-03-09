@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:movies_with_friends/view/theme.dart';
-import 'package:movies_with_friends/view/home/widgets/home.dart';
+import 'package:movies_with_friends/view/home/home.dart';
+import 'package:movies_with_friends/view/login/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Movies With Friends',
       theme: applicationTheme,
-      home: const HomePage(title: 'Movies With Friends'),
+      home: const LoginPage(title: 'Movies With Friends'),
     );
   }
 }
