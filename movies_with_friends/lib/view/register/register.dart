@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +25,15 @@ class _LoginPageState extends State<LoginPage> {
                        ButtonSegment(value: "login", label: Text("Login")),
                        ButtonSegment(value: "register", label: Text("Register")),
                     ],
-                    selected: const <String>{"login"},
+                    selected: const <String>{"register"},
                     onSelectionChanged: (Set<String> newSelection) => {
-                      if(newSelection.first == "register") {
-                        Navigator.pushNamed(context, '/register')
+                      if(newSelection.first == "login") {
+                        Navigator.pushNamed(context, '/login')
                       }
                     },
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(labelText: "Email"),
                   ),
                   TextFormField(
                     decoration: const InputDecoration(labelText: "Username"),
@@ -40,20 +44,18 @@ class _LoginPageState extends State<LoginPage> {
                       labelText: 'Password',
                     ),
                   ),
+                  TextFormField(
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Confirm Password',
+                    ),
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/');
                     }, 
-                    child: const Text('Login'),
+                    child: const Text('Create account'),
                     ),
-                    const Divider(),
-                  ElevatedButton(
-                  onPressed: () {}, 
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
-                  ),
-                child: const Text('Login with Google')),
                 ])));
   }
 }
