@@ -1,29 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:heroicons/heroicons.dart';
+import 'package:movies_with_friends/model/NavigationItem.dart';
+import 'package:movies_with_friends/view/library/library.dart';
+import 'package:movies_with_friends/view/search/search.dart';
 
 import 'package:movies_with_friends/view/theme.dart';
 import 'package:movies_with_friends/view/home/home.dart';
 import 'package:movies_with_friends/view/login/login.dart';
+import 'package:movies_with_friends/view/register/register.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
-class PageItem {
-  const PageItem(this.label, this.icon, this.selectedIcon);
-
-  final String label;
-  final Widget icon;
-  final Widget selectedIcon;
-}
-
-const List<PageItem> pages = <PageItem>[
-  PageItem(
-      'News', Icon(Icons.widgets_outlined), Icon(Icons.widgets)),
-  PageItem(
-      'Search', Icon(Icons.format_paint_outlined), Icon(Icons.format_paint)),
-  PageItem(
-      'Library', Icon(Icons.text_snippet_outlined), Icon(Icons.text_snippet)),
-];
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -33,9 +21,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp>  {
-  
-  int _selectedPage = 0;
-  final _pageController = PageController(initialPage: 0);
+
+  int selectedPage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -45,29 +32,35 @@ class _MyAppState extends State<MyApp>  {
       initialRoute: '/login',
       routes: {
       '/login': (context) => const LoginPage(),
-      '/': (context) => Scaffold(
+      '/register': (context) => const RegisterPage(),
+      '/': (context){
+        final pageController = PageController(initialPage: 0);
+
+        return Scaffold(
         body: PageView(
-          controller: _pageController,
+          controller: pageController,
           scrollDirection: Axis.horizontal,
           onPageChanged: (newIndex) {
             setState(() {
-              _selectedPage = newIndex;
+              selectedPage = newIndex;
             });
           },
           children: const [
-            Page(title: "Page 1"),
-            Page(title: "Page 2"),
-            Page(title: "Page 3"),
+            HomePage(),
+            SearchPage(),
+            LibraryPage(),
           ],
           
         ),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: _selectedPage,
+        selectedIndex: selectedPage,
         onDestinationSelected: (int index) {
-          //_pageController.animateToPage(index, duration: const Duration(microseconds: 100), curve: Curves.easeIn);
-          //_pageController.animateToPage(index, duration: const Duration(microseconds: 300), curve: Curves.easeIn);
+          pageController.animateToPage(index, duration: const Duration(microseconds: 300), curve: Curves.easeIn);
         },
-        destinations: pages.map((PageItem destination) {
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        surfaceTintColor: Theme.of(context).colorScheme.tertiary,
+        
+        destinations: navigationItems.map((NavigationItem destination) {
           return NavigationDestination(
             label: destination.label,
             icon: destination.icon,
@@ -76,7 +69,8 @@ class _MyAppState extends State<MyApp>  {
           );
         }).toList(),
       ),
-    )
+    );
+    }
     },
     );
   }
@@ -97,3 +91,12 @@ class Page extends StatelessWidget {
     ));
   }
 }
+
+const List<NavigationItem> navigationItems = <NavigationItem>[
+  NavigationItem(
+      'News', HeroIcon(HeroIcons.home), HeroIcon(HeroIcons.home, style: HeroIconStyle.solid)),
+  NavigationItem(
+      'Search', HeroIcon(HeroIcons.magnifyingGlass), HeroIcon(HeroIcons.magnifyingGlass, style: HeroIconStyle.solid)),
+  NavigationItem(
+      'Library', HeroIcon(HeroIcons.bookmark), HeroIcon(HeroIcons.bookmark, style: HeroIconStyle.solid)),
+];
