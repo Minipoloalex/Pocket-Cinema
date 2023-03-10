@@ -31,4 +31,10 @@ ThemeData applicationTheme = ThemeData(
   indicatorColor: _white,
   primaryTextTheme: Typography().white,
   iconTheme: const IconThemeData(color: _white),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: _pink, // background (button) color
+        foregroundColor: _white, // foreground (text) color
+      ),
+    ),
 );
