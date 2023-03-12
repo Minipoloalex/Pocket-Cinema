@@ -25,7 +25,7 @@ ThemeData applicationTheme = ThemeData(
   primaryColor: _pink,
   canvasColor: _darkBlue,
   scaffoldBackgroundColor: _darkBlue,
-  cardColor: _blue,
+  cardColor: _midleBlue,
   hintColor: _darkBlue,
   dividerColor: _blue,
   indicatorColor: _white,
