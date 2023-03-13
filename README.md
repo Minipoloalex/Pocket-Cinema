@@ -13,7 +13,7 @@ Welcome to the documentation pages of Pocket Movies
 
 You can find here details about the product, from a high-level vision to low-level implementation decisions, a kind of Software Development Report, organized by discipline (as of Rational Unified Process):
 - Business modeling
-    * [Product Vision](docs\ProductVision.md)
+    * [Product Vision](docs/ProductVision.md)
     * Elevator Pitch
 - Requirements
     * User stories (present in GitHub issues)
