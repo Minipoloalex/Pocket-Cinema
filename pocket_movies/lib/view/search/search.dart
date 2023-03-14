@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:movies_with_friends/view/search/widgets/search_result.dart';
+import 'package:pocket_movies/view/search/widgets/search_result.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});

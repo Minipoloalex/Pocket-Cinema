@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movies_with_friends/view/home/widgets/news_widget.dart';
+import 'package:pocket_movies/view/home/widgets/news_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:movies_with_friends/model/NavigationItem.dart';
-import 'package:movies_with_friends/view/library/library.dart';
-import 'package:movies_with_friends/view/search/search.dart';
+import 'package:pocket_movies/model/NavigationItem.dart';
+import 'package:pocket_movies/view/library/library.dart';
+import 'package:pocket_movies/view/search/search.dart';
 
-import 'package:movies_with_friends/view/theme.dart';
-import 'package:movies_with_friends/view/home/home.dart';
-import 'package:movies_with_friends/view/login/login.dart';
-import 'package:movies_with_friends/view/register/register.dart';
+import 'package:pocket_movies/view/theme.dart';
+import 'package:pocket_movies/view/home/home.dart';
+import 'package:pocket_movies/view/login/login.dart';
+import 'package:pocket_movies/view/register/register.dart';
 
 void main() {
   runApp(const MyApp());

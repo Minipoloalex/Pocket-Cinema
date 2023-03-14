@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movies_with_friends/view/common_widgets/poster.dart';
-import 'package:movies_with_friends/view/common_widgets/media_list.dart';
-import 'package:movies_with_friends/model/media.dart';
+import 'package:pocket_movies/view/common_widgets/media_list.dart';
+import 'package:pocket_movies/model/media.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});

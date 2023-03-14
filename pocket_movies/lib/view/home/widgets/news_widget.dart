@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movies_with_friends/view/home/widgets/news_page.dart';
+import 'package:pocket_movies/view/home/widgets/news_page.dart';
 
 class NewsCard extends StatelessWidget {
   final String date;

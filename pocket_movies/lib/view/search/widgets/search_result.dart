@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heroicons/heroicons.dart';
-import 'package:movies_with_friends/view/search/widgets/add_button.dart';
+import 'package:pocket_movies/view/search/widgets/add_button.dart';
 
 import 'check_button.dart';
 
