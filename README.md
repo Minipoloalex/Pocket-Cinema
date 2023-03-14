@@ -8,7 +8,7 @@
 - Luís Filipe Moura Oliveira da Silveira Contreiras - up202108742
 
 # Pocket Movies
-
+## Development Report
 Welcome to the documentation pages of Pocket Movies
 
 You can find here details about the product, from a high-level vision to low-level implementation decisions, a kind of Software Development Report, organized by discipline (as of Rational Unified Process):
@@ -16,7 +16,7 @@ You can find here details about the product, from a high-level vision to low-lev
     * [Product Vision](docs/ProductVision.md)
     * Elevator Pitch
 - Requirements
-    * User stories (present in GitHub issues)
+    * User stories (present in GitHub issues - label user story)
     * [Domain model](docs/requirements.md)
 - Architecture and Design
     * [Logical architecture](docs/ArchitectureAndDesign.md)

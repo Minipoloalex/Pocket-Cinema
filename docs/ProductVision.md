@@ -1,12 +1,7 @@
 # Product Vision
 
 ## Vision Statement
-Share your ideas on movies and shows with friends
-
 Pocket movies makes it easy to share your ideas on movies and series and track your progress.
-
-Pocket movies makes it easy to track your progress while watching movies and series and to share your ideas on them.
-
 
 ### Main Features
 - Searching for movies and series

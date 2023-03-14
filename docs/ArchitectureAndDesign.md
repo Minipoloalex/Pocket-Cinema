@@ -2,7 +2,7 @@
 
 ## Logical Architecture
 
-This project is based on an <b>MVC</b> architectural pattern. The user communicates with the pocket movie UI which in turn will get all its data through the database logic. Finally, the database logic is in charge of getting of getting all the needed information from the <b>IMDB API</b> or the <b>Google Firebase</b> database.  
+This project is based on an <b>MVC</b> architectural pattern. The user communicates with the pocket movie UI which in turn will get all its data through the database logic. Finally, the database logic is in charge of getting all the needed information from the <b>IMDB API</b> or the <b>Google Firebase</b> database.  
 
 <div justify="center">
   <img src="../images/logical-arch.jpg"/>
