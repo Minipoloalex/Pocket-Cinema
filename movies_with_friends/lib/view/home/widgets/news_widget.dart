@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movies_with_friends/view/home/news_page.dart';
+import 'package:movies_with_friends/view/home/widgets/news_page.dart';
 
 class NewsCard extends StatelessWidget {
   final String date;
@@ -29,7 +29,9 @@ class NewsCard extends StatelessWidget {
                           description: description,
                           content: content)));
             },
+            borderRadius: BorderRadius.circular(15),
             child: Card(
+              margin: EdgeInsets.zero,
               color: Theme.of(context).cardColor,
               child: Row(children: [
                 Padding(

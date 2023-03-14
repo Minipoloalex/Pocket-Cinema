@@ -26,9 +26,9 @@ class _MyLibraryPageState extends State<LibraryPage> {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     return Scaffold(
-      body: Center(
+      body: Container(
+        margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
             MediaList(
               name: "My First Series List!",

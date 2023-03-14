@@ -50,7 +50,6 @@ class _MyAppState extends State<MyApp>  {
             SearchPage(),
             LibraryPage(),
           ],
-          
         ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedPage,
