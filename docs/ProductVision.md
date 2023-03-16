@@ -1,7 +1,7 @@
 # Product Vision
 
 ## Vision Statement
-Pocket movies makes it easy to share your ideas on movies and series and track your progress.
+Sharing your opinion about movies and series and tracking what you watch, all in the same place!
 
 ### Main Features
 - Searching for movies and series

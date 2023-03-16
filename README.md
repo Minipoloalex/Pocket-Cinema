@@ -7,9 +7,9 @@
 - João Torre Onofre Pereira - up202108848
 - Luís Filipe Moura Oliveira da Silveira Contreiras - up202108742
 
-# Pocket Movies
+# Pocket Cinema
 ## Development Report
-Welcome to the documentation pages of Pocket Movies
+Welcome to the documentation pages of Pocket Cinema
 
 You can find here details about the product, from a high-level vision to low-level implementation decisions, a kind of Software Development Report, organized by discipline (as of Rational Unified Process):
 - Business modeling
