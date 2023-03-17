@@ -15,6 +15,6 @@ This project is based on an <b>MVC</b> architectural pattern. The user communica
 As described in the previous section, this mobile application is based on an <b>MVC</b> architectural pattern. Each user, through its device, has a UI that presents multiple functions related to movies, such as commenting on movies, rating them, or even making lists. The application has a logic implemented for each of these actions. Some actions will have to get or store information therefore, this logic can communicate with the external sources <b>Google Firebase</b> and <b>IMDB API</b>.
 
 <div justify="center">
-  <img src="../images/physical-arch.png"/>
+  <img src="../images/physical-arch.jpg"/>
 </div>
 
