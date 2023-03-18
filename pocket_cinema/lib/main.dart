@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:pocket_cinema/model/NavigationItem.dart';
+import 'package:pocket_cinema/model/navigation_item.dart';
 import 'package:pocket_cinema/view/library/library.dart';
 import 'package:pocket_cinema/view/search/search.dart';
 
