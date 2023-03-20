@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -9,6 +10,8 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
 
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                   TextFormField(
-                    decoration: const InputDecoration(labelText: "Email"),
+                    decoration: const InputDecoration(labelText: "Email"), controller: _emailTextController,
                   ),
                   TextFormField(
                     decoration: const InputDecoration(labelText: "Username"),
@@ -41,8 +44,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   TextFormField(
                     obscureText: true,
                     decoration: const InputDecoration(
-                      labelText: 'Password',
+                    labelText: 'Password',
                     ),
+                    controller: _passwordTextController,
                   ),
                   TextFormField(
                     obscureText: true,
@@ -52,7 +56,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/');
+                      FirebaseAuth.instance.createUserWithEmailAndPassword(
+                          email: _emailTextController .text,
+                          password: _passwordTextController.text
+                      ).then((value) {
+                        Navigator.pushNamed(context, '/');
+                      }).onError((error, stackTrace) {
+                        print("Error ${error.toString()}");
+                      });
                     }, 
                     child: const Text('Create account'),
                     ),

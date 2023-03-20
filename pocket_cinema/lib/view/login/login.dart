@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
                   ),
-                child: const Text('Login with Google')),
+                  child: const Text('Login with Google')),
                 ])));
   }
 }
