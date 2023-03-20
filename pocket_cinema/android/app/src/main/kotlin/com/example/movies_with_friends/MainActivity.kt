@@ -1,4 +1,4 @@
-package com.example.movies_with_friends
+package com.example.pocket_cinema
 
 import io.flutter.embedding.android.FlutterActivity
 

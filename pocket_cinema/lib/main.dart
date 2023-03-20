@@ -9,7 +9,11 @@ import 'package:pocket_cinema/view/home/home.dart';
 import 'package:pocket_cinema/view/login/login.dart';
 import 'package:pocket_cinema/view/register/register.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

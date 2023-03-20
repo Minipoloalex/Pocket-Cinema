@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "66574415093",
+    "project_id": "esof-b6ccb",
+    "storage_bucket": "esof-b6ccb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66574415093:android:b699686b21d934b26101bc",
+        "android_client_info": {
+          "package_name": "com.example.pocket_cinema"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66574415093-lf36n2b958riqthgm2e4dpaqkij3k7cu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAmXc_0v9mUvUaxNJuzifZo8qQUxQx3Zc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66574415093-lf36n2b958riqthgm2e4dpaqkij3k7cu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
