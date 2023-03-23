@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pocket_cinema/model/UserModel.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -8,7 +11,9 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-
+  final TextEditingController _usernameTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +39,18 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(labelText: "Email"),
+                    controller: _emailTextController,
                   ),
                   TextFormField(
                     decoration: const InputDecoration(labelText: "Username"),
+                    controller: _usernameTextController,
                   ),
                   TextFormField(
                     obscureText: true,
                     decoration: const InputDecoration(
-                      labelText: 'Password',
+                    labelText: 'Password',
                     ),
+                    controller: _passwordTextController,
                   ),
                   TextFormField(
                     obscureText: true,
@@ -52,10 +60,34 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/');
+                      FirebaseAuth.instance.createUserWithEmailAndPassword(
+                          email: _emailTextController.text,
+                          password: _passwordTextController.text
+
+                      ).then((value) {
+                        Navigator.pushNamed(context, '/');
+                        final user = UserModel(
+                          username: _usernameTextController.text,
+                          email: _emailTextController.text,
+                        );
+                        createUser(user);
+                      }).onError((error, stackTrace) {
+                        _usernameTextController.clear();
+                        _emailTextController.clear();
+                        _passwordTextController.clear();
+                        Text("Error ${error.toString()}");
+                        print("Error ${error.toString()}");
+                      });
                     }, 
                     child: const Text('Create account'),
                     ),
                 ])));
+  }
+  Future createUser(UserModel user) async {
+    // Reference to a document
+    final docUser = FirebaseFirestore.instance.collection('users').doc();
+    user.id = docUser.id;
+    // Create document and write data to Firebase
+    await docUser.set(user.toJson());
   }
 }

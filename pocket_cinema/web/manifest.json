@@ -1,6 +1,6 @@
 {
-    "name": "movies_with_friends",
-    "short_name": "movies_with_friends",
+    "name": "pocket_cinema",
+    "short_name": "pocket_cinema",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

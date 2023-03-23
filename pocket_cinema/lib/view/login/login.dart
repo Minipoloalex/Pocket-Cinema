@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pocket_cinema/controller/firestore_funcs.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -8,7 +10,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
+  final TextEditingController _userIdTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,18 +35,24 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                   TextFormField(
-                    decoration: const InputDecoration(labelText: "Username"),
+                    decoration: const InputDecoration(labelText: "Email or Username"),
+                    controller: _userIdTextController,
                   ),
                   TextFormField(
                     obscureText: true,
                     decoration: const InputDecoration(
                       labelText: 'Password',
                     ),
+                    controller: _passwordTextController,
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/');
-                    }, 
+                      signIn().then((value) {
+                        Navigator.pushNamed(context, '/');
+                      }).onError((error, stackTrace) {
+                        print("Error: ${error.toString()}");
+                      });
+                    },
                     child: const Text('Login'),
                     ),
                     const Divider(),
@@ -53,7 +62,16 @@ class _LoginPageState extends State<LoginPage> {
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
                   ),
-                child: const Text('Login with Google')),
+                  child: const Text('Login with Google')),
                 ])));
+  }
+  Future signIn() async {
+    final userId = _userIdTextController.text;
+    return FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: isEmail(userId) ? userId : await getEmail(userId).then((email) => email),
+      password: _passwordTextController.text,
+    ).onError((error, stackTrace) {
+      throw("Error: ${error.toString()}");
+    });
   }
 }

@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "movies_with_friends" "\0"
+            VALUE "FileDescription", "pocket_cinema" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "movies_with_friends" "\0"
+            VALUE "InternalName", "pocket_cinema" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "movies_with_friends.exe" "\0"
-            VALUE "ProductName", "movies_with_friends" "\0"
+            VALUE "OriginalFilename", "pocket_cinema.exe" "\0"
+            VALUE "ProductName", "pocket_cinema" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
