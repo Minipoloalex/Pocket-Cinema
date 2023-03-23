@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pocket_cinema/controller/firestore_funcs.dart';
+import 'package:heroicons/heroicons.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,6 +13,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _userIdTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
+  bool _obscureText = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,9 +41,15 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _userIdTextController,
                   ),
                   TextFormField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
+                    obscureText: _obscureText,
+                    decoration: InputDecoration(
                       labelText: 'Password',
+                      suffixIcon: IconButton(
+                        icon: HeroIcon(_obscureText ? HeroIcons.eye : HeroIcons.eyeSlash),
+                        onPressed: () {
+                          toggleObscureText();
+                        },
+                      ),
                     ),
                     controller: _passwordTextController,
                   ),
@@ -74,4 +82,10 @@ class _LoginPageState extends State<LoginPage> {
       throw("Error: ${error.toString()}");
     });
   }
+  void toggleObscureText() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
 }
+
