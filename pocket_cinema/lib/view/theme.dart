@@ -37,4 +37,37 @@ ThemeData applicationTheme = ThemeData(
         foregroundColor: _white, // foreground (text) color
       ),
     ),
+
+    segmentedButtonTheme: SegmentedButtonThemeData(
+    style: ButtonStyle(
+      // backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.selected)) {
+            return _blue;// Theme.of(context).colorScheme.primary.withOpacity(0.5);
+          }
+          return _white; // null to use the component's default.
+        },
+      ),
+      foregroundColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.selected)) {
+            return _white;
+          }
+          return Colors.black;
+        },
+      ),
+
+      textStyle: MaterialStateProperty.all<TextStyle>(
+        const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+        ),
+      ),
+      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+        const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8.0),
+      ),
+
+    ),
+  )
 );

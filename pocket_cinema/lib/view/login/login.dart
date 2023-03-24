@@ -13,7 +13,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _userIdTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
-  bool _obscureText = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,12 +22,18 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                  const Text("Pocket Cinema"),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 40),
+                    child: Text("Pocket Cinema",
+                      textScaleFactor: 3,
+                    ),
+                  ),
                   SegmentedButton(
                     segments: const [
                        ButtonSegment(value: "login", label: Text("Login")),
                        ButtonSegment(value: "register", label: Text("Register")),
                     ],
+                    showSelectedIcon: false,
                     selected: const <String>{"login"},
                     onSelectionChanged: (Set<String> newSelection) => {
                       if(newSelection.first == "register") {

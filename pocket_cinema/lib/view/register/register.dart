@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pocket_cinema/model/UserModel.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
+import 'package:pocket_cinema/view/theme.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -32,6 +33,8 @@ class _RegisterPageState extends State<RegisterPage> {
                        ButtonSegment(value: "login", label: Text("Login")),
                        ButtonSegment(value: "register", label: Text("Register")),
                     ],
+                    showSelectedIcon: false,
+                    style: applicationTheme.segmentedButtonTheme.style,
                     selected: const <String>{"register"},
                     onSelectionChanged: (Set<String> newSelection) => {
                       if(newSelection.first == "login") {
