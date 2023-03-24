@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pocket_cinema/model/UserModel.dart';
+import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -14,6 +15,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _confirmPasswordTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,18 +47,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     decoration: const InputDecoration(labelText: "Username"),
                     controller: _usernameTextController,
                   ),
-                  TextFormField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
+                  PasswordFormField(
                     labelText: 'Password',
-                    ),
-                    controller: _passwordTextController,
+                    passwordController: _passwordTextController,
                   ),
-                  TextFormField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Confirm Password',
-                    ),
+                  PasswordFormField(
+                    labelText: 'Confirm Password',
+                    passwordController: _confirmPasswordTextController,
                   ),
                   ElevatedButton(
                     onPressed: () {
