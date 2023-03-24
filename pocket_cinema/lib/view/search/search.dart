@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/search/widgets/search_result.dart';
 
-class SearchPage extends StatefulWidget {
+class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
 
   @override
-  State<SearchPage> createState() => _MySearchPageState();
+  MySearchPageState createState() => MySearchPageState();
 }
 
-class _MySearchPageState extends State<SearchPage>
+class MySearchPageState extends ConsumerState<SearchPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -17,6 +19,9 @@ class _MySearchPageState extends State<SearchPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      ref.read(searchTypeProvider.notifier).state = _tabController.index == 0 ? SearchType.movies : SearchType.shows;
+    });
   }
 
   @override
@@ -27,7 +32,9 @@ class _MySearchPageState extends State<SearchPage>
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called
+    
+    final results = ref.watch(searchResultsProvider);
+
     return Scaffold(
         body: Container(
       margin: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0),
@@ -73,43 +80,27 @@ class _MySearchPageState extends State<SearchPage>
                     controller: _tabController,
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      Column(
-                        children: const <Widget>[
-                          SearchResult(
-                              poster:
-                                  "https://m.media-amazon.com/images/I/61IaXLOWLDL._AC_UF894,1000_QL80_.jpg",
-                              title: "Million Dollar Arm",
-                              descritpion:
-                                  "Etiam mattis convallis orci eu malesuada. Donec odio ex, facilisis ac blandit velas qew fr."),
-                          SearchResult(
-                              poster:
-                                  "https://m.media-amazon.com/images/M/MV5BMGQ0YWU4NjMtYjUyZC00ZWQyLTliYzEtOGE2NmJlMTUzZjU0XkEyXkFqcGdeQXVyMTA3MDk2NDg2._V1_.jpg",
-                              title: "Annette",
-                              descritpion:
-                                  "Etiam mattis convallis orci eu malesuada. Donec odio ex, facilisis ac blandit velas qew fr."),
-                          SearchResult(
-                              poster:
-                                  "https://m.media-amazon.com/images/M/MV5BYzZkOGUwMzMtMTgyNS00YjFlLTg5NzYtZTE3Y2E5YTA5NWIyXkEyXkFqcGdeQXVyMjkwOTAyMDU@._V1_.jpg",
-                              title: "Black Adam",
-                              descritpion:
-                                  "Etiam mattis convallis orci eu malesuada. Donec odio ex, facilisis ac blandit velas qew fr.")
-                        ],
+                      results.when(
+                        data: (data) => Column(
+                          children: data.map((e) => SearchResult(
+                            poster: e.posterUrl,
+                            title: e.name,
+                            descritpion: e.description ?? '',
+                          )).toList(),
+                        ),
+                        loading: () => const CircularProgressIndicator(),
+                        error: (error, stack) => const Text("error"),
                       ),
-                      Column(
-                        children: const <Widget>[
-                          SearchResult(
-                              poster:
-                                  "https://br.web.img3.acsta.net/pictures/21/02/10/20/02/0834301.jpg",
-                              title: "Mad Men",
-                              descritpion:
-                                  "Etiam mattis convallis orci eu malesuada. Donec odio ex, facilisis ac blandit velas qew fr."),
-                          SearchResult(
-                              poster:
-                                  "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81UvZYUoOJL.jpg",
-                              title: "The Walking Dead",
-                              descritpion:
-                                  "Etiam mattis convallis orci eu malesuada. Donec odio ex, facilisis ac blandit velas qew fr."),
-                        ],
+                      results.when(
+                        data: (data) => Column(
+                          children: data.map((e) => SearchResult(
+                            poster: e.posterUrl,
+                            title: e.name,
+                            descritpion: e.description ?? '',
+                          )).toList(),
+                        ),
+                        loading: () => const CircularProgressIndicator(),
+                        error: (error, stack) => const Text("error"),
                       ),
                     ],
                   )))
