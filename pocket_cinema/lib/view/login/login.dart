@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pocket_cinema/controller/firestore_funcs.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
-
+import 'package:pocket_cinema/view/theme.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,7 +32,14 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const LoginRegisterSegmentedButton(selectedPage: LoginRegister.login),
                   TextFormField(
-                    decoration: const InputDecoration(labelText: "Email or Username"),
+                    decoration: InputDecoration(
+                      hintText: "Email or Username",
+                      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      border: const OutlineInputBorder(),
+                      fillColor: Theme.of(context).colorScheme.onPrimary,
+                      filled: true,
+                    ),
+                    style: const TextStyle(color: Colors.black,),
                     controller: _userIdTextController,
                   ),
                   PasswordFormField(

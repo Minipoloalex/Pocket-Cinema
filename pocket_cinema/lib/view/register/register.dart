@@ -27,10 +27,17 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text("Pocket Cinema"),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 40),
+                      child: Text("Pocket Cinema",
+                        textScaleFactor: 3,
+                      ),
+                    ),
                     const LoginRegisterSegmentedButton(selectedPage: LoginRegister.register),
                   TextFormField(
-                    decoration: const InputDecoration(labelText: "Email"),
+                    decoration: const InputDecoration(
+                      labelText: "Email",
+                    ),
                     controller: _emailTextController,
                   ),
                   TextFormField(
@@ -49,8 +56,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     onPressed: () {
                       FirebaseAuth.instance.createUserWithEmailAndPassword(
                           email: _emailTextController.text,
-                          password: _passwordTextController.text
-
+                          password: _passwordTextController.text,
                       ).then((value) {
                         Navigator.pushNamed(context, '/');
                         final user = UserModel(
@@ -65,7 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Text("Error ${error.toString()}");
                         print("Error ${error.toString()}");
                       });
-                    }, 
+                    },
                     child: const Text('Create account'),
                     ),
                 ])));
