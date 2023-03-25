@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pocket_cinema/controller/firestore_funcs.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
+import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -22,25 +24,13 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 40),
-                    child: Text("Pocket Cinema",
-                      textScaleFactor: 3,
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 40),
+                      child: Text("Pocket Cinema",
+                        textScaleFactor: 3,
+                      ),
                     ),
-                  ),
-                  SegmentedButton(
-                    segments: const [
-                       ButtonSegment(value: "login", label: Text("Login")),
-                       ButtonSegment(value: "register", label: Text("Register")),
-                    ],
-                    showSelectedIcon: false,
-                    selected: const <String>{"login"},
-                    onSelectionChanged: (Set<String> newSelection) => {
-                      if(newSelection.first == "register") {
-                        Navigator.pushNamed(context, '/register')
-                      }
-                    },
-                  ),
+                    const LoginRegisterSegmentedButton(selectedPage: LoginRegister.login),
                   TextFormField(
                     decoration: const InputDecoration(labelText: "Email or Username"),
                     controller: _userIdTextController,
