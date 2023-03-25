@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pocket_cinema/view/search/widgets/add_button.dart';
+import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 
-import 'check_button.dart';
+import '../../common_widgets/check_button.dart';
+import '../../media/media_page.dart';
 
 class SearchResult extends StatelessWidget {
   final String poster;
@@ -16,7 +17,22 @@ class SearchResult extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 10),
       child: Row(
         children: [
-          Container(
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MediaPage(
+                          backgroundImage:
+                          'assets/images/movieBackground.png',
+                          cardImage: 'assets/images/movieCard.png',
+                          title: "Million Dollar Arm",
+                          rating: "8/10",
+                          nRatings: "(24mil)",
+                          description:
+                          "Etiam mattis convallis orci eu malesuada. Donec odio ex, facilisis ac blandit vel, placerat ut lorem.")));
+            },
+          child:Container(
             width: 100,
             height: 150,
             decoration: BoxDecoration(
@@ -26,6 +42,7 @@ class SearchResult extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(5),
             ),
+          ),
           ),
           const SizedBox(width: 10),
           Expanded(
