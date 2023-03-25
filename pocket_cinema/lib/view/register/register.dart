@@ -44,11 +44,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: _usernameTextController,
                   ),
                   PasswordFormField(
-                    labelText: 'Password',
+                    hintText: 'Password',
                     passwordController: _passwordTextController,
                   ),
                   PasswordFormField(
-                    labelText: 'Confirm Password',
+                    hintText: 'Confirm Password',
                     passwordController: _confirmPasswordTextController,
                   ),
                   ElevatedButton(

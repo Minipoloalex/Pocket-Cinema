@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
                         controller: _userIdTextController,
                     ),
                   PasswordFormField(
-                    labelText: 'Password',
+                    hintText: 'Password',
                     passwordController: _passwordTextController,
                   ),
                   ElevatedButton(
