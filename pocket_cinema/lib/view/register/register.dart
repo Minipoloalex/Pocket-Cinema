@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pocket_cinema/model/UserModel.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
+import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -34,14 +35,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                     const LoginRegisterSegmentedButton(selectedPage: LoginRegister.register),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: "Email",
-                    ),
-                    controller: _emailTextController,
+                  TextFormFieldLoginRegister(
+                      hintText: "Email",
+                      controller: _emailTextController
                   ),
-                  TextFormField(
-                    decoration: const InputDecoration(labelText: "Username"),
+                  TextFormFieldLoginRegister(
+                    hintText: "Username",
                     controller: _usernameTextController,
                   ),
                   PasswordFormField(
