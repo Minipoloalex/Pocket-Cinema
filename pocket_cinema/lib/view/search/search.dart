@@ -89,7 +89,7 @@ class MySearchPageState extends ConsumerState<SearchPage>
                           )).toList(),
                         ),
                         loading: () => const CircularProgressIndicator(),
-                        error: (error, stack) => const Text("error"),
+                        error: (error, stack) => Text(error.toString()),
                       ),
                       results.when(
                         data: (data) => Column(
@@ -100,10 +100,12 @@ class MySearchPageState extends ConsumerState<SearchPage>
                           )).toList(),
                         ),
                         loading: () => const CircularProgressIndicator(),
-                        error: (error, stack) => const Text("error"),
+                        error: (error, stack) => Text(error.toString()),
                       ),
                     ],
-                  )))
+                  )
+              )
+          )
         ],
       ),
     ));

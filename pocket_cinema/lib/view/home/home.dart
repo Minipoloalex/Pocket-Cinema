@@ -32,9 +32,7 @@ class NewsList extends ConsumerWidget {
       data: (news) =>
           ListView(children: news.map((news) => NewsCard(news: news)).toList()),
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack){
-        print(error);
-        return const Center(child: Text("Error"));
-      });
+      error: (error, stack) => Center(child: Text(error.toString()))
+    );
   }
 }

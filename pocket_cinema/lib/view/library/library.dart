@@ -36,8 +36,8 @@ class ToWatchList extends ConsumerWidget{
 
     return toWatchList.when(
       data: (data) => HorizontalMediaList(
-        name: "In you pocket to Watch",
-        media: data
+        name: "In your pocket to Watch",
+        media: data,
       ),
       loading: () => const CircularProgressIndicator(),
       error: (error, stack) => Text(error.toString()),
