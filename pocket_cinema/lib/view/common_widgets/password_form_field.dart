@@ -30,19 +30,4 @@ class PasswordFormFieldState extends State<PasswordFormField> {
       ),
       obscureText: _obscureText,
     );
-      /*
-      TextFormField(
-      obscureText: _obscureText,
-      decoration: InputDecoration(
-        labelText: widget.labelText,
-        suffixIcon: IconButton(
-          icon: HeroIcon(_obscureText ? HeroIcons.eye : HeroIcons.eyeSlash),
-          onPressed: () {
-            toggleObscureText();
-          },
-        ),
-      ),
-      controller: widget.passwordController,
-    );
-       */
 }

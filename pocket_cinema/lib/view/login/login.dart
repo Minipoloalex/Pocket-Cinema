@@ -4,7 +4,6 @@ import 'package:pocket_cinema/controller/firestore_funcs.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
 import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
-import 'package:pocket_cinema/view/theme.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
