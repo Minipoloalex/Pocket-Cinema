@@ -57,7 +57,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const Divider(),
                   ElevatedButton(
-                  onPressed: () {}, 
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/');
+                  }, 
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
