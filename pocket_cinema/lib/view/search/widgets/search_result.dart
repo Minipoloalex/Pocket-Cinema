@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
+import 'package:pocket_cinema/view/common_widgets/check_button.dart';
+import 'package:pocket_cinema/view/media/media_page.dart';
 
-import '../../common_widgets/check_button.dart';
-import '../../media/media_page.dart';
 
 class SearchResult extends StatelessWidget {
-  final String poster;
-  final String title;
-  final String descritpion;
+  final Media media;
 
-  const SearchResult({super.key, required this.poster, required this.title, required this.descritpion});
+  const SearchResult({super.key, required this.media});
 
   @override
   Widget build(BuildContext context) {
@@ -22,22 +21,14 @@ class SearchResult extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const MediaPage(
-                          backgroundImage:
-                          'assets/images/movieBackground.png',
-                          cardImage: 'assets/images/movieCard.png',
-                          title: "Million Dollar Arm",
-                          rating: "8/10",
-                          nRatings: "(24mil)",
-                          description:
-                          "Etiam mattis convallis orci eu malesuada. Donec odio ex, facilisis ac blandit vel, placerat ut lorem.")));
+                      builder: (context) => MediaPage(media : media)));
             },
           child:Container(
             width: 100,
             height: 150,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(poster),
+                image: NetworkImage(media.posterImage),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(5),
@@ -50,7 +41,7 @@ class SearchResult extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  media.name,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -58,7 +49,7 @@ class SearchResult extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  descritpion,
+                  media.description,
                   style: const TextStyle(
                     fontSize: 14,
                   ),

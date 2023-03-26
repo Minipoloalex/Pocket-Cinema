@@ -82,22 +82,14 @@ class MySearchPageState extends ConsumerState<SearchPage>
                     children: [
                       results.when(
                         data: (data) => Column(
-                          children: data.map((e) => SearchResult(
-                            poster: e.posterUrl,
-                            title: e.name,
-                            descritpion: e.description ?? '',
-                          )).toList(),
+                          children: data.map((e) => SearchResult(media: e)).toList(),
                         ),
                         loading: () => const CircularProgressIndicator(),
                         error: (error, stack) => Text(error.toString()),
                       ),
                       results.when(
                         data: (data) => Column(
-                          children: data.map((e) => SearchResult(
-                            poster: e.posterUrl,
-                            title: e.name,
-                            descritpion: e.description ?? '',
-                          )).toList(),
+                          children: data.map((e) => SearchResult(media:e)).toList(),
                         ),
                         loading: () => const CircularProgressIndicator(),
                         error: (error, stack) => Text(error.toString()),
