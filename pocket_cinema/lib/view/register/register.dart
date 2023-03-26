@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pocket_cinema/model/UserModel.dart';
+import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
+import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
+import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -14,6 +17,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _confirmPasswordTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,46 +28,34 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                  const Text("Pocket Cinema"),
-                  SegmentedButton(
-                    segments: const [
-                       ButtonSegment(value: "login", label: Text("Login")),
-                       ButtonSegment(value: "register", label: Text("Register")),
-                    ],
-                    selected: const <String>{"register"},
-                    onSelectionChanged: (Set<String> newSelection) => {
-                      if(newSelection.first == "login") {
-                        Navigator.pushNamed(context, '/login')
-                      }
-                    },
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 40),
+                      child: Text("Pocket Cinema",
+                        textScaleFactor: 3,
+                      ),
+                    ),
+                    const LoginRegisterSegmentedButton(selectedPage: LoginRegister.register),
+                  TextFormFieldLoginRegister(
+                      hintText: "Email",
+                      controller: _emailTextController
                   ),
-                  TextFormField(
-                    decoration: const InputDecoration(labelText: "Email"),
-                    controller: _emailTextController,
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(labelText: "Username"),
+                  TextFormFieldLoginRegister(
+                    hintText: "Username",
                     controller: _usernameTextController,
                   ),
-                  TextFormField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                    labelText: 'Password',
-                    ),
-                    controller: _passwordTextController,
+                  PasswordFormField(
+                    hintText: 'Password',
+                    passwordController: _passwordTextController,
                   ),
-                  TextFormField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Confirm Password',
-                    ),
+                  PasswordFormField(
+                    hintText: 'Confirm Password',
+                    passwordController: _confirmPasswordTextController,
                   ),
                   ElevatedButton(
                     onPressed: () {
                       FirebaseAuth.instance.createUserWithEmailAndPassword(
                           email: _emailTextController.text,
-                          password: _passwordTextController.text
-
+                          password: _passwordTextController.text,
                       ).then((value) {
                         Navigator.pushNamed(context, '/');
                         final user = UserModel(
@@ -78,7 +70,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Text("Error ${error.toString()}");
                         print("Error ${error.toString()}");
                       });
-                    }, 
+                    },
                     child: const Text('Create account'),
                     ),
                 ])));

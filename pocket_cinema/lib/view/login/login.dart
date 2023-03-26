@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pocket_cinema/controller/firestore_funcs.dart';
+import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
+import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
+import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -21,29 +24,20 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                  const Text("Pocket Cinema"),
-                  SegmentedButton(
-                    segments: const [
-                       ButtonSegment(value: "login", label: Text("Login")),
-                       ButtonSegment(value: "register", label: Text("Register")),
-                    ],
-                    selected: const <String>{"login"},
-                    onSelectionChanged: (Set<String> newSelection) => {
-                      if(newSelection.first == "register") {
-                        Navigator.pushNamed(context, '/register')
-                      }
-                    },
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(labelText: "Email or Username"),
-                    controller: _userIdTextController,
-                  ),
-                  TextFormField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 40),
+                      child: Text("Pocket Cinema",
+                        textScaleFactor: 3,
+                      ),
                     ),
-                    controller: _passwordTextController,
+                    const LoginRegisterSegmentedButton(selectedPage: LoginRegister.login),
+                    TextFormFieldLoginRegister(
+                        hintText: 'Email or Username',
+                        controller: _userIdTextController,
+                    ),
+                  PasswordFormField(
+                    hintText: 'Password',
+                    passwordController: _passwordTextController,
                   ),
                   ElevatedButton(
                     onPressed: () {
