@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:pocket_cinema/model/news.dart';
 import 'package:pocket_cinema/view/home/widgets/news_page.dart';
 
 
 class NewsCard extends StatelessWidget {
-  final String date;
-  final String img;
-  final String description;
-  final String content;
+  final News news;
 
   const NewsCard(
       {super.key,
-      required this.img,
-      required this.date,
-      required this.description,
-      required this.content});
+      required this.news});
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +19,7 @@ class NewsCard extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => NewsPage(
-                          img: img,
-                          date: date,
-                          description: description,
-                          content: content)));
+                      builder: (context) => NewsPage(news: news)));
             },
             borderRadius: BorderRadius.circular(15),
             child: Card(
@@ -43,7 +34,7 @@ class NewsCard extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
-                          image: AssetImage(img),
+                          image: AssetImage(news.image),
                           fit: BoxFit.cover,
                         )),
                   ),
@@ -57,8 +48,8 @@ class NewsCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(description),
-                          Text(date),
+                          Text(news.description),
+                          Text(news.date.toString()), //TODO: Format date
                         ],
                       )),
                 )),

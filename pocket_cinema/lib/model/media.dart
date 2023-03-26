@@ -8,3 +8,4 @@ class Media {
   final String nRatings;
   final String description;
 }
+

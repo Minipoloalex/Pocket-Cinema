@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pocket_cinema/model/news.dart';
 
 class NewsPage extends StatelessWidget {
-  final String date;
-  final String img;
-  final String description;
-  final String content;
+  final News news;
 
   const NewsPage(
       {super.key,
-      required this.img,
-      required this.date,
-      required this.description,
-      required this.content});
+      required this.news});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +23,7 @@ class NewsPage extends StatelessWidget {
                 bottomRight: Radius.circular(60),
               ),
               image: DecorationImage(
-                image: AssetImage(img),
+                image: AssetImage(news.image),
                 fit: BoxFit.cover,
               ),
             ),
@@ -39,7 +34,7 @@ class NewsPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  description,
+                  news.description,
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -47,14 +42,14 @@ class NewsPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  date,
+                  news.date.toString(), //TODO: Format date
                   style: const TextStyle(
                     fontSize: 16,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  content,
+                  news.content,
                   style: const TextStyle(
                     fontSize: 16,
                   ),
