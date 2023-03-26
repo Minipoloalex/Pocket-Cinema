@@ -33,7 +33,7 @@ class HorizontalMediaList extends StatelessWidget {
                 itemCount: media.length,
                 itemBuilder: (context, index) => Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Poster(name: media[index].name, url: media[index].url),
+                  child: Poster(name: media[index].name, url: media[index].posterUrl),
                 ),
               ))
         ]));

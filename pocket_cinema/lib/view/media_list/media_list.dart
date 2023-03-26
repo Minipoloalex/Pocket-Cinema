@@ -28,7 +28,7 @@ class MediaListPage extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
                 (context, index) => Poster(
                   name: mediaList[index].name,
-                  url: mediaList[index].url,
+                  url: mediaList[index].posterUrl,
                 ),
                 childCount: mediaList.length,
               ),

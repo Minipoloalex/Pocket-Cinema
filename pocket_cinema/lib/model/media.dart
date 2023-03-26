@@ -1,6 +1,7 @@
 class Media {
-  const Media(this.name, this.url);
+  const Media(this.name, this.posterUrl, {this.description});
 
   final String name;
-  final String url;
+  final String posterUrl;
+  final String? description;
 }
