@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pocket_cinema/view/home/widgets/news_page.dart';
 
-import '../../media/media_page.dart';
 
 class NewsCard extends StatelessWidget {
   final String date;

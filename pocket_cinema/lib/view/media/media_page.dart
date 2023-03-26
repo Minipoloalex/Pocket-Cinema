@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:pocket_cinema/model/media.dart';
+import 'package:pocket_cinema/view/common_widgets/add_button.dart';
+import 'package:pocket_cinema/view/common_widgets/check_button.dart';
 
-import '../common_widgets/add_button.dart';
-import '../common_widgets/check_button.dart';
+
 
 class MediaPage extends StatelessWidget {
-  final String backgroundImage;
-  final String cardImage;
-  final String title;
-  final String rating;
-  final String nRatings;
-  final String description;
+  final Media media;
   const MediaPage(
       {super.key,
-      required this.backgroundImage,
-      required this.cardImage,
-      required this.title,
-      required this.rating,
-      required this.nRatings,
-      required this.description});
+      required this.media});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +24,7 @@ class MediaPage extends StatelessWidget {
                 children: [
                     Image(
                       fit: BoxFit.cover,
-                      image: AssetImage(backgroundImage),
+                      image: AssetImage(media.backgroundImage),
                     ),
                   Positioned(
                     top: 60,
@@ -44,7 +36,7 @@ class MediaPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
                           fit: BoxFit.fill,
-                          image: AssetImage(cardImage),
+                          image: NetworkImage(media.posterImage),
                         ),
                       ),
                     ),
@@ -53,7 +45,7 @@ class MediaPage extends StatelessWidget {
                     top: 172,
                     left: 160,
                     child: Text(
-                      title,
+                      media.name,
                       style: const TextStyle(
                         fontSize: 28,
                       ),
@@ -71,14 +63,14 @@ class MediaPage extends StatelessWidget {
                           ),
                           const SizedBox(width: 6),
                           Text(
-                            rating,
+                            media.rating,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
                           ),
                           const SizedBox(width: 6),
-                          Text(nRatings),
+                          Text(media.nRatings),
                           const SizedBox(width: 20),
                           const CheckButton(),
                           const AddButton(),
@@ -91,7 +83,7 @@ class MediaPage extends StatelessWidget {
                       width: 350,
                       height: 40,
                       child: Text(
-                        description,
+                        media.description,
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                           fontSize: 12,

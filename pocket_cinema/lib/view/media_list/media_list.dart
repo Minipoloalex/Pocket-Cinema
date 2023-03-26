@@ -32,19 +32,11 @@ class MediaListPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MediaPage(
-                                  backgroundImage:
-                                      'assets/images/movieBackground.png',
-                                  cardImage: 'assets/images/movieCard.png',
-                                  title: "Million Dollar Arm",
-                                  rating: "8/10",
-                                  nRatings: "(24mil)",
-                                  description:
-                                      "Etiam mattis convallis orci eu malesuada. Donec odio ex, facilisis ac blandit vel, placerat ut lorem.")));
+                              builder: (context) => MediaPage(media : mediaList[index])));
                     },
                     child: Poster(
                       name: mediaList[index].name,
-                      url: mediaList[index].url,
+                      url: mediaList[index].posterImage,
                     ),
                   ),
                   childCount: mediaList.length,
