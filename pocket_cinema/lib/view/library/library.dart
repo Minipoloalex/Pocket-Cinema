@@ -2,8 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/model/media.dart';
 
-class LibraryPage extends StatefulWidget {
+class LibraryPage extends StatelessWidget {
   const LibraryPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final Color checkedColor = Theme.of(context).colorScheme.secondary;
+
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+    IconButton(
+    icon: const HeroIcon(HeroIcons.check),
+    onPressed: () {
+    Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const WatchButtons()),
+    );
+    },
+    )
+  },
+  IconButton(
+  icon: const HeroIcon(HeroIcons.ellipsis-horizontal-e),
+  Navigator.push(
+  context,
+  MaterialPageRoute(builder: (context) => const WatchButtons()),
+  );
+  style: ButtonStyle(
+  backgroundColor: MaterialStateProperty.all(_isWatched ? checkedColor : null),
+  padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
+  side: MaterialStateProperty.all(
+  BorderSide(color: checkedColor, width: 2)),
+  ),
+  ),
+  ],
+  );
+}
 
   @override
   State<LibraryPage> createState() => _MyLibraryPageState();
