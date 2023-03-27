@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pocket_cinema/model/news.dart';
 import 'package:pocket_cinema/view/home/widgets/news_page.dart';
 
+
 class NewsCard extends StatelessWidget {
   final News news;
 
