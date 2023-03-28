@@ -31,7 +31,7 @@ List<News> _news = [
 final newsProvider = FutureProvider<List<News>>((ref) async {
   // Fake get call
   final news = await Future.delayed(
-    const Duration(seconds: 2),
+    const Duration(seconds: 1),
     () => _news,
   );
 

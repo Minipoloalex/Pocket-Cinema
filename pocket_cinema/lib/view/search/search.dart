@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/search/widgets/search_result.dart';
+import 'package:pocket_cinema/view/search/widgets/search_result_shimmer.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
@@ -84,14 +86,28 @@ class MySearchPageState extends ConsumerState<SearchPage>
                         data: (data) => Column(
                           children: data.map((e) => SearchResult(media: e)).toList(),
                         ),
-                        loading: () => const CircularProgressIndicator(),
+                        loading: () => Shimmer.fromColors(
+                          period: const Duration(milliseconds: 1000),
+                          baseColor: Theme.of(context).highlightColor,
+                          highlightColor: Theme.of(context).colorScheme.onPrimary,
+                          child: Column(
+                            children: List.generate(3, (index) => const SearchResultShimmer()).toList(),
+                          ),
+                        ),
                         error: (error, stack) => Text(error.toString()),
                       ),
                       results.when(
                         data: (data) => Column(
                           children: data.map((e) => SearchResult(media:e)).toList(),
                         ),
-                        loading: () => const CircularProgressIndicator(),
+                        loading: () => Shimmer.fromColors(
+                          period: const Duration(milliseconds: 1000),
+                          baseColor: Theme.of(context).highlightColor,
+                          highlightColor: Theme.of(context).colorScheme.onPrimary,
+                          child: Column(
+                            children: List.generate(3, (index) => const SearchResultShimmer()).toList(),
+                          ),
+                        ),
                         error: (error, stack) => Text(error.toString()),
                       ),
                     ],
