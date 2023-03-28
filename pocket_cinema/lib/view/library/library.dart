@@ -5,6 +5,8 @@ import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:heroicons/heroicons.dart';
+import 'package:pocket_cinema/view/library/widgets/list_button.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});
@@ -20,8 +22,26 @@ class _MyLibraryPageState extends State<LibraryPage> {
       body: Container(
         margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
         child: Column(
-          children: const <Widget>[
-            ToWatchList()
+          children: <Widget>[
+            const ToWatchList(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ListButton(
+                  icon: const HeroIcon(HeroIcons.checkCircle,
+                      style: HeroIconStyle.solid),
+                  labelText: "Watched",
+                  onPressed: () {},
+                ),
+                const SizedBox(width: 20),
+                ListButton(
+                  icon: const HeroIcon(HeroIcons.ellipsisHorizontalCircle,
+                      style: HeroIconStyle.solid),
+                  labelText: "Watching",
+                  onPressed: () {},
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -29,7 +49,7 @@ class _MyLibraryPageState extends State<LibraryPage> {
   }
 }
 
-class ToWatchList extends ConsumerWidget{
+class ToWatchList extends ConsumerWidget {
   const ToWatchList({super.key});
 
   @override
