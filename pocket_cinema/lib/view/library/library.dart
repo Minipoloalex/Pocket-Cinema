@@ -1,74 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/model/media.dart';
+import 'package:heroicons/heroicons.dart';
 
-class LibraryPage extends StatelessWidget {
-  const LibraryPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final Color checkedColor = Theme.of(context).colorScheme.secondary;
-
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-    IconButton(
-    icon: const HeroIcon(HeroIcons.check),
-    onPressed: () {
-    Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => const WatchButtons()),
-    );
-    },
-    )
-  },
-  IconButton(
-  icon: const HeroIcon(HeroIcons.ellipsis-horizontal-e),
-  Navigator.push(
-  context,
-  MaterialPageRoute(builder: (context) => const WatchButtons()),
-  );
-  style: ButtonStyle(
-  backgroundColor: MaterialStateProperty.all(_isWatched ? checkedColor : null),
-  padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
-  side: MaterialStateProperty.all(
-  BorderSide(color: checkedColor, width: 2)),
-  ),
-  ),
-  ],
-  );
-}
+class LibraryPage extends StatefulWidget {
+  const LibraryPage({Key? key});
 
   @override
   State<LibraryPage> createState() => _MyLibraryPageState();
 }
 
 class _MyLibraryPageState extends State<LibraryPage> {
+  bool _isWatched = false;
 
-  static const List<Media> myMedia = [
-    Media("Mad Men", "https://br.web.img3.acsta.net/pictures/21/02/10/20/02/0834301.jpg"),
-    Media("Dr. House", "https://www.themoviedb.org/t/p/original/lW7MvZ4m49IUj2UrUu4z0xVVl81.jpg"),
-    Media("Sherlock", "https://cdn.europosters.eu/image/750/posters/sherlock-destruction-i34921.jpg"),
-    Media("The Walking Dead", "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81UvZYUoOJL.jpg"),
-    Media("Dexter", "https://cdn.europosters.eu/image/750/posters/dexter-shrinkwrapped-i14382.jpg"),
-    Media("Patrick Melrose", "https://m.media-amazon.com/images/M/MV5BMjIwNzk4OTQ1NV5BMl5BanBnXkFtZTgwMjE0NDMyNTM@._V1_.jpg"),
-  ];
+  static const List<Media> myMedia = [    Media("Mad Men", "https://br.web.img3.acsta.net/pictures/21/02/10/20/02/0834301.jpg"),    Media("Dr. House", "https://www.themoviedb.org/t/p/original/lW7MvZ4m49IUj2UrUu4z0xVVl81.jpg"),    Media("Sherlock", "https://cdn.europosters.eu/image/750/posters/sherlock-destruction-i34921.jpg"),    Media("The Walking Dead", "https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81UvZYUoOJL.jpg"),    Media("Dexter", "https://cdn.europosters.eu/image/750/posters/dexter-shrinkwrapped-i14382.jpg"),    Media("Patrick Melrose", "https://m.media-amazon.com/images/M/MV5BMjIwNzk4OTQ1NV5BMl5BanBnXkFtZTgwMjE0NDMyNTM@._V1_.jpg"),  ];
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
+    final Color checkedColor = Theme.of(context).colorScheme.secondary;
+
     return Scaffold(
-      body: Container(
-        margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-        child: Column(
-          children: const <Widget>[
-            HorizontalMediaList(
-              name: "My First Series List!",
-              media: myMedia
-            )
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          SizedBox(height: 50),
+          HorizontalMediaList(
+            name: "My First Series List!",
+            media: myMedia,
+          ),
+          SizedBox(height: 50),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton.icon(
+                onPressed: () {
+                  setState(() {
+                    _isWatched = !_isWatched;
+                  });
+                },
+                icon: Icon(_isWatched ? Icons.remove_red_eye : Icons.check),
+                label: Text(_isWatched ? "Watching" : "Watched"),
+                style: ElevatedButton.styleFrom(
+                  primary: _isWatched ? Colors.grey[800] : checkedColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
