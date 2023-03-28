@@ -39,6 +39,8 @@ dependencies:
   firebase_core: ^2.8.0
   firebase_auth: ^4.3.0
   cloud_firestore: ^4.4.5
+  flutter_riverpod: ^2.3.2
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +73,9 @@ flutter:
      - assets/images/dungeonsDragons.png
      - assets/images/turtle.png
      - assets/images/idrisElba.png
+     - assets/images/movieBackground.png
+     - assets/images/movieCard.png
+     - assets/images/star.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
