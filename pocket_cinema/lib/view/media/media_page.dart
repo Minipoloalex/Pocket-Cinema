@@ -17,36 +17,63 @@ class NoCommentsButtonState extends State<NoCommentsButton> {
   Widget build(BuildContext context) {
     return _showContent
         ? Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const Text("No comments yet..."),
-        const SizedBox(height: 2),
-        const Text("Begin the first discussion"),
-        const SizedBox(height: 8),
-        ElevatedButton(
-          onPressed: () {
-            setState(() {
-              _showContent = false;
-            });
-          },
-          child: const Text('Start discussion'),
-        ),
-      ],
-    )
-        : const Align(
-      alignment: Alignment.bottomCenter,
-      child:Text('Comment Section to be Implemented.'),
-    );
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text("No comments yet..."),
+              const SizedBox(height: 2),
+              const Text("Begin the first discussion"),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _showContent = false;
+                  });
+                },
+                child: const Text('Start discussion'),
+              ),
+            ],
+          )
+        : Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 30.0),
+              child: Stack(
+                children: [
+                  TextField(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Theme.of(context).cardColor,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: const BorderSide(color: Colors.transparent),
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.transparent),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 8,
+                    right: 1,
+                    child: IconButton(
+                      color: Colors.white,
+                      icon: const Icon(Icons.send),
+                      onPressed: () {},
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 }
 
-
 class MediaPage extends StatelessWidget {
   final Media media;
-  const MediaPage(
-      {super.key,
-        required this.media});
+  const MediaPage({super.key, required this.media});
 
   @override
   Widget build(BuildContext context) {
@@ -133,8 +160,8 @@ class MediaPage extends StatelessWidget {
           ),
           Flexible(
             fit: FlexFit.tight,
-            child:Container(
-              child:NoCommentsButton(),
+            child: Container(
+              child: NoCommentsButton(),
             ),
           ),
         ],
