@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/news_provider.dart';
 import 'package:pocket_cinema/view/home/widgets/news_widget.dart';
+import 'package:pocket_cinema/view/home/widgets/news_widget_shimmer.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,10 +31,19 @@ class NewsList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final news = ref.watch(newsProvider);
     return news.when(
-      data: (news) =>
-          ListView(children: news.map((news) => NewsCard(news: news)).toList()),
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => Center(child: Text(error.toString()))
-    );
+        data: (news) => ListView(
+            children: news.map((news) => NewsCard(news: news)).toList()),
+        loading: () => Shimmer.fromColors(
+              period: const Duration(milliseconds: 1000),
+              baseColor: Theme.of(context).highlightColor,
+              highlightColor: Theme.of(context).colorScheme.onPrimary,
+              child: ListView.builder(
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  return const NewsCardShimmer();
+                },
+              ),
+            ),
+        error: (error, stack) => Center(child: Text(error.toString())));
   }
 }

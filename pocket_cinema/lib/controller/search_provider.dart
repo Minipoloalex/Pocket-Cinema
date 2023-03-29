@@ -25,6 +25,9 @@ final searchTypeProvider = StateProvider<SearchType>(
 //search provider that returns a list of media objects given a query
 final searchResultsProvider = FutureProvider.autoDispose<List<Media>>((ref) async {
   final searchType = ref.watch(searchTypeProvider);
+
+  await Future.delayed(const Duration(seconds: 1));
+
   switch (searchType) {
     case SearchType.movies:
       return _movies;
