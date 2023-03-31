@@ -42,6 +42,7 @@ dependencies:
   flutter_riverpod: ^2.3.2
   intl: ^0.17.0
   shimmer: ^2.0.0
+  flutter_svg: ^1.1.6
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +79,7 @@ flutter:
      - assets/images/movieCard.png
      - assets/images/star.png
      - assets/logo/logo.png
+     - assets/logo/logo.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
