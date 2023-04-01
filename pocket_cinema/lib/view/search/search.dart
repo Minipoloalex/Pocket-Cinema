@@ -84,7 +84,6 @@ class MySearchPageState extends ConsumerState<SearchPage>
                   padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
                   child: TabBarView(
                     controller: _tabController,
-                    physics: const NeverScrollableScrollPhysics(),
                     children: [
                       movies.when(
                         data: (data) => ListView(
