@@ -21,9 +21,6 @@ class MySearchPageState extends ConsumerState<SearchPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _tabController.addListener(() {
-      ref.read(searchTypeProvider.notifier).state = _tabController.index == 0 ? SearchType.movies : SearchType.shows;
-    });
   }
 
   @override
@@ -35,17 +32,24 @@ class MySearchPageState extends ConsumerState<SearchPage>
   @override
   Widget build(BuildContext context) {
     
-    final results = ref.watch(searchResultsProvider);
+    final movies = ref.watch(searchMoviesProvider);
+    final series = ref.watch(searchSeriesProvider);
 
     return Scaffold(
         body: Container(
       margin: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0),
-      child: Column(
+      child: 
+      Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
-              onSubmitted: (String query) {},
+              onSubmitted: (query) {},
+              onChanged: (value) => {
+                if(value.length > 2){
+                  ref.read(searchQueryProvider.notifier).state = value
+                }
+              },
               decoration: InputDecoration(
                 hintText: 'Search...',
                 prefixIcon: Padding(
@@ -75,36 +79,36 @@ class MySearchPageState extends ConsumerState<SearchPage>
               Tab(text: 'Series'),
             ],
           ),
-          Expanded(
+          Flexible(
               child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 15, 5, 0),
+                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
                   child: TabBarView(
                     controller: _tabController,
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      results.when(
-                        data: (data) => Column(
+                      movies.when(
+                        data: (data) => ListView(
                           children: data.map((e) => SearchResult(media: e)).toList(),
                         ),
                         loading: () => Shimmer.fromColors(
                           period: const Duration(milliseconds: 1000),
                           baseColor: Theme.of(context).highlightColor,
                           highlightColor: Theme.of(context).colorScheme.onPrimary,
-                          child: Column(
+                          child: ListView(
                             children: List.generate(3, (index) => const SearchResultShimmer()).toList(),
                           ),
                         ),
                         error: (error, stack) => Text(error.toString()),
                       ),
-                      results.when(
-                        data: (data) => Column(
+                      series.when(
+                        data: (data) => ListView(
                           children: data.map((e) => SearchResult(media:e)).toList(),
                         ),
                         loading: () => Shimmer.fromColors(
                           period: const Duration(milliseconds: 1000),
                           baseColor: Theme.of(context).highlightColor,
                           highlightColor: Theme.of(context).colorScheme.onPrimary,
-                          child: Column(
+                          child: ListView(
                             children: List.generate(3, (index) => const SearchResultShimmer()).toList(),
                           ),
                         ),
