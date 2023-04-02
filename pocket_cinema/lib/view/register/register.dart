@@ -5,6 +5,7 @@ import 'package:pocket_cinema/model/UserModel.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
 import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
+import 'package:pocket_cinema/view/common_widgets/topbar_logo.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -28,12 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 40),
-                      child: Text("Pocket Cinema",
-                        textScaleFactor: 3,
-                      ),
-                    ),
+                    const TopBarLogo(),
                     const LoginRegisterSegmentedButton(selectedPage: LoginRegister.register),
                   TextFormFieldLoginRegister(
                       hintText: "Email",
