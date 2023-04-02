@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   auth_buttons: ^3.0.0
   heroicons: ^0.7.0
-  firebase_core: ^2.8.0
+  firebase_core: ^2.9.0
   firebase_auth: ^4.3.0
   cloud_firestore: ^4.4.5
   flutter_riverpod: ^2.3.2
