@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:pocket_cinema/controller/fetcher.dart';
+import 'package:pocket_cinema/controller/parser.dart';
 
 import 'package:pocket_cinema/model/news.dart';
 
@@ -34,6 +36,6 @@ final newsProvider = FutureProvider<List<News>>((ref) async {
     const Duration(seconds: 1),
     () => _news,
   );
-
+  
   return news;
 });
