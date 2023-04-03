@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/model/media.dart';
@@ -7,6 +8,7 @@ import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/view/library/widgets/list_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});
@@ -31,7 +33,15 @@ class _MyLibraryPageState extends State<LibraryPage> {
                   icon: const HeroIcon(HeroIcons.checkCircle,
                       style: HeroIconStyle.solid),
                   labelText: "Watched",
-                  onPressed: () {},
+                  onPressed: () {
+                    User? user = FirebaseAuth.instance.currentUser;
+                    if (user != null) {
+                      print("Trying to sign out");
+                      signOut();
+                    }
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/login');
+                  },
                 ),
                 const SizedBox(width: 20),
                 ListButton(
@@ -46,6 +56,11 @@ class _MyLibraryPageState extends State<LibraryPage> {
         ),
       ),
     );
+  }
+  Future<void> signOut() async {
+    final googleSignIn = GoogleSignIn();
+    await googleSignIn.signOut();
+    await FirebaseAuth.instance.signOut();
   }
 }
 

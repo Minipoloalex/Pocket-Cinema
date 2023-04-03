@@ -4,6 +4,8 @@ import 'package:pocket_cinema/controller/firestore_funcs.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
 import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -52,14 +54,21 @@ class _LoginPageState extends State<LoginPage> {
                     const Divider(),
                   ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/');
-                  }, 
+                    signInWithGoogle().then((value) {
+                      Navigator.pushNamed(context, '/');
+                    }).onError((error, stackTrace) {
+                      print("Error: ${error.toString()}");
+                    });
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
                   ),
                   child: const Text('Login with Google')),
-                ])));
+                  ]
+                )
+        )
+    );
   }
   Future signIn() async {
     final userId = _userIdTextController.text;
@@ -69,5 +78,30 @@ class _LoginPageState extends State<LoginPage> {
     ).onError((error, stackTrace) {
       throw("Error: ${error.toString()}");
     });
+  }
+
+  Future<User?> signInWithGoogle() async {
+    final googleSignIn = GoogleSignIn();
+    print("Called signInWithGoogle");
+    final googleUser = await googleSignIn.signIn();
+    print("Before googleAuth");
+    if (googleUser != null) {
+      final googleAuth = await googleUser.authentication;
+      if (googleAuth.idToken != null) {
+        final userCredential = await FirebaseAuth.instance.signInWithCredential(
+            GoogleAuthProvider.credential(
+              idToken: googleAuth.idToken,
+              accessToken: googleAuth.accessToken,
+            ),
+        );
+        return userCredential.user;
+      }
+    } else {
+      throw FirebaseAuthException(
+        message: "Sign in aborted by user",
+        code: "ERROR_ABORTED_BY_USER",
+      );
+    }
+    return null;
   }
 }

@@ -11,6 +11,7 @@ import 'package:pocket_cinema/view/login/login.dart';
 import 'package:pocket_cinema/view/register/register.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -37,7 +38,7 @@ class _MyAppState extends State<MyApp>  {
     return MaterialApp(
       title: 'Pocket Cinema',
       theme: applicationTheme,
-      initialRoute: '/login',
+      initialRoute: FirebaseAuth.instance.currentUser == null ? '/login' : '/',
       routes: {
       '/login': (context) => const LoginPage(),
       '/register': (context) => const RegisterPage(),
