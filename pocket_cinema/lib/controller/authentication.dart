@@ -26,23 +26,25 @@ class Authentication {
   static Future<User?> signInWithGoogle() async {
     final googleSignIn = GoogleSignIn();
     final googleUser = await googleSignIn.signIn();
-    if (googleUser != null) {
-      final googleAuth = await googleUser.authentication;
-      if (googleAuth.idToken != null) {
-        final userCredential = await FirebaseAuth.instance.signInWithCredential(
-          GoogleAuthProvider.credential(
-            idToken: googleAuth.idToken,
-            accessToken: googleAuth.accessToken,
-          ),
-        );
-        return userCredential.user;
-      }
+    if (googleUser == null) {
+      throw FirebaseAuthException(
+        message: "Sign in aborted by user",
+        code: "ERROR_ABORTED_BY_USER",
+      );
     }
-    throw FirebaseAuthException(
-      message: "Sign in aborted by user",
-      code: "ERROR_ABORTED_BY_USER",
-    );
+
+    final googleAuth = await googleUser.authentication;
+    if (googleAuth.idToken != null) {
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        GoogleAuthProvider.credential(
+          idToken: googleAuth.idToken,
+          accessToken: googleAuth.accessToken,
+        ),
+      );
+      return userCredential.user;
+    }
   }
+
   static Future createUserGoogleSignIn(MyUser user) async {
     if (! await userExists(user)) {
       // Reference to a document
