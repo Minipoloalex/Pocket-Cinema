@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:flutter/material.dart';
+
 import 'package:pocket_cinema/controller/firestore_funcs.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
 import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pocket_cinema/model/user_model.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -54,7 +58,11 @@ class _LoginPageState extends State<LoginPage> {
                     const Divider(),
                   ElevatedButton(
                   onPressed: () {
-                    signInWithGoogle().then((value) {
+                    signInWithGoogle().then((user) {
+                      if (user == null || user.displayName == null || user.email == null) return;
+                      createUserGoogleSignIn(
+                          UserModel(username: user.displayName, email: user.email),
+                      );
                       Navigator.pushNamed(context, '/');
                     }).onError((error, stackTrace) {
                       throw("Error: ${error.toString()}");
@@ -94,12 +102,26 @@ class _LoginPageState extends State<LoginPage> {
         );
         return userCredential.user;
       }
-    } else {
-      throw FirebaseAuthException(
-        message: "Sign in aborted by user",
-        code: "ERROR_ABORTED_BY_USER",
-      );
     }
-    return null;
+    throw FirebaseAuthException(
+      message: "Sign in aborted by user",
+      code: "ERROR_ABORTED_BY_USER",
+    );
+  }
+  Future createUserGoogleSignIn(UserModel user) async {
+    if (await notExistsUser(user)) {
+      // Reference to a document
+      final docUser = FirebaseFirestore.instance.collection('users').doc();
+      user.id = docUser.id;
+      // Create document and write data to Firebase
+      await docUser.set(user.toJson());
+    }
+  }
+  Future<bool> notExistsUser(UserModel user) async {
+    final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users')
+        .where("username", isEqualTo: user.username)
+        .where("email", isEqualTo: user.email)
+      .get();
+    return snapshot.docs.isEmpty;
   }
 }
