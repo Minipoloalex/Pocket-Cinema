@@ -36,7 +36,6 @@ class _MyLibraryPageState extends State<LibraryPage> {
                   onPressed: () {
                     User? user = FirebaseAuth.instance.currentUser;
                     if (user != null) {
-                      print("Trying to sign out");
                       signOut();
                     }
                     Navigator.pop(context);

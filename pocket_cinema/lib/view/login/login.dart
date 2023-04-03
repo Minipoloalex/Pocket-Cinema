@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                     signInWithGoogle().then((value) {
                       Navigator.pushNamed(context, '/');
                     }).onError((error, stackTrace) {
-                      print("Error: ${error.toString()}");
+                      throw("Error: ${error.toString()}");
                     });
                   },
                   style: ElevatedButton.styleFrom(
@@ -82,9 +82,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<User?> signInWithGoogle() async {
     final googleSignIn = GoogleSignIn();
-    print("Called signInWithGoogle");
     final googleUser = await googleSignIn.signIn();
-    print("Before googleAuth");
     if (googleUser != null) {
       final googleAuth = await googleUser.authentication;
       if (googleAuth.idToken != null) {
