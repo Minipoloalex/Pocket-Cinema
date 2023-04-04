@@ -1,10 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
+
 import 'package:flutter/material.dart';
-import 'package:pocket_cinema/controller/firestore_funcs.dart';
+
+import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
 import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
 import 'package:pocket_cinema/view/common_widgets/topbar_logo.dart';
+import 'package:pocket_cinema/model/my_user.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -37,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      signIn().then((value) {
+                      Authentication.signIn(_userIdTextController, _passwordTextController).then((value) {
                         Navigator.pushNamed(context, '/');
                       }).onError((error, stackTrace) {
                         print("Error: ${error.toString()}");
@@ -48,22 +51,24 @@ class _LoginPageState extends State<LoginPage> {
                     const Divider(),
                   ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/');
-                  }, 
+                    Authentication.signInWithGoogle().then((user) {
+                      if (user == null || user.displayName == null || user.email == null) return;
+                      Authentication.createUserGoogleSignIn(
+                        MyUser(username: user.displayName, email: user.email),
+                      );
+                      Navigator.pushNamed(context, '/');
+                    }).onError((error, stackTrace) {
+                      throw("Error: ${error.toString()}");
+                    });
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
                   ),
                   child: const Text('Login with Google')),
-                ])));
-  }
-  Future signIn() async {
-    final userId = _userIdTextController.text;
-    return FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: isEmail(userId) ? userId : await getEmail(userId).then((email) => email),
-      password: _passwordTextController.text,
-    ).onError((error, stackTrace) {
-      throw("Error: ${error.toString()}");
-    });
+                  ]
+                )
+        )
+    );
   }
 }

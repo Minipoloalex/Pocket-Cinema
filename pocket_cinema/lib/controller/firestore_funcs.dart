@@ -6,7 +6,6 @@ Future<String> getEmail(String username) async {
   QuerySnapshot snapshot = await usersRef.where("username", isEqualTo: username).get();
   if (snapshot.docs.isNotEmpty) {
     String email = snapshot.docs.first.get('email');
-    print("Email inside function: $email");
     return email;
   }
   return "User not found";
