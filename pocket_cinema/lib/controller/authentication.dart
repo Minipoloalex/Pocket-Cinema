@@ -43,15 +43,13 @@ class Authentication {
       );
       return userCredential.user;
     }
+    return null;
   }
 
   static Future createUserGoogleSignIn(MyUser user) async {
     if (! await userExists(user)) {
       // Reference to a document
-      final docUser = FirebaseFirestore.instance.collection('users').doc();
-      user.id = docUser.id;
-      // Create document and write data to Firebase
-      await docUser.set(user.toJson());
+      createUser(user);
     }
   }
   static Future<bool> userExists(MyUser user) async {
@@ -62,10 +60,11 @@ class Authentication {
     return snapshot.docs.isNotEmpty;
   }
   static Future createUser(MyUser user) async {
-    // Reference to a document
-    final docUser = FirebaseFirestore.instance.collection('users').doc();
-    user.id = docUser.id;
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) return;
+
     // Create document and write data to Firebase
+    final docUser = FirebaseFirestore.instance.collection('users').doc(currentUser.uid);
     await docUser.set(user.toJson());
   }
 }

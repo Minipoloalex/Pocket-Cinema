@@ -64,6 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         _usernameTextController.clear();
                         _emailTextController.clear();
                         _passwordTextController.clear();
+                        _confirmPasswordTextController.clear();
                         Text("Error ${error.toString()}");
                         print("Error ${error.toString()}");
                       });
