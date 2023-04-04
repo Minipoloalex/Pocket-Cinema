@@ -16,3 +16,15 @@ bool isEmail(String str) {
   return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
       .hasMatch(str);
 }
+
+void addComment(String mediaId, String text, String userId) {
+  final commentsRef = FirebaseFirestore.instance.collection('comments');
+  commentsRef.add(
+    <String, dynamic> { // TODO: replace this for a model class that has comment information with a toJson method
+      'media_id': mediaId,
+      'user_id': userId,
+      'text': text,
+      'time_posted': DateTime.now(),
+    }
+  );
+}
