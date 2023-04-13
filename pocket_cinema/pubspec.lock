@@ -231,7 +231,6 @@ packages:
       sha256: "2efe7a35f8542b94f240661ef888ae74fcbdb1886908a6aac54404e2268be73c"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.9"
   google_sign_in_ios:
     dependency: transitive
     description:
