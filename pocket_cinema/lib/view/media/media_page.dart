@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
+import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 
 class NoCommentsButton extends StatefulWidget {
   const NoCommentsButton({super.key});
@@ -78,6 +79,15 @@ class MediaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Transform.translate(
+          offset: const Offset(10, 0),
+          child: const GoBackButton(),
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

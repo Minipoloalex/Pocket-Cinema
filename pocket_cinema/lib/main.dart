@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp>  {
         return Scaffold(
         body: PageView(
           controller: pageController,
-          scrollDirection: Axis.horizontal,
+          physics: const NeverScrollableScrollPhysics(),
           onPageChanged: (newIndex) {
             setState(() {
               selectedPage = newIndex;

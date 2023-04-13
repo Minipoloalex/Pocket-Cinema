@@ -17,6 +17,7 @@ class MediaListPage extends StatelessWidget {
         slivers: [
           SliverAppBar(
             title: Text(name),
+            backgroundColor: Theme.of(context).colorScheme.tertiary,
           ),
           SliverPadding(
               padding: const EdgeInsets.all(20),

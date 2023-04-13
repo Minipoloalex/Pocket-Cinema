@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pocket_cinema/model/news.dart';
 
+import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
+
 class NewsPage extends StatelessWidget {
   final News news;
 
@@ -11,14 +13,22 @@ class NewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Transform.translate(
+          offset: const Offset(10, 0),
+          child: const GoBackButton(),
+        ),
+      ),
       body: ListView(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         children: [
           Container(
             height: 350,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
                 bottomLeft: Radius.circular(60),
                 bottomRight: Radius.circular(60),
               ),

@@ -6,8 +6,9 @@ import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
 import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
-import 'package:pocket_cinema/model/my_user.dart';
+import 'package:pocket_cinema/view/common_widgets/topbar_logo.dart';
 
+import 'package:pocket_cinema/model/my_user.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -28,12 +29,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 40),
-                      child: Text("Pocket Cinema",
-                        textScaleFactor: 3,
-                      ),
-                    ),
+                    const TopBarLogo(),
                     const LoginRegisterSegmentedButton(selectedPage: LoginRegister.login),
                     TextFormFieldLoginRegister(
                         hintText: 'Email or Username',
