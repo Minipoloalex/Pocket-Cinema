@@ -27,3 +27,20 @@ void addComment(String mediaId, String text, String userId) {
     }
   );
 }
+
+Future<void> getComments(String mediaId) async {
+  final commentsRef = FirebaseFirestore.instance.collection('comments');
+  final commentSnapshot = await commentsRef.where("media_id", isEqualTo: mediaId).get();
+  final List<QueryDocumentSnapshot> commentDocs = commentSnapshot.docs;
+  // List<Comment> comments; // needs comment widget
+  for (final commentDoc in commentDocs) {
+    final userID = commentDoc.get('user_id');
+    final timePosted = commentDoc.get('time_posted');
+    final text = commentDoc.get('text');
+    print(userID);
+    print(timePosted);
+    print(text);
+  }
+  // return comments;
+}
+
