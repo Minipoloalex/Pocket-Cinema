@@ -76,6 +76,11 @@ class _RegisterPageState extends State<RegisterPage> {
     final docUser = FirebaseFirestore.instance.collection('users').doc();
     user.id = docUser.id;
     // Create document and write data to Firebase
+    _usernameTextController.clear();
+    _emailTextController.clear();
+    _passwordTextController.clear();
+    _confirmPasswordTextController.clear();
+
     await docUser.set(user.toJson());
   }
 }

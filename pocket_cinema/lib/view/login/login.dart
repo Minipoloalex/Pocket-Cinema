@@ -62,7 +62,10 @@ class _LoginPageState extends State<LoginPage> {
     return FirebaseAuth.instance.signInWithEmailAndPassword(
       email: isEmail(userId) ? userId : await getEmail(userId).then((email) => email),
       password: _passwordTextController.text,
-    ).onError((error, stackTrace) {
+    ).then((value) {
+      _userIdTextController.clear();
+      _passwordTextController.clear();
+    }).onError((error, stackTrace) {
       throw("Error: ${error.toString()}");
     });
   }
