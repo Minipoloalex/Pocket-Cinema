@@ -23,6 +23,7 @@ class NewsPage extends StatelessWidget {
         ),
       ),
       body: ListView(
+        padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
         children: [
           Container(
             height: 350,
