@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/model/navigation_item.dart';
-import 'package:pocket_cinema/view/library/library.dart';
+import 'package:pocket_cinema/view/user_space/user_space.dart';
 import 'package:pocket_cinema/view/search/search.dart';
 
 import 'package:pocket_cinema/view/theme.dart';
@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp>  {
           children: const [
             HomePage(),
             SearchPage(),
-            LibraryPage(),
+            UserSpace(),
           ],
         ),
       bottomNavigationBar: NavigationBar(
@@ -102,5 +102,5 @@ const List<NavigationItem> navigationItems = <NavigationItem>[
   NavigationItem(
       'Search', HeroIcon(HeroIcons.magnifyingGlass), HeroIcon(HeroIcons.magnifyingGlass, style: HeroIconStyle.solid)),
   NavigationItem(
-      'Library', HeroIcon(HeroIcons.user), HeroIcon(HeroIcons.user, style: HeroIconStyle.solid)),
+      'My Space', HeroIcon(HeroIcons.user), HeroIcon(HeroIcons.user, style: HeroIconStyle.solid)),
 ];

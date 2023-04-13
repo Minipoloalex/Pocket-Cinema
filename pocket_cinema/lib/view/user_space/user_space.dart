@@ -7,18 +7,16 @@ import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:pocket_cinema/view/library/widgets/list_button.dart';
+import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
 
-import '../login/login.dart';
-
-class LibraryPage extends StatefulWidget {
-  const LibraryPage({super.key});
+class UserSpace extends StatefulWidget {
+  const UserSpace({super.key});
 
   @override
-  State<LibraryPage> createState() => _MyLibraryPageState();
+  State<UserSpace> createState() => _MyLibraryPageState();
 }
 
-class _MyLibraryPageState extends State<LibraryPage> {
+class _MyLibraryPageState extends State<UserSpace> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,31 +38,28 @@ class _MyLibraryPageState extends State<LibraryPage> {
           ),
         ],
       ),
-      body: Container(
-        // margin: const EdgeInsets.fromLTRB(0,30, 0, 0),
-        child: Column(
-          children: <Widget>[
-            const ToWatchList(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ListButton(
-                  icon: const HeroIcon(HeroIcons.checkCircle,
-                      style: HeroIconStyle.solid),
-                  labelText: "Watched",
-                  onPressed: () {},
-                ),
-                const SizedBox(width: 20),
-                ListButton(
-                  icon: const HeroIcon(HeroIcons.ellipsisHorizontalCircle,
-                      style: HeroIconStyle.solid),
-                  labelText: "Watching",
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          const ToWatchList(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ListButton(
+                icon: const HeroIcon(HeroIcons.checkCircle,
+                    style: HeroIconStyle.solid),
+                labelText: "Watched",
+                onPressed: () {},
+              ),
+              const SizedBox(width: 20),
+              ListButton(
+                icon: const HeroIcon(HeroIcons.ellipsisHorizontalCircle,
+                    style: HeroIconStyle.solid),
+                labelText: "Watching",
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
