@@ -102,5 +102,5 @@ const List<NavigationItem> navigationItems = <NavigationItem>[
   NavigationItem(
       'Search', HeroIcon(HeroIcons.magnifyingGlass), HeroIcon(HeroIcons.magnifyingGlass, style: HeroIconStyle.solid)),
   NavigationItem(
-      'Library', HeroIcon(HeroIcons.bookmark), HeroIcon(HeroIcons.bookmark, style: HeroIconStyle.solid)),
+      'Library', HeroIcon(HeroIcons.user), HeroIcon(HeroIcons.user, style: HeroIconStyle.solid)),
 ];
