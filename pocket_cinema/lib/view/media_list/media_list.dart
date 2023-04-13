@@ -32,7 +32,7 @@ class MediaListPage extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MediaPage(media : mediaList[index])));
+                              builder: (context) => MediaPage(id : mediaList[index].id)));
                     },
                     child: Poster(
                       name: mediaList[index].name,
