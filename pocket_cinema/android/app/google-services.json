@@ -14,7 +14,31 @@
       },
       "oauth_client": [
         {
-          "client_id": "66574415093-lf36n2b958riqthgm2e4dpaqkij3k7cu.apps.googleusercontent.com",
+          "client_id": "66574415093-aqvas115trb9tmf1iptk37e45bsa1t2e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pocket_cinema",
+            "certificate_hash": "649a701695f66d3b7b6a1b3ce2b2234a8b2ac06a"
+          }
+        },
+        {
+          "client_id": "66574415093-elm63qnd3skevbddimf2k9t9cdt0ngih.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pocket_cinema",
+            "certificate_hash": "a3584b79b35c20b0010f54c482c20e84801c0b5c"
+          }
+        },
+        {
+          "client_id": "66574415093-j54ua5h6pt9irruoaa8npf2n5rgafube.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pocket_cinema",
+            "certificate_hash": "7abccc3314d3ca3eafc5489b0a5f1995e84f0f89"
+          }
+        },
+        {
+          "client_id": "66574415093-cs1hvd6g27ossaeq81no9arfemuca1ij.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +51,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "66574415093-lf36n2b958riqthgm2e4dpaqkij3k7cu.apps.googleusercontent.com",
+              "client_id": "66574415093-cs1hvd6g27ossaeq81no9arfemuca1ij.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "66574415093-i12qmdneebsuabn9oo6qr9nibb1dkouk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pocket-cinema"
+              }
             }
           ]
         }
