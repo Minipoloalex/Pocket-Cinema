@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                   ElevatedButton(
                   onPressed: () {
                     Authentication.signInWithGoogle().then((user) {
-                      if (!user?.displayName || !user?.email) return;
+                      if (user == null || user.displayName == null || user.email == null) return;
                       Authentication.createUserGoogleSignIn(
                         MyUser(username: user.displayName, email: user.email),
                       );
