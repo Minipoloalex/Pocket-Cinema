@@ -7,6 +7,8 @@ import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/view/library/widgets/list_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pocket_cinema/controller/authentication.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});
@@ -31,7 +33,14 @@ class _MyLibraryPageState extends State<LibraryPage> {
                   icon: const HeroIcon(HeroIcons.checkCircle,
                       style: HeroIconStyle.solid),
                   labelText: "Watched",
-                  onPressed: () {},
+                  onPressed: () {
+                    User? user = FirebaseAuth.instance.currentUser;
+                    if (user != null) {
+                      Authentication.signOut();
+                    }
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/login');
+                  },
                 ),
                 const SizedBox(width: 20),
                 ListButton(
