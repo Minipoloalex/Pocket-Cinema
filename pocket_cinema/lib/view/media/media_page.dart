@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
-import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
@@ -201,11 +200,9 @@ class MediaPage extends ConsumerWidget {
               ],
             ),
           ),
-          Flexible(
+          const Flexible(
             fit: FlexFit.tight,
-            child: Container(
-              child: NoCommentsButton(),
-            ),
+            child: NoCommentsButton()
           ),
         ],
       ),
