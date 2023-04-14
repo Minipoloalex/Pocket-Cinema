@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Comment {
   String content;
   String userID;
-  DateTime createdAt;
+  Timestamp createdAt;
 
   String? mediaID;
 
@@ -25,7 +27,7 @@ class Comment {
     return Comment(
       content: json['text'],
       userID: json['user_id'],
-      createdAt: DateTime.parse(json['time_posted']),
+      createdAt: json['time_posted'],
     );
   }
 }

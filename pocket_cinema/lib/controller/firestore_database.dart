@@ -25,7 +25,7 @@ class FirestoreDatabase {
           mediaID: mediaId,
           content: text,
           userID: userId,
-          createdAt: DateTime.now(),
+          createdAt: Timestamp.now(),
         ).toJson()
     );
   }
