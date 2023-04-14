@@ -20,7 +20,7 @@ class HorizontalMediaList extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
               padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
-              child: Text(name, textAlign: TextAlign.left)),
+              child: Text(name, textAlign: TextAlign.left, style: const TextStyle(fontSize: 20))),
           SizedBox(
               height: 300,
               child: ListView.separated(
