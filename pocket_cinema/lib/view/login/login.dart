@@ -28,14 +28,17 @@ class _LoginPageState extends State<LoginPage> {
                     const TopBarLogo(),
                     const LoginRegisterSegmentedButton(selectedPage: LoginRegister.login),
                     TextFormFieldLoginRegister(
+                        key: const Key("userIdField"),
                         hintText: 'Email or Username',
                         controller: _userIdTextController,
                     ),
                   PasswordFormField(
+                    key: const Key("passwordField"),
                     hintText: 'Password',
                     passwordController: _passwordTextController,
                   ),
                   ElevatedButton(
+                    key: const Key("LoginButton"),
                     onPressed: () {
                       signIn().then((value) {
                         Navigator.pushNamed(context, '/');

@@ -36,8 +36,8 @@ class _MyAppState extends State<MyApp>  {
       theme: applicationTheme,
       initialRoute: '/login',
       routes: {
-      '/login': (context) => const LoginPage(),
-      '/register': (context) => const RegisterPage(),
+      '/login': (context) => const LoginPage(key: Key("LoginPage")),
+      '/register': (context) => const RegisterPage(key: Key("RegisterPage")),
       '/': (context){
         final pageController = PageController(initialPage: 0);
 
@@ -51,9 +51,9 @@ class _MyAppState extends State<MyApp>  {
             });
           },
           children: const [
-            HomePage(),
-            SearchPage(),
-            LibraryPage(),
+            HomePage(key: Key("HomePage")),
+            SearchPage(key: Key("SearchPage")),
+            LibraryPage(key: Key("LibraryPage")),
           ],
         ),
       bottomNavigationBar: NavigationBar(
