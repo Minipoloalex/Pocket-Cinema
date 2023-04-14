@@ -70,6 +70,7 @@ class _MyAppState extends State<MyApp>  {
         
         destinations: navigationItems.map((NavigationItem destination) {
           return NavigationDestination(
+            key: Key("${destination.label}NavigationButton"),
             label: destination.label,
             icon: destination.icon,
             selectedIcon: destination.selectedIcon,

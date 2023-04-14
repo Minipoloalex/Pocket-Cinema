@@ -1,5 +1,5 @@
-import 'package:flutter_driver/flutter_driver.dart';
 import 'package:flutter_gherkin/flutter_gherkin.dart';
+import 'package:flutter_driver/flutter_driver.dart';
 import 'package:gherkin/gherkin.dart';
 
 class GivenPage extends Given1WithWorld<String, FlutterWorld> {
@@ -7,7 +7,14 @@ class GivenPage extends Given1WithWorld<String, FlutterWorld> {
   @override
   Future<void> executeStep(String input) async {
     final page = find.byType(input);
-    await FlutterDriverUtils.isPresent(world.driver, page);
+    expect(
+        await FlutterDriverUtils.isPresent(
+            world.driver,
+            page,
+            timeout: const Duration(seconds: 5)),
+        true,
+        reason: "Page $input is not present",
+    );
   }
 
   @override
@@ -19,7 +26,14 @@ class ThenPage extends Then1WithWorld<String, FlutterWorld> {
   @override
   Future<void> executeStep(String input) async {
     final page = find.byType(input);
-    await FlutterDriverUtils.isPresent(world.driver, page);
+    expect(
+      await FlutterDriverUtils.isPresent(
+          world.driver,
+          page,
+          timeout: const Duration(seconds: 5)),
+      true,
+      reason: "Page $input is not present",
+    );
   }
 
   @override

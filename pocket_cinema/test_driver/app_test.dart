@@ -24,7 +24,7 @@ Future<void> main() {
     thenTapButton(),
   ]
   ..customStepParameterDefinitions = []
-  ..restartAppBetweenScenarios = true
+  ..restartAppBetweenScenarios = false
   ..targetAppPath = "test_driver/app.dart";
   return GherkinRunner().execute(config);
 }
