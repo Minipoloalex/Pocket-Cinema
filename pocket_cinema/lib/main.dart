@@ -20,6 +20,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const ProviderScope(child: MyApp()));
+  
 }
 
 class MyApp extends StatefulWidget {
@@ -29,9 +30,22 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp>  {
+class _MyAppState extends State<MyApp>{
 
   int selectedPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Listen for changes in the authentication state
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        setState(() {
+          selectedPage = 0;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +57,7 @@ class _MyAppState extends State<MyApp>  {
       '/login': (context) => const LoginPage(),
       '/register': (context) => const RegisterPage(),
       '/': (context){
+
         final pageController = PageController(initialPage: 0);
 
         return Scaffold(
