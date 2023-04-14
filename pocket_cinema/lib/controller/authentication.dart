@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:pocket_cinema/model/my_user.dart';
 
-import 'firestore_funcs.dart';
+import 'firestore_database.dart';
 
 class Authentication {
   static Future<void> signOut() async {
@@ -16,7 +16,8 @@ class Authentication {
   static Future signIn(TextEditingController userIdTextController, TextEditingController passwordTextController) async {
     final userId = userIdTextController.text;
     return FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: isEmail(userId) ? userId : await getEmail(userId).then((email) => email),
+      email: FirestoreDatabase.isEmail(userId) ? userId
+          : await FirestoreDatabase.getEmail(userId).then((email) => email),
       password: passwordTextController.text,
     ).onError((error, stackTrace) {
       throw("Error: ${error.toString()}");
