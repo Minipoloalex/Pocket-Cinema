@@ -8,6 +8,9 @@ import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
+import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pocket_cinema/controller/authentication.dart';
 
 class UserSpace extends StatefulWidget {
   const UserSpace({super.key});
@@ -60,6 +63,38 @@ class _MyLibraryPageState extends State<UserSpace> {
             ],
           ),
         ],
+      body: Container(
+        margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+        child: Column(
+          children: <Widget>[
+            const ToWatchList(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ListButton(
+                  icon: const HeroIcon(HeroIcons.checkCircle,
+                      style: HeroIconStyle.solid),
+                  labelText: "Watched",
+                  onPressed: () {
+                    User? user = FirebaseAuth.instance.currentUser;
+                    if (user != null) {
+                      Authentication.signOut();
+                    }
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/login');
+                  },
+                ),
+                const SizedBox(width: 20),
+                ListButton(
+                  icon: const HeroIcon(HeroIcons.ellipsisHorizontalCircle,
+                      style: HeroIconStyle.solid),
+                  labelText: "Watching",
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

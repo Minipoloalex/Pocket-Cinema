@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pocket_cinema/model/UserModel.dart';
+import 'package:pocket_cinema/controller/authentication.dart';
+import 'package:pocket_cinema/model/my_user.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
 import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
@@ -54,11 +55,11 @@ class _RegisterPageState extends State<RegisterPage> {
                           password: _passwordTextController.text,
                       ).then((value) {
                         Navigator.pushNamed(context, '/');
-                        final user = UserModel(
+                        final user = MyUser(
                           username: _usernameTextController.text,
                           email: _emailTextController.text,
                         );
-                        createUser(user);
+                        Authentication.createUser(user);
                       }).onError((error, stackTrace) {
                         _usernameTextController.clear();
                         _emailTextController.clear();
@@ -70,17 +71,5 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: const Text('Create account'),
                     ),
                 ])));
-  }
-  Future createUser(UserModel user) async {
-    // Reference to a document
-    final docUser = FirebaseFirestore.instance.collection('users').doc();
-    user.id = docUser.id;
-    // Create document and write data to Firebase
-    _usernameTextController.clear();
-    _emailTextController.clear();
-    _passwordTextController.clear();
-    _confirmPasswordTextController.clear();
-
-    await docUser.set(user.toJson());
   }
 }
