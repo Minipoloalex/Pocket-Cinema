@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pocket_cinema/model/news.dart';
 import 'package:pocket_cinema/view/home/widgets/news_page.dart';
 
-
 class NewsCard extends StatelessWidget {
   final News news;
 
-  const NewsCard(
-      {super.key,
-      required this.news});
+  const NewsCard({super.key, required this.news});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +31,7 @@ class NewsCard extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
-                          image: AssetImage(news.image),
+                          image: NetworkImage(news.image),
                           fit: BoxFit.cover,
                         )),
                   ),
@@ -48,7 +45,7 @@ class NewsCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(news.description),
+                          Text(news.title),
                           Text(news.date.toString()), //TODO: Format date
                         ],
                       )),

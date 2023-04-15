@@ -6,9 +6,7 @@ import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 class NewsPage extends StatelessWidget {
   final News news;
 
-  const NewsPage(
-      {super.key,
-      required this.news});
+  const NewsPage({super.key, required this.news});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +42,7 @@ class NewsPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  news.description,
+                  news.title,
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -59,7 +57,7 @@ class NewsPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  news.content,
+                  news.description,
                   style: const TextStyle(
                     fontSize: 16,
                   ),
