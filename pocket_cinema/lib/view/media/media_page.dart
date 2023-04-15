@@ -1,5 +1,4 @@
 
-import 'package:pocket_cinema/model/media.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
@@ -212,9 +211,9 @@ class MediaPage extends ConsumerWidget {
               ],
             ),
           ),
-          const Flexible(
+          Flexible(
             fit: FlexFit.tight,
-            child: NoCommentsButton(mediaId: media.id),
+            child: NoCommentsButton(mediaId: id),
           ),
         ],
       ),
