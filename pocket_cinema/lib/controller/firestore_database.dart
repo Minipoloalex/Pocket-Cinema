@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pocket_cinema/model/comment.dart';
 
 
@@ -18,13 +19,13 @@ class FirestoreDatabase {
         .hasMatch(str);
   }
 
-  static void addComment(String mediaId, String text, String userId) {
+  static void addComment(String mediaId, String text) {
     final commentsRef = FirebaseFirestore.instance.collection('comments');
     commentsRef.add(
         Comment(
           mediaID: mediaId,
           content: text,
-          userID: userId,
+          userID: FirebaseAuth.instance.currentUser!.uid,
           createdAt: Timestamp.now(),
         ).toJson()
     );

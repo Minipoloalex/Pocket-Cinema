@@ -3,7 +3,6 @@ import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 
 class NoCommentsButton extends StatefulWidget {
@@ -68,7 +67,7 @@ class NoCommentsButtonState extends State<NoCommentsButton> {
                       icon: const Icon(Icons.send),
                       onPressed: () {
                         if (_commentTextController.text.isNotEmpty) {
-                          FirestoreDatabase.addComment(widget.mediaId, _commentTextController.text, FirebaseAuth.instance.currentUser!.uid);
+                          FirestoreDatabase.addComment(widget.mediaId, _commentTextController.text);
                           _commentTextController.clear();
                           // turn of display of text field
                         }
