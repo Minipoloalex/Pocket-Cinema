@@ -40,8 +40,8 @@ class _MyAppState extends State<MyApp>  {
       theme: applicationTheme,
       initialRoute: FirebaseAuth.instance.currentUser == null ? '/login' : '/',
       routes: {
-      '/login': (context) => const LoginPage(key: Key("LoginPage")),
-      '/register': (context) => const RegisterPage(key: Key("RegisterPage")),
+      '/login': (context) => const LoginPage(),
+      '/register': (context) => const RegisterPage(),
       '/': (context){
         final pageController = PageController(initialPage: 0);
 
@@ -55,9 +55,9 @@ class _MyAppState extends State<MyApp>  {
             });
           },
           children: const [
-            HomePage(key: Key("HomePage")),
-            SearchPage(key: Key("SearchPage")),
-            LibraryPage(key: Key("LibraryPage")),
+            HomePage(),
+            SearchPage(),
+            LibraryPage(),
           ],
         ),
       bottomNavigationBar: NavigationBar(
@@ -70,7 +70,8 @@ class _MyAppState extends State<MyApp>  {
         
         destinations: navigationItems.map((NavigationItem destination) {
           return NavigationDestination(
-            key: Key("${destination.label}NavigationButton"),
+            // destination.label turn to lower case
+            key: Key("${destination.label.toLowerCase()}NavigationButton"),
             label: destination.label,
             icon: destination.icon,
             selectedIcon: destination.selectedIcon,

@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                     passwordController: _passwordTextController,
                   ),
                   ElevatedButton(
-                    key: const Key("LoginButton"),
+                    key: const Key("loginButton"),
                     onPressed: () {
                       Authentication.signIn(_userIdTextController, _passwordTextController).then((value) {
                         Navigator.pushNamed(context, '/');

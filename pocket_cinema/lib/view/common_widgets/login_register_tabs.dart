@@ -13,10 +13,10 @@ class LoginRegisterSegmentedButton extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     margin: const EdgeInsets.symmetric(vertical: 20.0),
     child: SegmentedButton(
-      key: const Key("LoginRegisterTabs"),
+      key: const Key("loginRegisterTabs"),
       segments: const [
-        ButtonSegment(value: LoginRegister.login, label: Text(key: Key("LoginTab"), "Login")),
-        ButtonSegment(value: LoginRegister.register, label: Text(key: Key("RegisterTab"), "Register")),
+        ButtonSegment(value: LoginRegister.login, label: Text(key: Key("loginTab"), "Login")),
+        ButtonSegment(value: LoginRegister.register, label: Text(key: Key("registerTab"), "Register")),
       ],
       showSelectedIcon: false,
       selected: <LoginRegister>{ selectedPage },

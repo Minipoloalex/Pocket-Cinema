@@ -53,7 +53,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     passwordController: _confirmPasswordTextController,
                   ),
                   ElevatedButton(
-                    key: const Key("RegisterButton"),
+                    key: const Key("registerButton"),
                     onPressed: () {
                       if (_passwordTextController.text != _confirmPasswordTextController.text) {
                         _passwordTextController.clear();

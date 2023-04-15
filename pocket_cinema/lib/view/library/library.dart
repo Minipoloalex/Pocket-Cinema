@@ -30,7 +30,7 @@ class _MyLibraryPageState extends State<LibraryPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 ListButton(
-                  key: const Key("LogoutButton"),
+                  key: const Key("logoutButton"),
                   icon: const HeroIcon(HeroIcons.checkCircle,
                       style: HeroIconStyle.solid),
                   labelText: "Watched",
