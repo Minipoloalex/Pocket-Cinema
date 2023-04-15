@@ -1,5 +1,9 @@
-import  'package:flutter/material.dart';
+
 import 'package:pocket_cinema/model/media.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pocket_cinema/controller/search_provider.dart';
+
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
@@ -81,12 +85,14 @@ class NoCommentsButtonState extends State<NoCommentsButton> {
   }
 }
 
-class MediaPage extends StatelessWidget {
-  final Media media;
-  const MediaPage({super.key, required this.media});
+class MediaPage extends ConsumerWidget {
+  final String id;
+  const MediaPage({super.key, required this.id});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final mediaInfo = ref.watch(mediaProvider(id));
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -105,33 +111,45 @@ class MediaPage extends StatelessWidget {
             color: Theme.of(context).cardColor,
             child: Stack(
               children: [
-                Image(
-                  fit: BoxFit.cover,
-                  image: AssetImage(media.backgroundImage),
+                mediaInfo.when(
+                  data: (data) => Image(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(data.backgroundImage),
+                  ),
+                  error: (error, stack) => Text(error.toString()),
+                  loading: () => const CircularProgressIndicator(),
                 ),
                 Positioned(
                   top: 60,
                   left: 40,
-                  child: Container(
-                    width: 108,
-                    height: 188,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: NetworkImage(media.posterImage),
+                  child: mediaInfo.when(
+                    data: (data) => Container(
+                      width: 108,
+                      height: 188,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: NetworkImage(data.posterImage),
+                        ),
                       ),
                     ),
+                    error: (error, stack) => Text(error.toString()),
+                    loading: () => const CircularProgressIndicator(),
                   ),
                 ),
                 Positioned(
                   top: 172,
                   left: 160,
-                  child: Text(
-                    media.name,
-                    style: const TextStyle(
-                      fontSize: 28,
+                  child: mediaInfo.when(
+                    data: (data) => Text(
+                      data.name,
+                      style: const TextStyle(
+                        fontSize: 28,
+                      ),
                     ),
+                    error: (error, stack) => Text(error.toString()),
+                    loading: () => const CircularProgressIndicator(),
                   ),
                 ),
                 Positioned(
@@ -145,15 +163,28 @@ class MediaPage extends StatelessWidget {
                           image: AssetImage('assets/images/star.png'),
                         ),
                         const SizedBox(width: 6),
-                        Text(
-                          media.rating,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                        mediaInfo.when(
+                            data: (data) => Text(
+                                data.rating,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            error: (error, stack) => Text(error.toString()),
+                            loading: () => const CircularProgressIndicator(),
                         ),
                         const SizedBox(width: 6),
-                        Text(media.nRatings),
+                        mediaInfo.when(
+                            data: (data) => Text(
+                              data.nRatings,
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            error: (error, stack) => Text(error.toString()),
+                            loading: () => const CircularProgressIndicator(),
+                        ),
                         const SizedBox(width: 20),
                         const CheckButton(),
                         const AddButton(),
@@ -165,19 +196,23 @@ class MediaPage extends StatelessWidget {
                   child: SizedBox(
                     width: 350,
                     height: 40,
-                    child: Text(
-                      media.description,
-                      textAlign: TextAlign.left,
-                      style: const TextStyle(
-                        fontSize: 12,
+                    child: mediaInfo.when(
+                      data: (data) => Text(
+                        data.description,
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                          fontSize: 12,
+                        ),
                       ),
+                      error: (error, stack) => Text(error.toString()),
+                      loading: () => const CircularProgressIndicator(),
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          Flexible(
+          const Flexible(
             fit: FlexFit.tight,
             child: NoCommentsButton(mediaId: media.id),
           ),

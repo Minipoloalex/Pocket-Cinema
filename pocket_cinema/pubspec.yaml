@@ -38,13 +38,14 @@ dependencies:
   heroicons: ^0.7.0
   firebase_core: ^2.9.0
   firebase_auth: ^4.3.0
-  google_sign_in: ^5.2.1
+  google_sign_in: ^6.1.0
   cloud_firestore: ^4.4.5
   flutter_riverpod: ^2.3.2
   intl: ^0.17.0
   shimmer: ^2.0.0
   http: ^0.13.5
   flutter_svg: ^1.1.6
+  html: ^0.15.2
 
 dev_dependencies:
   flutter_test:

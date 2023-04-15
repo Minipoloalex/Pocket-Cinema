@@ -21,7 +21,7 @@ class SearchResult extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => MediaPage(media : media)));
+                      builder: (context) => MediaPage(id : media.id)));
             },
           child:Container(
             width: 100,
