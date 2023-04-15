@@ -2,7 +2,7 @@ Feature: Login and Logout
   Scenario Outline: Valid login information
     Given I am on the "LoginPage" page
     When I fill the "userIdField" field with "<userIdField>"
-    And I fill the "passwordField" field with "<passwordField>"
+    And I fill the "passwordLoginField" field with "<passwordField>"
     And I tap the "LoginButton" button
     Then I am on the "HomePage" page
 
@@ -36,7 +36,7 @@ Feature: Login and Logout
   Scenario Outline: Invalid login information
     Given I am on the "LoginPage" page
     When I fill the "userIdField" field with "<userIdField>"
-    And I fill the "passwordField" field with "<passwordField>"
+    And I fill the "passwordLoginField" field with "<passwordField>"
     And I tap the "LoginButton" button
     Then I am on the "LoginPage" page
 

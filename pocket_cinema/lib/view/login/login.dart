@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
                         controller: _userIdTextController,
                     ),
                   PasswordFormField(
-                    key: const Key("passwordField"),
+                    key: const Key("passwordLoginField"),
                     hintText: 'Password',
                     passwordController: _passwordTextController,
                   ),
