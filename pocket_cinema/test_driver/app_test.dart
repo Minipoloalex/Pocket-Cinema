@@ -18,10 +18,6 @@ Future<void> main() {
   ..stepDefinitions = [
     GivenPage(),
     ThenPage(),
-    WhenFillFieldStep(),
-    WhenTapWidget(),
-    TapWidgetWithTextStep(),
-    thenTapButton(),
   ]
   ..customStepParameterDefinitions = []
   ..restartAppBetweenScenarios = false
