@@ -1,11 +1,16 @@
-Feature: Registering a new user
+Feature: Registering
   As a user
-  I want to register
-  So that I can use the application
+  I want to be able to register an account
+  So that I can access the app
 
 
   Scenario: Changing to register page
     Given I am on the "LoginPage" page
+    When I tap the "RegisterTab" label
+    Then I am on the "RegisterPage" page
+
+  Scenario: Trying to change to register page when already there
+    Given I am on the "RegisterPage" page
     When I tap the "RegisterTab" label
     Then I am on the "RegisterPage" page
 
