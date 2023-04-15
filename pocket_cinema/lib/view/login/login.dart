@@ -1,7 +1,6 @@
 
 
 import 'package:flutter/material.dart';
-
 import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
@@ -41,15 +40,41 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Authentication.signIn(_userIdTextController, _passwordTextController).then((value) {
+                      if (_userIdTextController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please fill in the username'),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                        return;
+                      }
+                      else if (_passwordTextController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please fill in the password'),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                        return;
+                      }
+                      Authentication.signIn(_userIdTextController, _passwordTextController).then((user) {
+                        if (user == null) return;
                         Navigator.pushNamed(context, '/');
                       }).onError((error, stackTrace) {
-                        print("Error: ${error.toString()}");
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(error.toString()),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                        _userIdTextController.clear();
+                        _passwordTextController.clear();
                       });
                     },
                     child: const Text('Login'),
-                    ),
-                    const Divider(),
+                  ),
+                  const Divider(),
                   ElevatedButton(
                   onPressed: () {
                     Authentication.signInWithGoogle().then((user) {

@@ -50,10 +50,94 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
+                      FirebaseFirestore.instance.collection('users').where('email', isEqualTo: _emailTextController.text).get().then((value) {
+                        if (value.docs.isNotEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Email already exists'),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+                          _usernameTextController.clear();
+                          _emailTextController.clear();
+                          _passwordTextController.clear();
+                          _confirmPasswordTextController.clear();
+                          return;
+                        }
+                      });
+                      if (_emailTextController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                      content: Text('Please fill the email'),
+                      behavior: SnackBarBehavior.floating,
+                      ),
+                      );
+                      return;
+                      }
+                      else if (_usernameTextController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                      content: Text('Please fill the username'),
+                      behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      return;
+                      }
+                      else if (_passwordTextController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please fill the password'),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                        return;
+                      }
+                      else if (_confirmPasswordTextController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please confirm the password'),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                        return;
+                      }
+                      else if (_passwordTextController.text != _confirmPasswordTextController.text) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Passwords do not match'),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                        return;
+                      }
+                      else if (_passwordTextController.text.length < 6) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Password must be at least 6 characters'),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                        return;
+                      }
+                      FirebaseFirestore.instance.collection('users').where('username', isEqualTo: _usernameTextController.text).get().then((value) {
+                        if (value.docs.isNotEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Username already exists'),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+                          _usernameTextController.clear();
+                          _emailTextController.clear();
+                          _passwordTextController.clear();
+                          _confirmPasswordTextController.clear();
+                          return;
+                        }
+                      });
                       FirebaseAuth.instance.createUserWithEmailAndPassword(
                           email: _emailTextController.text,
                           password: _passwordTextController.text,
-                      ).then((value) {
+                        ).then((value) {
                         Navigator.pushNamed(context, '/');
                         final user = MyUser(
                           username: _usernameTextController.text,
@@ -65,7 +149,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         _emailTextController.clear();
                         _passwordTextController.clear();
                         Text("Error ${error.toString()}");
-                        print("Error ${error.toString()}");
                       });
                     },
                     child: const Text('Create account'),
