@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/model/navigation_item.dart';
-import 'package:pocket_cinema/view/library/library.dart';
+import 'package:pocket_cinema/view/user_space/user_space.dart';
 import 'package:pocket_cinema/view/search/search.dart';
 
 import 'package:pocket_cinema/view/theme.dart';
@@ -20,6 +20,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const ProviderScope(child: MyApp()));
+  
 }
 
 class MyApp extends StatefulWidget {
@@ -29,9 +30,22 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp>  {
+class _MyAppState extends State<MyApp>{
 
   int selectedPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Listen for changes in the authentication state
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        setState(() {
+          selectedPage = 0;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +57,7 @@ class _MyAppState extends State<MyApp>  {
       '/login': (context) => const LoginPage(),
       '/register': (context) => const RegisterPage(),
       '/': (context){
+
         final pageController = PageController(initialPage: 0);
 
         return Scaffold(
@@ -57,7 +72,7 @@ class _MyAppState extends State<MyApp>  {
           children: const [
             HomePage(),
             SearchPage(),
-            LibraryPage(),
+            UserSpace(),
           ],
         ),
       bottomNavigationBar: NavigationBar(
@@ -108,5 +123,5 @@ const List<NavigationItem> navigationItems = <NavigationItem>[
   NavigationItem(
       'Search', HeroIcon(HeroIcons.magnifyingGlass), HeroIcon(HeroIcons.magnifyingGlass, style: HeroIconStyle.solid)),
   NavigationItem(
-      'Library', HeroIcon(HeroIcons.bookmark), HeroIcon(HeroIcons.bookmark, style: HeroIconStyle.solid)),
+      'My Space', HeroIcon(HeroIcons.user), HeroIcon(HeroIcons.user, style: HeroIconStyle.solid)),
 ];
