@@ -1,4 +1,8 @@
 Feature: Login and Logout
+  As a user
+  I want to be able to login
+  so that I can access my stored personal information
+
   Scenario Outline: Valid login information
     Given I am on the "LoginPage" page
     When I fill the "userIdField" field with "<userIdField>"
@@ -32,13 +36,14 @@ Feature: Login and Logout
     When I tap the "loginTab" label
     Then I am on the "LoginPage" page
 
-  # TODO: create 2 different scenario outlines with checks for error messages
   Scenario Outline: Invalid login information
     Given I am on the "LoginPage" page
     When I fill the "userIdField" field with "<userIdField>"
     And I fill the "passwordLoginField" field with "<passwordField>"
     And I tap the "loginButton" button
     Then I am on the "LoginPage" page
+
+    # some kind of error message check: And I see the "invalidLoginLabel" label
 
     Examples:
     | userIdField             | passwordField |
