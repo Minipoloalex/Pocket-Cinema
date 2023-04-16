@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pocket_cinema/model/comment.dart';
+import 'package:pocket_cinema/model/my_user.dart';
 
 
 class FirestoreDatabase {
@@ -41,5 +42,17 @@ class FirestoreDatabase {
       return Comment.fromJson(data);
     }).toList();
     return comments;
+  }
+  static Future<bool> userExists(MyUser user) async {
+    final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users')
+        .where("username", isEqualTo: user.username)
+        .where("email", isEqualTo: user.email)
+        .get();
+    return snapshot.docs.isNotEmpty;
+  }
+  static Future<void> createUser(MyUser user, String userId) async {
+    // Create document and write data to Firebase
+    final docUser = FirebaseFirestore.instance.collection('users').doc(userId);
+    await docUser.set(user.toJson());
   }
 }

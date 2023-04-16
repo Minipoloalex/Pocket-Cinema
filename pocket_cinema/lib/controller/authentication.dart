@@ -54,18 +54,12 @@ class Authentication {
     }
   }
   static Future<bool> userExists(MyUser user) async {
-    final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users')
-        .where("username", isEqualTo: user.username)
-        .where("email", isEqualTo: user.email)
-        .get();
-    return snapshot.docs.isNotEmpty;
+    return FirestoreDatabase.userExists(user);
   }
-  static Future createUser(MyUser user) async {
+  static Future<void> createUser(MyUser user) async {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) return;
 
-    // Create document and write data to Firebase
-    final docUser = FirebaseFirestore.instance.collection('users').doc(currentUser.uid);
-    await docUser.set(user.toJson());
+    FirestoreDatabase.createUser(user, currentUser.uid);
   }
 }
