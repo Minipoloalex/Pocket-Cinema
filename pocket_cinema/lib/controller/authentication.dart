@@ -49,7 +49,6 @@ class Authentication {
 
   static Future createUserGoogleSignIn(MyUser user) async {
     if (! await userExists(user)) {
-      // Reference to a document
       createUser(user);
     }
   }

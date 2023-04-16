@@ -2,32 +2,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Comment {
   String content;
-  String userID;
   Timestamp createdAt;
-
+  String username;
+  String userId;
   String? mediaID;
 
   Comment({
     this.mediaID,
+    required this.username,
+    required this.userId,
     required this.content,
-    required this.userID,
     required this.createdAt,
   });
 
   Map<String, dynamic> toJson() {
     return {
       'media_id': mediaID,
-      'user_id': userID,
+      'user_id': userId,
       'text': content,
       'time_posted': createdAt,
     };
-  }
-
-  factory Comment.fromJson(Map<String, dynamic> json) {
-    return Comment(
-      content: json['text'],
-      userID: json['user_id'],
-      createdAt: json['time_posted'],
-    );
   }
 }
