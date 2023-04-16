@@ -31,7 +31,7 @@ class NewsPage extends StatelessWidget {
                 bottomRight: Radius.circular(60),
               ),
               image: DecorationImage(
-                image: AssetImage(news.image),
+                image: NetworkImage(news.image),
                 fit: BoxFit.cover,
               ),
             ),
