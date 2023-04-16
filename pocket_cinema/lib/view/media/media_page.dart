@@ -1,12 +1,16 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
+
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
+import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 
 class NoCommentsButton extends StatefulWidget {
-  const NoCommentsButton({super.key});
+  final String mediaId;
+  const NoCommentsButton({super.key, required this.mediaId});
 
   @override
   NoCommentsButtonState createState() => NoCommentsButtonState();
@@ -14,7 +18,7 @@ class NoCommentsButton extends StatefulWidget {
 
 class NoCommentsButtonState extends State<NoCommentsButton> {
   bool _showContent = true;
-
+  final TextEditingController _commentTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return _showContent
@@ -44,6 +48,7 @@ class NoCommentsButtonState extends State<NoCommentsButton> {
               child: Stack(
                 children: [
                   TextField(
+                    controller: _commentTextController,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Theme.of(context).cardColor,
@@ -63,7 +68,13 @@ class NoCommentsButtonState extends State<NoCommentsButton> {
                     child: IconButton(
                       color: Colors.white,
                       icon: const Icon(Icons.send),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_commentTextController.text.isNotEmpty) {
+                          FirestoreDatabase.addComment(widget.mediaId, _commentTextController.text);
+                          _commentTextController.clear();
+                          // turn of display of text field
+                        }
+                      },
                     ),
                   ),
                 ],
@@ -200,9 +211,9 @@ class MediaPage extends ConsumerWidget {
               ],
             ),
           ),
-          const Flexible(
+          Flexible(
             fit: FlexFit.tight,
-            child: NoCommentsButton()
+            child: NoCommentsButton(mediaId: id),
           ),
         ],
       ),

@@ -1,0 +1,58 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pocket_cinema/model/comment.dart';
+import 'package:pocket_cinema/model/my_user.dart';
+
+
+class FirestoreDatabase {
+  static Future<String> getEmail(String username) async {
+    final usersRef = FirebaseFirestore.instance.collection('users');
+    QuerySnapshot snapshot = await usersRef.where("username", isEqualTo: username).get();
+    if (snapshot.docs.isNotEmpty) {
+      String email = snapshot.docs.first.get('email');
+      return email;
+    }
+    return "User not found";
+  }
+
+  static bool isEmail(String str) {
+    return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(str);
+  }
+
+  static void addComment(String mediaId, String text) {
+    final commentsRef = FirebaseFirestore.instance.collection('comments');
+    commentsRef.add(
+        Comment(
+          mediaID: mediaId,
+          content: text,
+          userID: FirebaseAuth.instance.currentUser!.uid,
+          createdAt: Timestamp.now(),
+        ).toJson()
+    );
+  }
+
+  static Future<List<Comment>> getComments(String mediaId) async {
+    final commentsRef = FirebaseFirestore.instance.collection('comments');
+    final commentSnapshot = await commentsRef.where("media_id", isEqualTo: mediaId).get();
+    final List<QueryDocumentSnapshot> commentDocs = commentSnapshot.docs;
+
+    List<Comment> comments = commentDocs.map((doc) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      return Comment.fromJson(data);
+    }).toList();
+    return comments;
+  }
+  static Future<bool> userExists(MyUser user) async {
+    final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('users')
+        .where("username", isEqualTo: user.username)
+        .where("email", isEqualTo: user.email)
+        .get();
+    return snapshot.docs.isNotEmpty;
+  }
+  static Future<void> createUser(MyUser user, String userId) async {
+    // Create document and write data to Firebase
+    final docUser = FirebaseFirestore.instance.collection('users').doc(userId);
+    await docUser.set(user.toJson());
+  }
+}
