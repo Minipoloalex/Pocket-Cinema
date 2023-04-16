@@ -9,14 +9,14 @@ import 'package:shimmer/shimmer.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
 
-class UserSpace extends StatefulWidget {
-  const UserSpace({super.key});
+class UserSpacePage extends StatefulWidget {
+  const UserSpacePage({super.key});
 
   @override
-  State<UserSpace> createState() => _MyLibraryPageState();
+  State<UserSpacePage> createState() => _MyUserSpacePageState();
 }
 
-class _MyLibraryPageState extends State<UserSpace> {
+class _MyUserSpacePageState extends State<UserSpacePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +26,7 @@ class _MyLibraryPageState extends State<UserSpace> {
         elevation: 0,
         actions: [
           IconButton(
-            key: Key("logoutButton"),
+            key: const Key("logoutButton"),
             icon: const HeroIcon(
                 HeroIcons.arrowLeftOnRectangle,
                 style: HeroIconStyle.solid

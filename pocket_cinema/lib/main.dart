@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp>{
           children: const [
             HomePage(),
             SearchPage(),
-            UserSpace(),
+            UserSpacePage(),
           ],
         ),
       bottomNavigationBar: NavigationBar(

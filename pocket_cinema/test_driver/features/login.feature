@@ -12,11 +12,11 @@ Feature: Login and Logout
 
   # Changing to the library page (where there is a logout button)
     Given I am on the "HomePage" page
-    When I tap the "libraryNavigationButton" button
-    Then I am on the "LibraryPage" page
+    When I tap the "my spaceNavigationButton" button
+    Then I am on the "UserSpacePage" page
 
   # Logging out
-    Given I am on the "LibraryPage" page
+    Given I am on the "UserSpacePage" page
     When I tap the "logoutButton" button
     Then I am on the "LoginPage" page
     Examples:
