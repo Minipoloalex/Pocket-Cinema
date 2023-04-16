@@ -1,12 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pocket_cinema/controller/authentication.dart';
-import 'package:pocket_cinema/model/my_user.dart';
-import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
 import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
 import 'package:pocket_cinema/view/common_widgets/topbar_logo.dart';
+import 'package:pocket_cinema/view/common_widgets/validate_lr.dart';
+import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
+import 'package:pocket_cinema/controller/authentication.dart';
+import 'package:pocket_cinema/model/my_user.dart';
+import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -25,13 +24,13 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 40),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const TopBarLogo(),
-                    const LoginRegisterSegmentedButton(selectedPage: LoginRegister.register),
+            margin: const EdgeInsets.symmetric(horizontal: 40),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const TopBarLogo(),
+                  const LoginRegisterSegmentedButton(selectedPage: LoginRegister.register),
                   TextFormFieldLoginRegister(
                       hintText: "Email",
                       controller: _emailTextController
@@ -50,109 +49,36 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      FirebaseFirestore.instance.collection('users').where('email', isEqualTo: _emailTextController.text).get().then((value) {
-                        if (value.docs.isNotEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Email already exists'),
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                          _usernameTextController.clear();
-                          _emailTextController.clear();
-                          _passwordTextController.clear();
-                          _confirmPasswordTextController.clear();
-                          return;
-                        }
-                      });
-                      if (_emailTextController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                      content: Text('Please fill the email'),
-                      behavior: SnackBarBehavior.floating,
-                      ),
-                      );
-                      return;
-                      }
-                      else if (_usernameTextController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                      content: Text('Please fill the username'),
-                      behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                      return;
-                      }
-                      else if (_passwordTextController.text.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Please fill the password'),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                        return;
-                      }
-                      else if (_confirmPasswordTextController.text.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Please confirm the password'),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                        return;
-                      }
-                      else if (_passwordTextController.text != _confirmPasswordTextController.text) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Passwords do not match'),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                        return;
-                      }
-                      else if (_passwordTextController.text.length < 6) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Password must be at least 6 characters'),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                        return;
-                      }
-                      FirebaseFirestore.instance.collection('users').where('username', isEqualTo: _usernameTextController.text).get().then((value) {
-                        if (value.docs.isNotEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Username already exists'),
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                          _usernameTextController.clear();
-                          _emailTextController.clear();
-                          _passwordTextController.clear();
-                          _confirmPasswordTextController.clear();
-                          return;
-                        }
-                      });
-                      FirebaseAuth.instance.createUserWithEmailAndPassword(
-                          email: _emailTextController.text,
-                          password: _passwordTextController.text,
-                        ).then((value) {
-                        Navigator.pushNamed(context, '/');
+                      final String? error = ValidateLR.validateRegister(
+                          _usernameTextController.text,
+                          _emailTextController.text,
+                          _passwordTextController.text,
+                          _confirmPasswordTextController.text);
+                      if (error != null) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(error),
+                          behavior: SnackBarBehavior.floating,
+                          duration: const Duration(seconds: 3),
+                        ));
+                      } else {
                         final user = MyUser(
                           username: _usernameTextController.text,
                           email: _emailTextController.text,
                         );
-                        Authentication.createUser(user);
-                      }).onError((error, stackTrace) {
-                        _usernameTextController.clear();
-                        _emailTextController.clear();
-                        _passwordTextController.clear();
-                        Text("Error ${error.toString()}");
-                      });
+                        Authentication.createUser(
+                          user
+                        ).then((value) {
+                          Navigator.pushNamed(context, '/');
+                        }).onError((error, stackTrace) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(error.toString()),
+                            duration: const Duration(seconds: 3),
+                          ));
+                        });
+                      }
                     },
                     child: const Text('Create account'),
-                    ),
+                  ),
                 ])));
   }
 }

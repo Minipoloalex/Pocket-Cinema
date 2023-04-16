@@ -1,12 +1,10 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:pocket_cinema/view/common_widgets/validate_lr.dart';
 import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
 import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
 import 'package:pocket_cinema/view/common_widgets/topbar_logo.dart';
-
 import 'package:pocket_cinema/model/my_user.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,77 +21,67 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 40),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const TopBarLogo(),
-                    const LoginRegisterSegmentedButton(selectedPage: LoginRegister.login),
-                    TextFormFieldLoginRegister(
-                        hintText: 'Email or Username',
-                        controller: _userIdTextController,
-                    ),
+            margin: const EdgeInsets.symmetric(horizontal: 40),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const TopBarLogo(),
+                  const LoginRegisterSegmentedButton(selectedPage: LoginRegister.login),
+                  TextFormFieldLoginRegister(
+                    hintText: 'Email or Username',
+                    controller: _userIdTextController,
+                  ),
                   PasswordFormField(
                     hintText: 'Password',
                     passwordController: _passwordTextController,
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (_userIdTextController.text.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Please fill in the username'),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                        return;
-                      }
-                      else if (_passwordTextController.text.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Please fill in the password'),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                        return;
-                      }
-                      Authentication.signIn(_userIdTextController, _passwordTextController).then((user) {
-                        if (user == null) return;
-                        Navigator.pushNamed(context, '/');
-                      }).onError((error, stackTrace) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                      final String? error = ValidateLR.validateLogin(
+                          _userIdTextController.text, _passwordTextController.text);
+                      if (error != null) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(error),
+                          behavior: SnackBarBehavior.floating,
+                          duration: const Duration(seconds: 3),
+                        ));
+                      } else {
+                        Authentication.signIn(
+                          _userIdTextController,
+                          _passwordTextController,
+                        ).then((value) {
+                          Navigator.pushNamed(context, '/');
+                        }).onError((error, stackTrace) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(error.toString()),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                        _userIdTextController.clear();
-                        _passwordTextController.clear();
-                      });
+                            duration: const Duration(seconds: 3),
+                          ));
+                        });
+                      }
                     },
                     child: const Text('Login'),
                   ),
                   const Divider(),
                   ElevatedButton(
-                  onPressed: () {
-                    Authentication.signInWithGoogle().then((user) {
-                      if (user == null || user.displayName == null || user.email == null) return;
-                      Authentication.createUserGoogleSignIn(
-                        MyUser(username: user.displayName, email: user.email),
-                      );
-                      Navigator.pushNamed(context, '/');
-                    }).onError((error, stackTrace) {
-                      throw("Error: ${error.toString()}");
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
-                  ),
-                  child: const Text('Login with Google')),
-                  ]
-                )
+                      onPressed: () {
+                        Authentication.signInWithGoogle().then((user) {
+                          if (user == null || user.displayName == null || user.email == null) return;
+                          Authentication.createUserGoogleSignIn(
+                            MyUser(username: user.displayName, email: user.email),
+                          );
+                          Navigator.pushNamed(context, '/');
+                        }).onError((error, stackTrace) {
+                          throw("Error: ${error.toString()}");
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                      ),
+                      child: const Text('Login with Google')),
+                ]
+            )
         )
     );
   }
