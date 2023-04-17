@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pocket_cinema/model/news.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 
 class NewsPage extends StatelessWidget {
   final News news;
 
   const NewsPage({super.key, required this.news});
+
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(Uri.parse(news.link))) {
+      //TODO: Snackbar error "Couldn't open the news page"
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +57,7 @@ class NewsPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  DateFormat('yyyy-MM-dd – kk:mm').format(news.date),
+                  DateFormat('yyyy-MM-dd - kk:mm').format(news.date),
                   style: const TextStyle(
                     fontSize: 16,
                   ),
@@ -61,6 +67,13 @@ class NewsPage extends StatelessWidget {
                   news.description,
                   style: const TextStyle(
                     fontSize: 16,
+                  ),
+                ),
+                Center(
+                  heightFactor: 2,
+                  child: ElevatedButton(
+                    onPressed: _launchUrl,
+                    child: const Text('Continue Reading'),
                   ),
                 ),
               ],
