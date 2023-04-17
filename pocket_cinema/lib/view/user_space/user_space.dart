@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/model/media.dart';
@@ -34,7 +35,12 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
             iconSize: 30,
             padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
             onPressed: () {
-              _signOut();
+              User? user = FirebaseAuth.instance.currentUser;
+              if (user != null) {
+                Authentication.signOut();
+              }
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed('/login');
             },
           ),
         ],
@@ -63,11 +69,6 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
         ],
       ),
     );
-  }
-
-  Future<void> _signOut() async {
-    await FirebaseAuth.instance.signOut();
-    Navigator.of(context).pop();
   }
 }
 

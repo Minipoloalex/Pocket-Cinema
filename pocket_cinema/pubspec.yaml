@@ -49,6 +49,7 @@ dependencies:
   gherkin: ^2.0.2
   glob: ^2.0.0
   html: ^0.15.2
+  url_launcher: ^6.1.10
 
 dev_dependencies:
   flutter_driver:
