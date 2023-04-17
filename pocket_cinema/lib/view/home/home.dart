@@ -9,8 +9,7 @@ class NewsList extends ConsumerWidget {
   const NewsList({Key? key}) : super(key: key);
 
   Future<void> _refreshNews(BuildContext context, WidgetRef ref) async {
-    // Refresh your news data here using your provider
-    await ref.refresh(newsProvider);
+    ref.refresh(newsProvider).value;
   }
 
   @override

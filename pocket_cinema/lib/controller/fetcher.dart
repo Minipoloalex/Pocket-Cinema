@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/news.dart';
 
+import 'api_key.dart';
+
 class Fetcher {
   static Future searchMedia(String query) async {
     query = Uri.encodeComponent(query);
@@ -46,10 +48,10 @@ class Fetcher {
         Uri.parse('https://movies-news1.p.rapidapi.com/movies_news/recent'),
         headers: {
           'X-RapidAPI-Key':
-              '941d2bd2bbmshc220e39fcd173f4p1ba3c7jsn0d908bc4c768',
+              newsApiKey,
           'X-RapidAPI-Host': 'movies-news1.p.rapidapi.com'
         });
-        final utf8Decoder = Utf8Decoder();
+        const utf8Decoder = Utf8Decoder();
         final decodedResponse = utf8Decoder.convert(response.bodyBytes);
     if (response.statusCode != 200) throw Exception();
     List<dynamic> map = jsonDecode(decodedResponse);
