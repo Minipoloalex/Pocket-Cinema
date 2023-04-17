@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pocket_cinema/model/news.dart';
 import 'package:pocket_cinema/view/home/widgets/news_page.dart';
 
@@ -36,20 +37,22 @@ class NewsCard extends StatelessWidget {
                         )),
                   ),
                 ),
-                Expanded(
-                    child: SizedBox(
-                  height: 115,
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(news.title),
-                          Text(news.date.toString()), //TODO: Format date
-                        ],
-                      )),
-                )),
+                Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 10.0),
+                    child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                                news.title,
+                                maxLines: 3,
+                                overflow: TextOverflow.fade,
+                              ),
+                            Text(DateFormat('yyyy-MM-dd – kk:mm').format(news.date),),   
+                          ],
+                        )),
+                ),
               ]),
             )));
   }

@@ -49,8 +49,10 @@ class Fetcher {
               '941d2bd2bbmshc220e39fcd173f4p1ba3c7jsn0d908bc4c768',
           'X-RapidAPI-Host': 'movies-news1.p.rapidapi.com'
         });
+        final utf8Decoder = Utf8Decoder();
+        final decodedResponse = utf8Decoder.convert(response.bodyBytes);
     if (response.statusCode != 200) throw Exception();
-    List<dynamic> map = jsonDecode(response.body);
+    List<dynamic> map = jsonDecode(decodedResponse);
     return map.map((news) => News.fromJson(news)).toList();
   }
-}
+} 

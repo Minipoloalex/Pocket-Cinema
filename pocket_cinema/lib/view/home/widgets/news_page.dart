@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pocket_cinema/model/news.dart';
 
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
@@ -50,7 +51,7 @@ class NewsPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  news.date.toString(), //TODO: Format date
+                  DateFormat('yyyy-MM-dd – kk:mm').format(news.date),
                   style: const TextStyle(
                     fontSize: 16,
                   ),
