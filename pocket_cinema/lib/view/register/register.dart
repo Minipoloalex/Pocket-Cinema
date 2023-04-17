@@ -53,7 +53,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       FirebaseAuth.instance.createUserWithEmailAndPassword(
                           email: _emailTextController.text,
                           password: _passwordTextController.text,
-                      ).then((value) {
+                      ).then((value) async {
+                        await value.user?.updateDisplayName(_usernameTextController.text);
+
                         Navigator.pushNamed(context, '/');
                         final user = MyUser(
                           username: _usernameTextController.text,
@@ -64,6 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         _usernameTextController.clear();
                         _emailTextController.clear();
                         _passwordTextController.clear();
+                        _confirmPasswordTextController.clear();
                         Text("Error ${error.toString()}");
                         print("Error ${error.toString()}");
                       });

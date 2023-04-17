@@ -1,82 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
+
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
-
-class NoCommentsButton extends StatefulWidget {
-  const NoCommentsButton({super.key});
-
-  @override
-  NoCommentsButtonState createState() => NoCommentsButtonState();
-}
-
-class NoCommentsButtonState extends State<NoCommentsButton> {
-  bool _showContent = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return _showContent
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text("No comments yet..."),
-              const SizedBox(height: 2),
-              const Text("Begin the first discussion"),
-              const SizedBox(height: 8),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _showContent = false;
-                  });
-                },
-                child: const Text('Start discussion'),
-              ),
-            ],
-          )
-        : Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 30.0),
-              child: Stack(
-                children: [
-                  TextField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Theme.of(context).cardColor,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(color: Colors.transparent),
-                      ),
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.transparent),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 8,
-                    right: 1,
-                    child: IconButton(
-                      color: Colors.white,
-                      icon: const Icon(Icons.send),
-                      onPressed: () {},
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-  }
-}
+import 'package:pocket_cinema/view/media/widgets/comment_section.dart';
 
 class MediaPage extends ConsumerWidget {
   final String id;
   const MediaPage({super.key, required this.id});
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mediaInfo = ref.watch(mediaProvider(id));
@@ -116,9 +49,9 @@ class MediaPage extends ConsumerWidget {
                       height: 188,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: NetworkImage(data.posterImage),
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(data.posterImage),
                         ),
                       ),
                     ),
@@ -152,26 +85,26 @@ class MediaPage extends ConsumerWidget {
                         ),
                         const SizedBox(width: 6),
                         mediaInfo.when(
-                            data: (data) => Text(
-                                data.rating,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            error: (error, stack) => Text(error.toString()),
-                            loading: () => const CircularProgressIndicator(),
+                          data: (data) => Text(
+                            data.rating,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          error: (error, stack) => Text(error.toString()),
+                          loading: () => const CircularProgressIndicator(),
                         ),
                         const SizedBox(width: 6),
                         mediaInfo.when(
-                            data: (data) => Text(
-                              data.nRatings,
-                              style: const TextStyle(
-                                fontSize: 16,
-                              ),
+                          data: (data) => Text(
+                            data.nRatings,
+                            style: const TextStyle(
+                              fontSize: 16,
                             ),
-                            error: (error, stack) => Text(error.toString()),
-                            loading: () => const CircularProgressIndicator(),
+                          ),
+                          error: (error, stack) => Text(error.toString()),
+                          loading: () => const CircularProgressIndicator(),
                         ),
                         const SizedBox(width: 20),
                         const CheckButton(),
@@ -200,9 +133,9 @@ class MediaPage extends ConsumerWidget {
               ],
             ),
           ),
-          const Flexible(
+          Flexible(
             fit: FlexFit.tight,
-            child: NoCommentsButton()
+            child: CommentSection(mediaID: id),
           ),
         ],
       ),
