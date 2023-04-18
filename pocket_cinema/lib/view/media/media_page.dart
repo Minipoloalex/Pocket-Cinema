@@ -11,7 +11,7 @@ import 'package:shimmer/shimmer.dart';
 
 class MediaPage extends ConsumerWidget {
   final String id;
-  const MediaPage({super.key, required this.id});
+  const MediaPage({Key? key, required this.id}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mediaInfo = ref.watch(mediaProvider(id));
@@ -44,16 +44,16 @@ class MediaPage extends ConsumerWidget {
                           image: NetworkImage(data.backgroundImage),
                         ),
                         ClipRect(
-                          child: Positioned(
-                            bottom: 0,
-                            height: 20,
+                          child: Align(
+                            heightFactor: 1,
+                            alignment: Alignment.bottomCenter,
                             child: Container(
                               width: MediaQuery.of(context).size.width,
                               height: 210,
                               decoration: BoxDecoration(
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.8),
+                                    color: Colors.black.withOpacity(0.9),
                                     blurRadius: 30,
                                     spreadRadius: 10,
                                     offset: const Offset(0, 200),
