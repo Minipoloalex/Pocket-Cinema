@@ -1,7 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pocket_cinema/controller/validate.dart';
 
 import 'package:pocket_cinema/model/my_user.dart';
 
@@ -13,25 +12,29 @@ class Authentication {
     await googleSignIn.signOut();
     await FirebaseAuth.instance.signOut();
   }
-  static Future signIn(TextEditingController userIdTextController, TextEditingController passwordTextController) async {
-    final userId = userIdTextController.text;
-    return FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: FirestoreDatabase.isEmail(userId) ? userId
-          : await FirestoreDatabase.getEmail(userId).then((email) => email),
-      password: passwordTextController.text,
-    ).onError((error, stackTrace) {
-      throw("Error: ${error.toString()}");
-    });
+  static Future signIn(String user, String password) async {
+    try {
+      final email = Validate.isEmail(user) ? user : await FirestoreDatabase.getEmail(user);
+
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password
+      );
+      
+      return Future.value();
+    } on FirebaseAuthException catch (e) {
+      //print('Sign in failed with error code: ${e.code}');
+      return Future.error(e.message ?? "Something went wrong");
+    } on Exception catch (e) {
+      return Future.error(e);
+    }
   }
 
   static Future<User?> signInWithGoogle() async {
     final googleSignIn = GoogleSignIn();
     final googleUser = await googleSignIn.signIn();
     if (googleUser == null) {
-      throw FirebaseAuthException(
-        message: "Sign in aborted by user",
-        code: "ERROR_ABORTED_BY_USER",
-      );
+      return Future.error("Sign in aborted by user");
     }
 
     final googleAuth = await googleUser.authentication;
@@ -60,5 +63,13 @@ class Authentication {
     if (currentUser == null) return;
 
     FirestoreDatabase.createUser(user, currentUser.uid);
+  }
+
+  static Future<void> registerUser(username, email, password) async{
+    FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((value) async {
+      await value.user?.updateDisplayName(username);
+      final user = MyUser(email: email, username: username);
+      createUser(user);
+    }).onError((error, stackTrace) => Future.error("Something went wrong"));
   }
 }

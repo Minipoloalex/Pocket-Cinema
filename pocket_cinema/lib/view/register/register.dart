@@ -1,3 +1,4 @@
+import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
 import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
 import 'package:pocket_cinema/view/common_widgets/topbar_logo.dart';
@@ -53,8 +54,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     key: const Key("registerButton"),
                     onPressed: () async {
                       Validate.register(_usernameTextController.text, _emailTextController.text, _passwordTextController.text, _confirmPasswordTextController.text).then((value) {
-                        //Success, do something here
-                        // Create the accoutn here
+                        Authentication.registerUser(_usernameTextController.text, _emailTextController.text, _passwordTextController.text).then((value){
+                          Navigator.pushNamed(context, '/');
+                        }).catchError((error) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+                        });
                       }).catchError((error) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
                       });

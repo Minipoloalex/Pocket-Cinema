@@ -25,7 +25,7 @@ class FirestoreDatabase {
       String email = snapshot.docs.first.get('email');
       return email;
     }
-    return "User not found";
+    return Future.error("User not found");
   }
 
   static bool isEmail(String str) {

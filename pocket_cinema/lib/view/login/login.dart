@@ -42,9 +42,13 @@ class _LoginPageState extends State<LoginPage> {
                     key: const Key("loginButton"),
                     onPressed: () async {
                       Validate.login(_userIdTextController.text, _passwordTextController.text).then((value) {
-                        // Success, do something here
-                        // Login here
+                        Authentication.signIn(_userIdTextController.text, _passwordTextController.text).then((value){
+                          Navigator.pushNamed(context, '/');
+                        }).catchError((error) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+                        });
                       }).catchError((error) {
+                        print("eerer");
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
                       });
                     },
@@ -59,8 +63,6 @@ class _LoginPageState extends State<LoginPage> {
                             MyUser(username: user.displayName, email: user.email),
                           );
                           Navigator.pushNamed(context, '/');
-                        }).onError((error, stackTrace) {
-                          throw("Error: ${error.toString()}");
                         });
                       },
                       style: ElevatedButton.styleFrom(

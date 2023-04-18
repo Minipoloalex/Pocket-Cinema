@@ -83,7 +83,6 @@ class _MyAppState extends State<MyApp> {
               surfaceTintColor: Theme.of(context).colorScheme.tertiary,
               destinations: navigationItems.map((NavigationItem destination) {
                 return NavigationDestination(
-                  key: Key("${destination.label.toLowerCase()}NavigationButton"),
                   label: destination.label,
                   icon: destination.icon,
                   selectedIcon: destination.selectedIcon,
