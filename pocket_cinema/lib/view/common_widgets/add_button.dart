@@ -7,7 +7,8 @@ class AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const Color whiteColor = Color.fromARGB(255, 221, 221, 221);
-
+    return Container();
+    /*
     return IconButton(
       icon: const HeroIcon(HeroIcons.plus),
       onPressed: () {},
@@ -17,5 +18,6 @@ class AddButton extends StatelessWidget {
             const BorderSide(color: whiteColor, width: 2)),
       ),
     );
+     */
   }
 }
