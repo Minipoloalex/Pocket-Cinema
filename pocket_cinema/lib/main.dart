@@ -20,7 +20,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const ProviderScope(child: MyApp()));
-  
 }
 
 class MyApp extends StatefulWidget {
@@ -30,8 +29,7 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp>{
-
+class _MyAppState extends State<MyApp> {
   int selectedPage = 0;
 
   @override
@@ -54,72 +52,73 @@ class _MyAppState extends State<MyApp>{
       theme: applicationTheme,
       initialRoute: FirebaseAuth.instance.currentUser == null ? '/login' : '/',
       routes: {
-      '/login': (context) => const LoginPage(),
-      '/register': (context) => const RegisterPage(),
-      '/': (context){
+        '/login': (context) => const LoginPage(),
+        '/register': (context) => const RegisterPage(),
+        '/': (context) {
+          final pageController = PageController(initialPage: 0);
 
-        final pageController = PageController(initialPage: 0);
-
-        return Scaffold(
-        body: PageView(
-          controller: pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          onPageChanged: (newIndex) {
-            setState(() {
-              selectedPage = newIndex;
-            });
-          },
-          children: const [
-            HomePage(),
-            SearchPage(),
-            UserSpace(),
-          ],
-        ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: selectedPage,
-        onDestinationSelected: (int index) {
-          pageController.animateToPage(index, duration: const Duration(microseconds: 300), curve: Curves.easeIn);
-        },
-        backgroundColor: Theme.of(context).colorScheme.tertiary,
-        surfaceTintColor: Theme.of(context).colorScheme.tertiary,
-        
-        destinations: navigationItems.map((NavigationItem destination) {
-          return NavigationDestination(
-            label: destination.label,
-            icon: destination.icon,
-            selectedIcon: destination.selectedIcon,
-            tooltip: destination.label,
+          return Scaffold(
+            body: PageView(
+              controller: pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              onPageChanged: (newIndex) {
+                setState(() {
+                  selectedPage = newIndex;
+                });
+              },
+              children: const [
+                HomePage(),
+                SearchPage(),
+                UserSpace(),
+              ],
+            ),
+            bottomNavigationBar: NavigationBar(
+              selectedIndex: selectedPage,
+              onDestinationSelected: (int index) {
+                pageController.animateToPage(index,
+                    duration: const Duration(microseconds: 300),
+                    curve: Curves.easeIn);
+              },
+              backgroundColor: Theme.of(context).colorScheme.tertiary,
+              surfaceTintColor: Theme.of(context).colorScheme.tertiary,
+              destinations: navigationItems.map((NavigationItem destination) {
+                return NavigationDestination(
+                  label: destination.label,
+                  icon: destination.icon,
+                  selectedIcon: destination.selectedIcon,
+                  tooltip: destination.label,
+                );
+              }).toList(),
+            ),
           );
-        }).toList(),
-      ),
-    );
-    }
-    },
+        }
+      },
     );
   }
 }
 
 class Page extends StatelessWidget {
   final String title;
- 
+
   const Page({super.key, required this.title});
   @override
   Widget build(BuildContext context) {
-    return  Padding(padding: const EdgeInsets.all(30), child: Column(
-    mainAxisSize: MainAxisSize.max,
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: <Widget>[
-      Text(title, style: Theme.of(context).textTheme.headlineMedium),
-    ]
-    ));
+    return Padding(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Text(title, style: Theme.of(context).textTheme.headlineMedium),
+            ]));
   }
 }
 
 const List<NavigationItem> navigationItems = <NavigationItem>[
-  NavigationItem(
-      'News', HeroIcon(HeroIcons.home), HeroIcon(HeroIcons.home, style: HeroIconStyle.solid)),
-  NavigationItem(
-      'Search', HeroIcon(HeroIcons.magnifyingGlass), HeroIcon(HeroIcons.magnifyingGlass, style: HeroIconStyle.solid)),
-  NavigationItem(
-      'My Space', HeroIcon(HeroIcons.user), HeroIcon(HeroIcons.user, style: HeroIconStyle.solid)),
+  NavigationItem('News', HeroIcon(HeroIcons.home),
+      HeroIcon(HeroIcons.home, style: HeroIconStyle.solid)),
+  NavigationItem('Search', HeroIcon(HeroIcons.magnifyingGlass),
+      HeroIcon(HeroIcons.magnifyingGlass, style: HeroIconStyle.solid)),
+  NavigationItem('My Space', HeroIcon(HeroIcons.user),
+      HeroIcon(HeroIcons.user, style: HeroIconStyle.solid)),
 ];
