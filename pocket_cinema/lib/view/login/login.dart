@@ -1,7 +1,5 @@
-
-
 import 'package:flutter/material.dart';
-
+import 'package:pocket_cinema/controller/validate.dart';
 import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
@@ -42,35 +40,38 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   ElevatedButton(
                     key: const Key("loginButton"),
-                    onPressed: () {
-                      Authentication.signIn(_userIdTextController, _passwordTextController).then((value) {
-                        Navigator.pushNamed(context, '/');
-                      }).onError((error, stackTrace) {
-                        print("Error: ${error.toString()}");
+                    onPressed: () async {
+                      Validate.login(_userIdTextController.text, _passwordTextController.text).then((value) {
+                        Authentication.signIn(_userIdTextController.text, _passwordTextController.text).then((value){
+                          Navigator.pushNamed(context, '/');
+                        }).catchError((error) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+                        });
+                      }).catchError((error) {
+                        print("eerer");
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
                       });
                     },
                     child: const Text('Login'),
-                    ),
-                    const Divider(),
-                  ElevatedButton(
-                  onPressed: () {
-                    Authentication.signInWithGoogle().then((user) {
-                      if (user == null || user.displayName == null || user.email == null) return;
-                      Authentication.createUserGoogleSignIn(
-                        MyUser(username: user.displayName, email: user.email),
-                      );
-                      Navigator.pushNamed(context, '/');
-                    }).onError((error, stackTrace) {
-                      throw("Error: ${error.toString()}");
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
                   ),
-                  child: const Text('Login with Google')),
-                  ]
-                )
+                  const Divider(),
+                  ElevatedButton(
+                      onPressed: () {
+                        Authentication.signInWithGoogle().then((user) {
+                          if (user == null || user.displayName == null || user.email == null) return;
+                          Authentication.createUserGoogleSignIn(
+                            MyUser(username: user.displayName, email: user.email),
+                          );
+                          Navigator.pushNamed(context, '/');
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                      ),
+                      child: const Text('Login with Google')),
+                ]
+            )
         )
     );
   }

@@ -25,7 +25,7 @@ class FirestoreDatabase {
       String email = snapshot.docs.first.get('email');
       return email;
     }
-    return "User not found";
+    return Future.error("User not found");
   }
 
   static bool isEmail(String str) {
@@ -91,6 +91,22 @@ class FirestoreDatabase {
         .collection('users')
         .where("username", isEqualTo: user.username)
         .where("email", isEqualTo: user.email)
+        .get();
+    return snapshot.docs.isNotEmpty;
+  }
+
+  static Future<bool> emailExists(String email) async {
+    final QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where("email", isEqualTo: email)
+        .get();
+    return snapshot.docs.isNotEmpty;
+  }
+
+  static Future<bool> usernameExists(String username) async {
+    final QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where("username", isEqualTo: username)
         .get();
     return snapshot.docs.isNotEmpty;
   }
