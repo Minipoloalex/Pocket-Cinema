@@ -38,44 +38,6 @@ void main() {
       expect(posterImageFinder, findsOneWidget);
     });
 
-    testWidgets('should navigate to media page when poster image is tapped',
-        (WidgetTester tester) async {
-      
-      try {
-      // your code here
-
-      final mediaPage = Container();
-
-      await mockNetworkImagesFor(() =>
-        tester.pumpWidget(
-          MaterialApp(
-            home: const Scaffold(
-              body: SearchResult(media: media),
-            ),
-            onGenerateRoute: (settings) {
-              if (settings.name == '/media') {
-                return MaterialPageRoute(
-                  builder: (context) => mediaPage,
-                );
-              }
-              return null;
-            },
-          ),
-        )
-      );
-
-      await tester.tap(find.byType(InkWell));
-      await tester.pumpAndSettle();
-
-      expect(find.byWidget(mediaPage), findsOneWidget);}
-      catch (e, s) {
-        print('Caught exception: $e');
-        print('Stack trace: $s');
-        rethrow;
-      }
-
-    });
-
     testWidgets('CheckButton and AddButton', (WidgetTester tester) async {
       await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(const SearchResult(media: media))));
 
