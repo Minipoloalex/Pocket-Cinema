@@ -45,6 +45,7 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
           ),
         ],
       ),
+      /*
       body: Column(
         children: <Widget>[
           const ToWatchList(),
@@ -68,6 +69,7 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
           ),
         ],
       ),
+      */
     );
   }
 }
