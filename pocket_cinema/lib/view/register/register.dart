@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/model/my_user.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';

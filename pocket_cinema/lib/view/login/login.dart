@@ -9,8 +9,6 @@ import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dar
 import 'package:pocket_cinema/view/common_widgets/topbar_logo.dart';
 import 'package:pocket_cinema/model/my_user.dart';
 
-import 'package:pocket_cinema/model/my_user.dart';
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
