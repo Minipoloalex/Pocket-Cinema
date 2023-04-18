@@ -21,22 +21,25 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 40),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const TopBarLogo(),
-                  const LoginRegisterSegmentedButton(selectedPage: LoginRegister.login),
-                  TextFormFieldLoginRegister(
-                    hintText: 'Email or Username',
-                    controller: _userIdTextController,
-                  ),
+                margin: const EdgeInsets.symmetric(horizontal: 40),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const TopBarLogo(),
+                    const LoginRegisterSegmentedButton(selectedPage: LoginRegister.login),
+                    TextFormFieldLoginRegister(
+                        key: const Key("userIdField"),
+                        hintText: 'Email or Username',
+                        controller: _userIdTextController,
+                    ),
                   PasswordFormField(
+                    key: const Key("passwordLoginField"),
                     hintText: 'Password',
                     passwordController: _passwordTextController,
                   ),
                   ElevatedButton(
+                    key: const Key("loginButton"),
                     onPressed: () {
                       final String? error = ValidateLR.validateLogin(
                           _userIdTextController.text, _passwordTextController.text);

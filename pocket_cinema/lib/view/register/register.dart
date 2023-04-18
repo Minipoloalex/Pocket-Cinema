@@ -32,22 +32,27 @@ class _RegisterPageState extends State<RegisterPage> {
                   const TopBarLogo(),
                   const LoginRegisterSegmentedButton(selectedPage: LoginRegister.register),
                   TextFormFieldLoginRegister(
+                      key: const Key("emailField"),
                       hintText: "Email",
                       controller: _emailTextController
                   ),
                   TextFormFieldLoginRegister(
+                    key: const Key("usernameField"),
                     hintText: "Username",
                     controller: _usernameTextController,
                   ),
                   PasswordFormField(
+                    key: const Key("passwordRegisterField"),
                     hintText: 'Password',
                     passwordController: _passwordTextController,
                   ),
                   PasswordFormField(
+                    key: const Key("confirmPasswordField"),
                     hintText: 'Confirm Password',
                     passwordController: _confirmPasswordTextController,
                   ),
                   ElevatedButton(
+                    key: const Key("registerButton"),
                     onPressed: () {
                       final String? error = ValidateLR.validateRegister(
                           _usernameTextController.text,

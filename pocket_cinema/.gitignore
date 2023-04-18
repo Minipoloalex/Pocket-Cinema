@@ -9,6 +9,7 @@
 .history
 .svn/
 migrate_working_dir/
+report.json
 
 # IntelliJ related
 *.iml
@@ -44,3 +45,4 @@ app.*.map.json
 /android/app/release
 
 pubspec.lock
+

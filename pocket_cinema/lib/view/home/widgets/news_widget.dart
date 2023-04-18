@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pocket_cinema/model/news.dart';
 import 'package:pocket_cinema/view/home/widgets/news_page.dart';
-
 
 class NewsCard extends StatelessWidget {
   final News news;
 
-  const NewsCard(
-      {super.key,
-      required this.news});
+  const NewsCard({super.key, required this.news});
 
   @override
   Widget build(BuildContext context) {
@@ -34,25 +32,27 @@ class NewsCard extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
-                          image: AssetImage(news.image),
+                          image: NetworkImage(news.image),
                           fit: BoxFit.cover,
                         )),
                   ),
                 ),
-                Expanded(
-                    child: SizedBox(
-                  height: 115,
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(news.description),
-                          Text(news.date.toString()), //TODO: Format date
-                        ],
-                      )),
-                )),
+                Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(0.0, 10.0, 10.0, 10.0),
+                    child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                                news.title,
+                                maxLines: 3,
+                                overflow: TextOverflow.fade,
+                              ),
+                            Text(DateFormat('yyyy-MM-dd – kk:mm').format(news.date),),   
+                          ],
+                        )),
+                ),
               ]),
             )));
   }

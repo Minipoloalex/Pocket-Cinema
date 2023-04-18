@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/model/media.dart';
@@ -9,14 +10,14 @@ import 'package:shimmer/shimmer.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
 
-class UserSpace extends StatefulWidget {
-  const UserSpace({super.key});
+class UserSpacePage extends StatefulWidget {
+  const UserSpacePage({super.key});
 
   @override
-  State<UserSpace> createState() => _MyLibraryPageState();
+  State<UserSpacePage> createState() => _MyUserSpacePageState();
 }
 
-class _MyLibraryPageState extends State<UserSpace> {
+class _MyUserSpacePageState extends State<UserSpacePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,6 +27,7 @@ class _MyLibraryPageState extends State<UserSpace> {
         elevation: 0,
         actions: [
           IconButton(
+            key: const Key("logoutButton"),
             icon: const HeroIcon(
                 HeroIcons.arrowLeftOnRectangle,
                 style: HeroIconStyle.solid
@@ -33,7 +35,12 @@ class _MyLibraryPageState extends State<UserSpace> {
             iconSize: 30,
             padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
             onPressed: () {
-              _signOut();
+              User? user = FirebaseAuth.instance.currentUser;
+              if (user != null) {
+                Authentication.signOut();
+              }
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed('/login');
             },
           ),
         ],
@@ -62,11 +69,6 @@ class _MyLibraryPageState extends State<UserSpace> {
         ],
       ),
     );
-  }
-
-  Future<void> _signOut() async {
-    await FirebaseAuth.instance.signOut();
-    Navigator.of(context).pop();
   }
 }
 
