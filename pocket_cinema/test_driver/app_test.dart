@@ -11,7 +11,6 @@ Future<void> main() {
   ..features = [Glob(r"test_driver/features/**.feature")]
   ..reporters = [
     ProgressReporter(),
-    // TestRunReporter(),
     TestRunSummaryReporter(),
     JsonReporter(path: './report.json'),
   ]
