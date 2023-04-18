@@ -66,7 +66,7 @@ class CommentSectionState extends ConsumerState<CommentSection> {
                     .toList(),
               );
             },
-            loading: () => const CircularProgressIndicator(),
+            loading: () => Container(),
             error: (error, stack) => Text(error.toString()),
           ),
         ),
