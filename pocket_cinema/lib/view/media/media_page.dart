@@ -6,6 +6,8 @@ import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_section.dart';
+import 'package:pocket_cinema/view/media/widgets/description_shimmer.dart';
+import 'package:shimmer/shimmer.dart';
 
 class MediaPage extends ConsumerWidget {
   final String id;
@@ -33,12 +35,44 @@ class MediaPage extends ConsumerWidget {
             child: Stack(
               children: [
                 mediaInfo.when(
-                  data: (data) => Image(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(data.backgroundImage),
+                  data: (data) => Stack(
+                      children: [
+                        Image(
+                          height: 210,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          image: NetworkImage(data.backgroundImage),
+                        ),
+                        ClipRect(
+                          child: Positioned(
+                            bottom: 0,
+                            height: 20,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 210,
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.8),
+                                    blurRadius: 30,
+                                    spreadRadius: 10,
+                                    offset: const Offset(0, 200),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                   ),
+
                   error: (error, stack) => Text(error.toString()),
-                  loading: () => const CircularProgressIndicator(),
+                  loading: () => const Image(
+                    height: 200,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    image: AssetImage('assets/images/placeholder.png'),
+                  ),
                 ),
                 Positioned(
                   top: 60,
@@ -56,8 +90,16 @@ class MediaPage extends ConsumerWidget {
                       ),
                     ),
                     error: (error, stack) => Text(error.toString()),
-                    loading: () => const CircularProgressIndicator(),
-                  ),
+                    loading: () => Shimmer.fromColors(
+                      period: const Duration(milliseconds: 1000),
+                      baseColor: Theme.of(context).highlightColor,
+                      highlightColor: Theme.of(context).colorScheme.onPrimary,
+                      child: Container(
+                        height: 188,
+                        width: 108,
+                        color: Colors.black,
+                      )),
+                    ),
                 ),
                 Positioned(
                   top: 172,
@@ -70,8 +112,16 @@ class MediaPage extends ConsumerWidget {
                       ),
                     ),
                     error: (error, stack) => Text(error.toString()),
-                    loading: () => const CircularProgressIndicator(),
-                  ),
+                    loading: () => Shimmer.fromColors(
+                      period: const Duration(milliseconds: 1000),
+                      baseColor: Theme.of(context).highlightColor,
+                      highlightColor: Theme.of(context).colorScheme.onPrimary,
+                      child: Container(
+                        height: 10,
+                        width: 50,
+                        color: Colors.black,
+                      )),
+                    ),
                 ),
                 Positioned(
                     top: 212,
@@ -93,7 +143,15 @@ class MediaPage extends ConsumerWidget {
                             ),
                           ),
                           error: (error, stack) => Text(error.toString()),
-                          loading: () => const CircularProgressIndicator(),
+                          loading: () => Shimmer.fromColors(
+                            period: const Duration(milliseconds: 1000),
+                            baseColor: Theme.of(context).highlightColor,
+                            highlightColor: Theme.of(context).colorScheme.onPrimary,
+                            child: Container(
+                              height: 10,
+                              width: 100,
+                              color: Colors.black,
+                            )),
                         ),
                         const SizedBox(width: 6),
                         mediaInfo.when(
@@ -104,7 +162,15 @@ class MediaPage extends ConsumerWidget {
                             ),
                           ),
                           error: (error, stack) => Text(error.toString()),
-                          loading: () => const CircularProgressIndicator(),
+                          loading: () => Shimmer.fromColors(
+                            period: const Duration(milliseconds: 1000),
+                            baseColor: Theme.of(context).highlightColor,
+                            highlightColor: Theme.of(context).colorScheme.onPrimary,
+                            child: Container(
+                              height: 10,
+                              width: 100,
+                              color: Colors.black,
+                            )),
                         ),
                         const SizedBox(width: 20),
                         const CheckButton(),
@@ -126,7 +192,11 @@ class MediaPage extends ConsumerWidget {
                         ),
                       ),
                       error: (error, stack) => Text(error.toString()),
-                      loading: () => const CircularProgressIndicator(),
+                      loading: () => Shimmer.fromColors(
+                            period: const Duration(milliseconds: 1000),
+                            baseColor: Theme.of(context).highlightColor,
+                            highlightColor: Theme.of(context).colorScheme.onPrimary,
+                            child: const DescriptionShimmer()),
                     ),
                   ),
                 ),

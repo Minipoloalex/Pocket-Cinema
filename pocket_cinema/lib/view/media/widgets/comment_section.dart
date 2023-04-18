@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
@@ -68,7 +66,7 @@ class CommentSectionState extends ConsumerState<CommentSection> {
                     .toList(),
               );
             },
-            loading: () => const CircularProgressIndicator(),
+            loading: () => Container(),
             error: (error, stack) => Text(error.toString()),
           ),
         ),

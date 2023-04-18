@@ -62,6 +62,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  mockito: ^5.4.0
+  network_image_mock: ^2.1.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -79,15 +81,8 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-     - assets/images/jennaOrtega.png
-     - assets/images/dungeonsDragons.png
-     - assets/images/turtle.png
-     - assets/images/idrisElba.png
-     - assets/images/movieBackground.png
-     - assets/images/movieCard.png
-     - assets/images/star.png
-     - assets/logo/logo.png
-     - assets/logo/logo.svg
+     - assets/images/
+     - assets/logo/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

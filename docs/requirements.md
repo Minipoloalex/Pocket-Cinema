@@ -12,6 +12,6 @@ This project consists in an application that provides its users with the possibi
 
 <br><br>
 <div justify="center">
-  <img src="../images/domain-model.png"/>
+  <img src="../images/domain-model.drawio.png"/>
 </div>
 
