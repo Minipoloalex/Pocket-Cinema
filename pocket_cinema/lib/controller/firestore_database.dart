@@ -95,6 +95,22 @@ class FirestoreDatabase {
     return snapshot.docs.isNotEmpty;
   }
 
+  static Future<bool> emailExists(String email) async {
+    final QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where("email", isEqualTo: email)
+        .get();
+    return snapshot.docs.isNotEmpty;
+  }
+
+  static Future<bool> usernameExists(String username) async {
+    final QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where("username", isEqualTo: username)
+        .get();
+    return snapshot.docs.isNotEmpty;
+  }
+
   static Future<void> createUser(MyUser user, String userId) async {
     // Create document and write data to Firebase
     final docUser = FirebaseFirestore.instance.collection('users').doc(userId);

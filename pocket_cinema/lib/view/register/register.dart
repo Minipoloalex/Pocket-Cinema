@@ -1,10 +1,8 @@
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
 import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
 import 'package:pocket_cinema/view/common_widgets/topbar_logo.dart';
-import 'package:pocket_cinema/view/common_widgets/validate_lr.dart';
+import 'package:pocket_cinema/controller/validate.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
-import 'package:pocket_cinema/controller/authentication.dart';
-import 'package:pocket_cinema/model/my_user.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -53,34 +51,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   ElevatedButton(
                     key: const Key("registerButton"),
-                    onPressed: () {
-                      final String? error = ValidateLR.validateRegister(
-                          _usernameTextController.text,
-                          _emailTextController.text,
-                          _passwordTextController.text,
-                          _confirmPasswordTextController.text);
-                      if (error != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(error),
-                          behavior: SnackBarBehavior.floating,
-                          duration: const Duration(seconds: 3),
-                        ));
-                      } else {
-                        final user = MyUser(
-                          username: _usernameTextController.text,
-                          email: _emailTextController.text,
-                        );
-                        Authentication.createUser(
-                          user
-                        ).then((value) {
-                          Navigator.pushNamed(context, '/');
-                        }).onError((error, stackTrace) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(error.toString()),
-                            duration: const Duration(seconds: 3),
-                          ));
-                        });
-                      }
+                    onPressed: () async {
+                      Validate.register(_usernameTextController.text, _emailTextController.text, _passwordTextController.text, _confirmPasswordTextController.text).then((value) {
+                        //Success, do something here
+                        // Create the accoutn here
+                      }).catchError((error) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+                      });
                     },
                     child: const Text('Create account'),
                   ),

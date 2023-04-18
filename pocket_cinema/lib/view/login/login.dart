@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pocket_cinema/view/common_widgets/validate_lr.dart';
+import 'package:pocket_cinema/controller/validate.dart';
 import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
@@ -40,28 +40,13 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   ElevatedButton(
                     key: const Key("loginButton"),
-                    onPressed: () {
-                      final String? error = ValidateLR.validateLogin(
-                          _userIdTextController.text, _passwordTextController.text);
-                      if (error != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(error),
-                          behavior: SnackBarBehavior.floating,
-                          duration: const Duration(seconds: 3),
-                        ));
-                      } else {
-                        Authentication.signIn(
-                          _userIdTextController,
-                          _passwordTextController,
-                        ).then((value) {
-                          Navigator.pushNamed(context, '/');
-                        }).onError((error, stackTrace) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(error.toString()),
-                            duration: const Duration(seconds: 3),
-                          ));
-                        });
-                      }
+                    onPressed: () async {
+                      Validate.login(_userIdTextController.text, _passwordTextController.text).then((value) {
+                        // Success, do something here
+                        // Login here
+                      }).catchError((error) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+                      });
                     },
                     child: const Text('Login'),
                   ),
