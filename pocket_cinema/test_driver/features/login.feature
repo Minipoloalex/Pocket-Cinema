@@ -4,7 +4,8 @@ Feature: Login and Logout
   so that I can access my stored personal information
 
   Scenario Outline: Valid login information
-    Given I am on the "LoginPage" page
+    Given I am not authenticated
+    And I am on the "LoginPage" page
     When I fill the "userIdField" field with "<userIdField>"
     And I fill the "passwordLoginField" field with "<passwordField>"
     And I tap the "loginButton" button

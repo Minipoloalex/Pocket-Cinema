@@ -5,6 +5,7 @@ import 'package:glob/glob.dart';
 
 import 'steps/on_page_step.dart';
 import 'steps/then_tap_button.dart';
+import 'steps/given_not_authenticated.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
@@ -17,6 +18,7 @@ Future<void> main() {
   ..stepDefinitions = [
     GivenPage(),
     ThenPage(),
+    GivenNotAuthenticated(),
   ]
   ..customStepParameterDefinitions = []
   ..restartAppBetweenScenarios = false

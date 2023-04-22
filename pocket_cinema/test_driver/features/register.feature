@@ -5,7 +5,8 @@ Feature: Registering
 
 
   Scenario: Changing to register page
-    Given I am on the "LoginPage" page
+    Given I am not authenticated
+    And I am on the "LoginPage" page
     When I tap the "registerTab" label
     Then I am on the "RegisterPage" page
 
@@ -22,15 +23,14 @@ Feature: Registering
     And I fill the "confirmPasswordField" field with "<ConfirmPassword>"
     And I tap the "registerButton" button
     Then I am on the "RegisterPage" page
-    # check predefined steps: And "<ErrorMessage>" is displayed
-    # check predefined steps: Fields are cleared (?)
+
     Examples:
     | Email              | Username | Password | ConfirmPassword |
     | admin@gmail.com    | admin    | password | password        |
     |                    |          |          |                 |
     | abcdefg@gmail.com  | abcdefg  | password | differentPass   |
-    # | new_ghjk@gmail.com | admin    | password | password        |
-    # we need to check for existing username for this to work
+    | new_ghjk@gmail.com | admin    | password | password        |
+
 
   Scenario: Changing back to login page
     Given I am on the "RegisterPage" page
