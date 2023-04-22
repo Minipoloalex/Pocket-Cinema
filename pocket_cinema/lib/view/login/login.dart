@@ -59,9 +59,11 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         Authentication.signInWithGoogle().then((user) {
                           if (user == null || user.displayName == null || user.email == null) return;
+
                           Authentication.createUserGoogleSignIn(
-                            MyUser(username: user.displayName, email: user.email),
+                            MyUser(username: user.displayName!, email: user.email!),
                           );
+
                           Navigator.pushNamed(context, '/');
                         });
                       },

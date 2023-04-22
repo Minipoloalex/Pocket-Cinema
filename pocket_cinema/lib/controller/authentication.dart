@@ -68,7 +68,7 @@ class Authentication {
   static Future<void> registerUser(username, email, password) async{
     FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((value) async {
       await value.user?.updateDisplayName(username);
-      final user = MyUser(email: email, username: username);
+      final user = MyUser(email: email, username: username, watched:[], toWatch:[], personalLists: []);
       createUser(user);
     }).onError((error, stackTrace) => Future.error("Something went wrong"));
   }
