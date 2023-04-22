@@ -5,7 +5,7 @@ All the management of the project is done using this [Github Project board](http
 # Releases
 - [v0](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T1/releases/tag/v0)
 - [v1](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T1/releases/tag/v1)
-- v2
+- [v2](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T1/releases/tag/v2)
 - v3
 - v4
 
@@ -37,7 +37,7 @@ All the management of the project is done using this [Github Project board](http
 Begin
 <img src="../images/iterations/iteration01-begin.png">
 End
-<img src="../iamges/iterations/iteration01-end.png>
+<img src="../iamges/iterations/iteration01-end.png">
 
 ## Retrospective **#1**
 
@@ -61,3 +61,18 @@ End
 ## Iteration **#2**
 Begin
 <img src="../images/iterations/iteration02-begin.png">
+End
+<img src="../images/iterations/iteration02-end.png">
+
+## Retrospective **#2**
+
+### Positive Aspects
+- Release done from user point of view
+- Good planning and integration of features
+
+### What can be better
+- Improve naming of branches (e.g. "feature/name")
+- Pay more attention to debug errors
+
+### Puzzles
+- Firebase test mode and security rules
