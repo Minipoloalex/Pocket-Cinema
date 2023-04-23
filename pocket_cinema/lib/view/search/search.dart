@@ -44,6 +44,7 @@ class MySearchPageState extends ConsumerState<SearchPage>
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
+              key: const Key('searchField'),
               onSubmitted: (query) {},
               onChanged: (value) => {
                 if(value.length > 2){
@@ -62,6 +63,7 @@ class MySearchPageState extends ConsumerState<SearchPage>
                 suffixIcon: Padding(
                   padding: const EdgeInsets.only(right: 10.0),
                   child: IconButton(
+                    key: const Key("searchButton"),
                     icon: const HeroIcon(HeroIcons.magnifyingGlass),
                     onPressed: () {},
                   ),
@@ -75,8 +77,14 @@ class MySearchPageState extends ConsumerState<SearchPage>
           TabBar(
             controller: _tabController,
             tabs: const [
-              Tab(text: 'Movies'),
-              Tab(text: 'Series'),
+              Tab(
+                key: Key('moviesTab'),
+                text: 'Movies',
+              ),
+              Tab(
+                  key: Key('seriesTab'),
+                  text: 'Series',
+              ),
             ],
           ),
           Flexible(
@@ -87,6 +95,7 @@ class MySearchPageState extends ConsumerState<SearchPage>
                     children: [
                       movies.when(
                         data: (data) => ListView(
+                          key: const Key('moviesListView'),
                           children: data.map((e) => SearchResult(media: e)).toList(),
                         ),
                         loading: () => Shimmer.fromColors(
