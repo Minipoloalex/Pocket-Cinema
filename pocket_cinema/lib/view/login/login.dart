@@ -48,7 +48,6 @@ class _LoginPageState extends State<LoginPage> {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
                         });
                       }).catchError((error) {
-                        print("eerer");
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
                       });
                     },
