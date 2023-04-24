@@ -41,7 +41,7 @@ class MediaPage extends ConsumerWidget {
                           height: 210,
                           width: double.infinity,
                           fit: BoxFit.cover,
-                          image: NetworkImage(data.backgroundImage),
+                          image: NetworkImage(data.backgroundImage ?? ''),
                         ),
                         ClipRect(
                           child: Align(
@@ -136,7 +136,7 @@ class MediaPage extends ConsumerWidget {
                         const SizedBox(width: 6),
                         mediaInfo.when(
                           data: (data) => Text(
-                            data.rating,
+                            data.rating ?? '',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -156,7 +156,7 @@ class MediaPage extends ConsumerWidget {
                         const SizedBox(width: 6),
                         mediaInfo.when(
                           data: (data) => Text(
-                            data.nRatings,
+                            data.nRatings ?? '',
                             style: const TextStyle(
                               fontSize: 16,
                             ),
@@ -185,7 +185,7 @@ class MediaPage extends ConsumerWidget {
                     height: 40,
                     child: mediaInfo.when(
                       data: (data) => Text(
-                        data.description,
+                        data.description ?? '',
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                           fontSize: 12,

@@ -49,7 +49,7 @@ class SearchResult extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  media.description,
+                  media.description ?? '',
                   style: const TextStyle(
                     fontSize: 14,
                   ),

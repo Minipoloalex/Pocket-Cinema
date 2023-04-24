@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
-import 'package:pocket_cinema/view/search/widgets/search_result.dart';
-import 'package:pocket_cinema/view/search/widgets/search_result_shimmer.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
@@ -15,25 +13,11 @@ class SearchPage extends ConsumerStatefulWidget {
 
 class MySearchPageState extends ConsumerState<SearchPage>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    
-    final movies = ref.watch(searchMoviesProvider);
-    final series = ref.watch(searchSeriesProvider);
+
+    final inTheatersMedia = ref.watch(inTheaters);
 
     return Scaffold(
         body: Container(
@@ -44,6 +28,8 @@ class MySearchPageState extends ConsumerState<SearchPage>
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
+              autofocus: false,
+              onTap: () => Navigator.pushNamed(context, '/search_results'),
               onSubmitted: (query) {},
               onChanged: (value) => {
                 if(value.length > 2){
@@ -55,13 +41,6 @@ class MySearchPageState extends ConsumerState<SearchPage>
                 prefixIcon: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: IconButton(
-                    icon: const HeroIcon(HeroIcons.arrowLeft),
-                    onPressed: () {},
-                  ),
-                ),
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
-                  child: IconButton(
                     icon: const HeroIcon(HeroIcons.magnifyingGlass),
                     onPressed: () {},
                   ),
@@ -72,49 +51,20 @@ class MySearchPageState extends ConsumerState<SearchPage>
               ),
             ),
           ),
-          TabBar(
-            controller: _tabController,
-            tabs: const [
-              Tab(text: 'Movies'),
-              Tab(text: 'Series'),
-            ],
-          ),
           Flexible(
               child: Padding(
                   padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      movies.when(
-                        data: (data) => ListView(
-                          children: data.map((e) => SearchResult(media: e)).toList(),
-                        ),
-                        loading: () => Shimmer.fromColors(
-                          period: const Duration(milliseconds: 1000),
-                          baseColor: Theme.of(context).highlightColor,
-                          highlightColor: Theme.of(context).colorScheme.onPrimary,
-                          child: ListView(
-                            children: List.generate(3, (index) => const SearchResultShimmer()).toList(),
-                          ),
-                        ),
-                        error: (error, stack) => Text(error.toString()),
-                      ),
-                      series.when(
-                        data: (data) => ListView(
-                          children: data.map((e) => SearchResult(media:e)).toList(),
-                        ),
-                        loading: () => Shimmer.fromColors(
-                          period: const Duration(milliseconds: 1000),
-                          baseColor: Theme.of(context).highlightColor,
-                          highlightColor: Theme.of(context).colorScheme.onPrimary,
-                          child: ListView(
-                            children: List.generate(3, (index) => const SearchResultShimmer()).toList(),
-                          ),
-                        ),
-                        error: (error, stack) => Text(error.toString()),
-                      ),
-                    ],
-                  )
+                  child: Column(children: [
+                    inTheatersMedia.when(
+                        data: (data) => HorizontalMediaList(
+                            name: 'In Theaters',
+                            media: data),
+                        loading: () => const Center(
+                            child: CircularProgressIndicator()),
+                        error: (error, stack) => const Center(
+                            child: Text('Error loading data'))),
+                    
+                  ],)
               )
           )
         ],
