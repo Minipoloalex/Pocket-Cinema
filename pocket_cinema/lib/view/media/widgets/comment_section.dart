@@ -89,7 +89,7 @@ class CommentSectionState extends ConsumerState<CommentSection> {
                     fillColor: Theme.of(context).cardColor,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
-                      borderSide: const BorderSide(color: Colors.transparent),
+                      borderSide: const BorderSide(color: Colors.white, width: 1, style: BorderStyle.solid, strokeAlign: BorderSide.strokeAlignInside),
                     ),
                     border: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.transparent),
