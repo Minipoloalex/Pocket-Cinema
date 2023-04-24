@@ -31,8 +31,12 @@ final mediaProvider = FutureProvider.family<Media, String>((ref, id) async {
   return await Fetcher.getMedia(id);
 });
 
-//create a comments provider for the media
 final commentsProvider =
     FutureProvider.family<List<Comment>, String>((ref, id) async {
   return await FirestoreDatabase.getComments(id);
+});
+
+final inTheaters = FutureProvider.autoDispose<List<Media>>((ref) async {
+  final data = await Fetcher.getMoviesInNearTheaters();
+  return Parser.moviesInNearTheaters(data);
 });

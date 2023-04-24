@@ -10,22 +10,19 @@ import '../../testable_widget.dart';
 
 void main() {
   group('SearchResult widget', () {
-    const media = Media(
-      '1',
-      'Media Name',
-      'assets/images/poster_image.jpg',
-      'assets/images/background_image.jpg',
-      '',
-      '',
-      '',
-      MediaType.movie,
+    final media = Media(
+      id: '1',
+      name: 'Media Name',
+      posterImage: 'assets/images/poster_image.jpg',
+      backgroundImage: 'assets/images/background_image.jpg',
+      type: MediaType.movie,
     );
 
     testWidgets('should display media information', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(const SearchResult(media: media))));
+      await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(SearchResult(media: media))));
 
       expect(find.text(media.name), findsOneWidget);
-      expect(find.text(media.description), findsOneWidget);
+      expect(find.text(media.description!), findsOneWidget);
 
       final posterImageFinder = find.byWidgetPredicate((widget) =>
           widget is Container &&
@@ -39,7 +36,7 @@ void main() {
     });
 
     testWidgets('CheckButton and AddButton', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(const SearchResult(media: media))));
+      await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(SearchResult(media: media))));
 
       expect(find.byType(CheckButton), findsOneWidget);
       expect(find.byType(AddButton), findsOneWidget);

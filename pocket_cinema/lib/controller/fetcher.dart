@@ -24,21 +24,20 @@ class Fetcher {
     var goodPart = fullDoc.querySelector("#__NEXT_DATA__")!.innerHtml;
     Map<String, dynamic> map = jsonDecode(goodPart);
     return Media(
-        map["props"]["pageProps"]["tconst"],
-        map["props"]["pageProps"]["aboveTheFoldData"]["titleText"]["text"],
-        map["props"]["pageProps"]["aboveTheFoldData"]["primaryImage"]["url"],
-        map["props"]["pageProps"]["aboveTheFoldData"]["primaryVideos"]["edges"]
-            [0]["node"]["thumbnail"]["url"],
-        map["props"]["pageProps"]["aboveTheFoldData"]["ratingsSummary"]
-                ["aggregateRating"]
+        id: map["props"]["pageProps"]["tconst"],
+        name: map["props"]["pageProps"]["aboveTheFoldData"]["titleText"]
+            ["text"],
+        posterImage: map["props"]["pageProps"]["aboveTheFoldData"]
+            ["primaryImage"]["url"],
+        backgroundImage: map["props"]["pageProps"]["aboveTheFoldData"]
+            ["primaryVideos"]["edges"][0]["node"]["thumbnail"]["url"],
+        rating: map["props"]["pageProps"]["aboveTheFoldData"]["ratingsSummary"]["aggregateRating"]
             .toString(),
-        map["props"]["pageProps"]["aboveTheFoldData"]["ratingsSummary"]
-                ["voteCount"]
+        nRatings: map["props"]["pageProps"]["aboveTheFoldData"]["ratingsSummary"]["voteCount"]
             .toString(),
-        map["props"]["pageProps"]["aboveTheFoldData"]["plot"]["plotText"]
-            ["plainText"],
-        map["props"]["pageProps"]["aboveTheFoldData"]["titleType"]["id"] ==
-                "movie"
+        description: map["props"]["pageProps"]["aboveTheFoldData"]["plot"]
+            ["plotText"]["plainText"],
+        type: map["props"]["pageProps"]["aboveTheFoldData"]["titleType"]["id"] == "movie"
             ? MediaType.movie
             : MediaType.series);
   }
@@ -47,14 +46,19 @@ class Fetcher {
     final response = await http.get(
         Uri.parse('https://movies-news1.p.rapidapi.com/movies_news/recent'),
         headers: {
-          'X-RapidAPI-Key':
-              newsApiKey,
+          'X-RapidAPI-Key': newsApiKey,
           'X-RapidAPI-Host': 'movies-news1.p.rapidapi.com'
         });
-        const utf8Decoder = Utf8Decoder();
-        final decodedResponse = utf8Decoder.convert(response.bodyBytes);
+    const utf8Decoder = Utf8Decoder();
+    final decodedResponse = utf8Decoder.convert(response.bodyBytes);
     if (response.statusCode != 200) throw Exception();
     List<dynamic> map = jsonDecode(decodedResponse);
     return map.map((news) => News.fromJson(news)).toList();
   }
-} 
+
+  static Future getMoviesInNearTheaters() async{
+    final response = await http.get(Uri.parse('https://www.imdb.com/showtimes/location?ref_=sh_lc'));
+    if (response.statusCode != 200) throw Exception();
+    return response.body;
+  }
+}
