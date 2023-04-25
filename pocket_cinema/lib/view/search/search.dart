@@ -97,7 +97,7 @@ class MySearchPageState extends ConsumerState<SearchPage>
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset(
-                                'assets/images/no_results_found-removebg-preview.png'
+                                'assets/images/no_results_found.png'
                               ),
                               const Text('No results found',
                                 style: TextStyle(
@@ -130,7 +130,7 @@ class MySearchPageState extends ConsumerState<SearchPage>
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset(
-                                'assets/images/no_results_found-removebg-preview.png'
+                                'assets/images/no_results_found.png'
                               ),
                               const Text('No results found',
                                 style: TextStyle(
