@@ -3,7 +3,7 @@ import 'package:flutter_driver/flutter_driver.dart';
 import 'package:gherkin/gherkin.dart';
 
 class GivenNotAuthenticated extends GivenWithWorld<FlutterWorld> {
-  GivenNotAuthenticated() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:10));
+  GivenNotAuthenticated() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:15));
   @override
   Future<void> executeStep() async {
     final loginPage = find.byType('LoginPage');

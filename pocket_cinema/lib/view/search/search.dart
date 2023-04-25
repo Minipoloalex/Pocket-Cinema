@@ -110,6 +110,7 @@ class MySearchPageState extends ConsumerState<SearchPage>
                       ),
                       series.when(
                         data: (data) => ListView(
+                          key: const Key('seriesListView'),
                           children: data.map((e) => SearchResult(media:e)).toList(),
                         ),
                         loading: () => Shimmer.fromColors(
