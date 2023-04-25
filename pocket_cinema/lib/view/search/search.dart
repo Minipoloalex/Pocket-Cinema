@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
+import 'package:pocket_cinema/view/search/widgets/search_results_page.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
@@ -13,7 +14,6 @@ class SearchPage extends ConsumerStatefulWidget {
 
 class MySearchPageState extends ConsumerState<SearchPage>
     with SingleTickerProviderStateMixin {
-
   final _searchFocusNode = FocusNode();
 
   @override
@@ -24,28 +24,20 @@ class MySearchPageState extends ConsumerState<SearchPage>
 
   @override
   Widget build(BuildContext context) {
-
     FocusScope.of(context).unfocus();
     final inTheatersMedia = ref.watch(inTheaters);
 
     return Scaffold(
         body: Container(
       margin: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0),
-      child: 
-      Column(
+      child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
               autofocus: false,
               focusNode: _searchFocusNode,
-              onTap: () => Navigator.pushNamed(context, '/search_results'),
-              onSubmitted: (query) {},
-              onChanged: (value) => {
-                if(value.length > 2){
-                  ref.read(searchQueryProvider.notifier).state = value
-                }
-              },
+              onTap: () => Navigator.of(context).push(_searchResultsFadeTransition()),
               decoration: InputDecoration(
                 hintText: 'Search...',
                 prefixIcon: Padding(
@@ -64,25 +56,39 @@ class MySearchPageState extends ConsumerState<SearchPage>
           Flexible(
               child: Padding(
                   padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                  child: Column(children: [
-                    inTheatersMedia.when(
+                  child: Column(
+                    children: [
+                      inTheatersMedia.when(
                         data: (data) => HorizontalMediaList(
-                            name: 'In Theaters',
-                            media: data),
+                            name: 'In Theaters', media: data),
                         //TODO: Add a shimmer effect
-                        loading: () => const Center(
-                            child: CircularProgressIndicator()),
-                        error: (error, stack){
+                        loading: () =>
+                            const Center(child: CircularProgressIndicator()),
+                        error: (error, stack) {
                           print(error);
                           return const Center(
                             child: Text('Error'),
                           );
-                        },)
-                  ],)
-              )
-          )
+                        },
+                      )
+                    ],
+                  )))
         ],
       ),
     ));
+  }
+
+  Route _searchResultsFadeTransition() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const SearchResultsPage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child){
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 400)
+    );
   }
 }

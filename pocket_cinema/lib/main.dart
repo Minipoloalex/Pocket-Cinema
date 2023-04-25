@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/model/navigation_item.dart';
 import 'package:pocket_cinema/view/user_space/user_space.dart';
-import 'package:pocket_cinema/view/search/widgets/search_results_page.dart';
 import 'package:pocket_cinema/view/search/search.dart';
 
 import 'package:pocket_cinema/view/theme.dart';
@@ -55,7 +54,6 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
-        '/search_results': (context) => const SearchResultsPage(),
         '/': (context) {
           final pageController = PageController(initialPage: 0);
 

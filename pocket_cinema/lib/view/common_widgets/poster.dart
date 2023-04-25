@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class Poster extends StatelessWidget {
   final String name;
@@ -18,7 +19,7 @@ class Poster extends StatelessWidget {
             height: 187.5,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(url),
+                image: FadeInImage.memoryNetwork(image: url, placeholder: kTransparentImage).image,
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(5),
