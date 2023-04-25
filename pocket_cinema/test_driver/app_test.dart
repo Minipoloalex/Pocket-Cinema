@@ -9,6 +9,7 @@ import 'steps/given_not_authenticated.dart';
 import 'steps/given_authenticate.dart';
 import 'steps/then_no_results_found.dart';
 import 'steps/when_fill_field_no_scroll.dart';
+import 'steps/when_tap_name_media.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
@@ -25,6 +26,7 @@ Future<void> main() {
     GivenAuthenticate(),
     ThenNoResultsFound(),
     whenFillFieldNoScroll(),
+    WhenTapNameMedia(),
   ]
   ..customStepParameterDefinitions = []
   ..restartAppBetweenScenarios = false
