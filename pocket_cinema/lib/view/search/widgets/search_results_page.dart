@@ -64,7 +64,6 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                   child: IconButton(
                     icon: const HeroIcon(HeroIcons.arrowLeft),
                     onPressed: () {
-                      // Navigator pop with fade transition
                       Navigator.pop(context);
                     },
                   ),
@@ -74,7 +73,7 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                   child: IconButton(
                     icon: const HeroIcon(HeroIcons.xMark),
                     onPressed: () {
-                      _searchController.value = TextEditingValue.empty;
+                      _searchController.clear();
                     },
                   ),
                 ),

@@ -11,6 +11,8 @@ final searchResultsProvider =
     FutureProvider.autoDispose<List<Media>>((ref) async {
   final searchQuery = ref.watch(searchQueryProvider);
 
+  if(searchQuery.isEmpty) return [];
+
   final String response = await Fetcher.searchMedia(searchQuery);
   return Parser.searchMedia(response);
 });

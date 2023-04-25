@@ -14,9 +14,18 @@ class SearchPage extends ConsumerStatefulWidget {
 class MySearchPageState extends ConsumerState<SearchPage>
     with SingleTickerProviderStateMixin {
 
+  final _searchFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _searchFocusNode.unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
 
+    FocusScope.of(context).unfocus();
     final inTheatersMedia = ref.watch(inTheaters);
 
     return Scaffold(
@@ -29,6 +38,7 @@ class MySearchPageState extends ConsumerState<SearchPage>
             padding: const EdgeInsets.all(16.0),
             child: TextField(
               autofocus: false,
+              focusNode: _searchFocusNode,
               onTap: () => Navigator.pushNamed(context, '/search_results'),
               onSubmitted: (query) {},
               onChanged: (value) => {
@@ -59,11 +69,15 @@ class MySearchPageState extends ConsumerState<SearchPage>
                         data: (data) => HorizontalMediaList(
                             name: 'In Theaters',
                             media: data),
+                        //TODO: Add a shimmer effect
                         loading: () => const Center(
                             child: CircularProgressIndicator()),
-                        error: (error, stack) => const Center(
-                            child: Text('Error loading data'))),
-                    
+                        error: (error, stack){
+                          print(error);
+                          return const Center(
+                            child: Text('Error'),
+                          );
+                        },)
                   ],)
               )
           )

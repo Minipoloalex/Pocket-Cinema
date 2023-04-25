@@ -46,10 +46,9 @@ class Parser{
 
     List<Media> mediaList = fatherDiv.children.map((item) => 
       Media(
-        id: item.querySelector('img')!.attributes['data-tconst']!,
-        posterImage: item.querySelector('img')!.attributes['loadlate']!,
-        name: item.querySelector('.title > a')!.text,
-        rating: item.nextElementSibling!.querySelector(".ratings-imdb-rating")!.attributes['ratings-imdb-rating'],
+        id: item.querySelector('img')?.attributes['data-tconst'] ?? "",
+        posterImage: item.querySelector('img')?.attributes['loadlate'] ?? "",
+        name: item.querySelector('.title > a')?.text ?? "",
       )
     ).toList();
 
