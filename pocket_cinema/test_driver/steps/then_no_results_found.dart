@@ -30,7 +30,8 @@ class ThenNoResultsFound extends Then1WithWorld<String, FlutterWorld> {
         reason: "Series tab is not present",
       );
     }
-    final searchResultsFinder = find.byValueKey("searchResults");
+    final searchResultsFinder = find.byType("SearchResult");
+
     expect(
       await FlutterDriverUtils.isAbsent(
           world.driver,
