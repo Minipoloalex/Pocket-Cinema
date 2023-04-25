@@ -86,7 +86,9 @@ class MySearchPageState extends ConsumerState<SearchPage>
                     controller: _tabController,
                     children: [
                       movies.when(
-                        data: (data) => ListView(
+                        data: (data) => data.isEmpty
+                            ? Center(child: Image.asset('assets/images/no_results_found.png'))
+                            : ListView(
                           children: data.map((e) => SearchResult(media: e)).toList(),
                         ),
                         loading: () => Shimmer.fromColors(
@@ -100,8 +102,10 @@ class MySearchPageState extends ConsumerState<SearchPage>
                         error: (error, stack) => Text(error.toString()),
                       ),
                       series.when(
-                        data: (data) => ListView(
-                          children: data.map((e) => SearchResult(media:e)).toList(),
+                        data: (data) => data.isEmpty
+                            ? Center(child: Image.asset('assets/no_results_found.png'))
+                            : ListView(
+                          children: data.map((e) => SearchResult(media: e)).toList(),
                         ),
                         loading: () => Shimmer.fromColors(
                           period: const Duration(milliseconds: 1000),
