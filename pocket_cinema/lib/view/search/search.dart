@@ -86,10 +86,27 @@ class MySearchPageState extends ConsumerState<SearchPage>
                     controller: _tabController,
                     children: [
                       movies.when(
-                        data: (data) => data.isEmpty
-                            ? Center(child: Image.asset('assets/images/no_results_found.png'))
-                            : ListView(
-                          children: data.map((e) => SearchResult(media: e)).toList(),
+                        data: (data) => data.isNotEmpty
+                            ? ListView(
+                          children: data
+                              .map((e) => SearchResult(media: e))
+                              .toList(),
+                        )
+                            : Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/no_results_found-removebg-preview.png'
+                              ),
+                              const Text('No results found',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         loading: () => Shimmer.fromColors(
                           period: const Duration(milliseconds: 1000),
@@ -102,10 +119,27 @@ class MySearchPageState extends ConsumerState<SearchPage>
                         error: (error, stack) => Text(error.toString()),
                       ),
                       series.when(
-                        data: (data) => data.isEmpty
-                            ? Center(child: Image.asset('assets/no_results_found.png'))
-                            : ListView(
-                          children: data.map((e) => SearchResult(media: e)).toList(),
+                        data: (data) => data.isNotEmpty
+                            ? ListView(
+                          children: data
+                              .map((e) => SearchResult(media: e))
+                              .toList(),
+                        )
+                            : Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/no_results_found-removebg-preview.png'
+                              ),
+                              const Text('No results found',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         loading: () => Shimmer.fromColors(
                           period: const Duration(milliseconds: 1000),
