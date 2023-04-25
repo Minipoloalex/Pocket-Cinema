@@ -8,6 +8,7 @@ import 'package:pocket_cinema/view/media/widgets/comment_widget.dart';
 
 class CommentSection extends ConsumerStatefulWidget {
   final String mediaID;
+
   const CommentSection({super.key, required this.mediaID});
 
   @override
@@ -78,6 +79,8 @@ class CommentSectionState extends ConsumerState<CommentSection> {
             child: Stack(
               children: [
                 TextField(
+                  minLines: 1,
+                  maxLines: 4,
                   focusNode: _node,
                   controller: _controller,
                   onSubmitted: _handleSubmit,
@@ -86,16 +89,17 @@ class CommentSectionState extends ConsumerState<CommentSection> {
                     fillColor: Theme.of(context).cardColor,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
-                      borderSide: const BorderSide(color: Colors.transparent),
+                      borderSide: const BorderSide(color: Colors.white, width: 1, style: BorderStyle.solid, strokeAlign: BorderSide.strokeAlignInside),
                     ),
                     border: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.transparent),
                       borderRadius: BorderRadius.circular(20),
                     ),
+                    contentPadding: const EdgeInsets.fromLTRB(10, 5, 30, 5),
                   ),
                 ),
                 Positioned(
-                  bottom: 8,
+                  bottom: 2,
                   right: 1,
                   child: IconButton(
                     color: Colors.white,
