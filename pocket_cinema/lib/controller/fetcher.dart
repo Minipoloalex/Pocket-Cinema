@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/news.dart';
 
-
+import 'api_key.dart';
 
 class Fetcher {
   static Future searchMedia(String query) async {
@@ -47,6 +47,8 @@ class Fetcher {
     final response = await http.get(
         Uri.parse('https://movies-news1.p.rapidapi.com/movies_news/recent'),
         headers: {
+          'X-RapidAPI-Key':
+          newsApiKey,
           'X-RapidAPI-Host': 'movies-news1.p.rapidapi.com'
         });
         const utf8Decoder = Utf8Decoder();
