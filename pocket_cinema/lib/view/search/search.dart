@@ -5,6 +5,7 @@ import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/search/widgets/search_result.dart';
 import 'package:pocket_cinema/view/search/widgets/search_result_shimmer.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:pocket_cinema/view/search/widgets/no_results_found.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
@@ -92,22 +93,7 @@ class MySearchPageState extends ConsumerState<SearchPage>
                               .map((e) => SearchResult(media: e))
                               .toList(),
                         )
-                            : Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/no_results_found.png'
-                              ),
-                              const Text('No results found',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                            : const NoResultsFoundWidget(),
                         loading: () => Shimmer.fromColors(
                           period: const Duration(milliseconds: 1000),
                           baseColor: Theme.of(context).highlightColor,
@@ -125,22 +111,7 @@ class MySearchPageState extends ConsumerState<SearchPage>
                               .map((e) => SearchResult(media: e))
                               .toList(),
                         )
-                            : Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/no_results_found.png'
-                              ),
-                              const Text('No results found',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                            : const NoResultsFoundWidget(),
                         loading: () => Shimmer.fromColors(
                           period: const Duration(milliseconds: 1000),
                           baseColor: Theme.of(context).highlightColor,
