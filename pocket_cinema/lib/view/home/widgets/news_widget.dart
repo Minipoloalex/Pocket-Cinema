@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pocket_cinema/model/news.dart';
 import 'package:pocket_cinema/view/home/widgets/news_page.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class NewsCard extends StatelessWidget {
   final News news;
@@ -49,7 +50,7 @@ class NewsCard extends StatelessWidget {
                                 maxLines: 3,
                                 overflow: TextOverflow.fade,
                               ),
-                            Text(DateFormat('yyyy-MM-dd – kk:mm').format(news.date),),   
+                            Text(timeago.format(news.date)),
                           ],
                         )),
                 ),

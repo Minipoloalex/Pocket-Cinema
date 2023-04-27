@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:pocket_cinema/model/news.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class NewsPage extends StatelessWidget {
   final News news;
@@ -57,7 +58,7 @@ class NewsPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  DateFormat('yyyy-MM-dd - kk:mm').format(news.date),
+                  timeago.format(news.date),
                   style: const TextStyle(
                     fontSize: 16,
                   ),

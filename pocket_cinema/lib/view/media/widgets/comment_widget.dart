@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pocket_cinema/model/comment.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class CommentWidget extends StatelessWidget {
   final Comment comment;
@@ -28,7 +29,7 @@ class CommentWidget extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            DateFormat('hh:mm MM/dd/yyyy').format(comment.createdAt.toDate()),
+            timeago.format(comment.createdAt.toDate()),
             style: const TextStyle(fontSize: 12.0, color: Colors.grey),
           ),
         ],
