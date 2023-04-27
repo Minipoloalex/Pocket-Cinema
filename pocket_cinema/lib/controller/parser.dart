@@ -29,13 +29,10 @@ class Parser {
   }
 
   static Media media(String body) {
-    print("SOMETHING2:");
     Map<String, dynamic> map = jsonDecode(body);
 
     final thumbnails = map["props"]["pageProps"]["aboveTheFoldData"]["primaryVideos"]["edges"];
     final thumbnail = thumbnails.isNotEmpty ? thumbnails[0]["node"]["thumbnail"]["url"] : "";
-
-    print("SOMETHING3: $thumbnail");
 
     return Media(
         map["props"]["pageProps"]["tconst"],

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
-import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/news.dart';
 
 import 'api_key.dart';

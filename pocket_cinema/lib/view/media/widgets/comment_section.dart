@@ -1,9 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pocket_cinema/controller/search_provider.dart';
-
 import 'package:pocket_cinema/controller/firestore_database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_widget.dart';
 
 class CommentSection extends ConsumerStatefulWidget {
