@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:pocket_cinema/model/news.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 import 'package:timeago/timeago.dart' as timeago;
