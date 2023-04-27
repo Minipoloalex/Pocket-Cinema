@@ -16,31 +16,12 @@ class Fetcher {
     return response.body;
   }
 
-  static Future<Media> getMedia(String id) async {
+  static Future<String> getMedia(String id) async {
     final String url = "https://www.imdb.com/title/$id/";
     final response = await http.get(Uri.parse(url));
     if (response.statusCode != 200) throw Exception();
     var fullDoc = parse(response.body);
-    var goodPart = fullDoc.querySelector("#__NEXT_DATA__")!.innerHtml;
-    Map<String, dynamic> map = jsonDecode(goodPart);
-    return Media(
-        map["props"]["pageProps"]["tconst"],
-        map["props"]["pageProps"]["aboveTheFoldData"]["titleText"]["text"],
-        map["props"]["pageProps"]["aboveTheFoldData"]["primaryImage"]["url"],
-        map["props"]["pageProps"]["aboveTheFoldData"]["primaryVideos"]["edges"]
-            [0]["node"]["thumbnail"]["url"],
-        map["props"]["pageProps"]["aboveTheFoldData"]["ratingsSummary"]
-                ["aggregateRating"]
-            .toString(),
-        map["props"]["pageProps"]["aboveTheFoldData"]["ratingsSummary"]
-                ["voteCount"]
-            .toString(),
-        map["props"]["pageProps"]["aboveTheFoldData"]["plot"]["plotText"]
-            ["plainText"],
-        map["props"]["pageProps"]["aboveTheFoldData"]["titleType"]["id"] ==
-                "movie"
-            ? MediaType.movie
-            : MediaType.series);
+    return fullDoc.querySelector("#__NEXT_DATA__")!.innerHtml;
   }
 
   static Future<List<News>> getNews() async {
