@@ -48,7 +48,7 @@ class Fetcher {
         Uri.parse('https://movies-news1.p.rapidapi.com/movies_news/recent'),
         headers: {
           'X-RapidAPI-Key':
-              newsApiKey,
+          newsApiKey,
           'X-RapidAPI-Host': 'movies-news1.p.rapidapi.com'
         });
         const utf8Decoder = Utf8Decoder();
