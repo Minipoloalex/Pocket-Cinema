@@ -24,7 +24,7 @@ class NewsPage extends StatelessWidget {
         elevation: 0,
         leading: Transform.translate(
           offset: const Offset(10, 0),
-          child: const GoBackButton(),
+          child: const GoBackButton(key: Key('goBackButton')),
         ),
       ),
       body: ListView(
@@ -72,6 +72,7 @@ class NewsPage extends StatelessWidget {
                 Center(
                   heightFactor: 2,
                   child: ElevatedButton(
+                    key: const Key('continueReadingButton'),
                     onPressed: _launchUrl,
                     child: const Text('Continue Reading'),
                   ),
