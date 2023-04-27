@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pocket_cinema/controller/validate.dart';
-
 import 'package:pocket_cinema/model/my_user.dart';
 
 import 'firestore_database.dart';

@@ -1,17 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/model/navigation_item.dart';
-import 'package:pocket_cinema/view/user_space/user_space.dart';
-import 'package:pocket_cinema/view/search/search.dart';
-
-import 'package:pocket_cinema/view/theme.dart';
 import 'package:pocket_cinema/view/home/home.dart';
 import 'package:pocket_cinema/view/login/login.dart';
 import 'package:pocket_cinema/view/register/register.dart';
+import 'package:pocket_cinema/view/search/search.dart';
+import 'package:pocket_cinema/view/theme.dart';
+import 'package:pocket_cinema/view/user_space/user_space.dart';
 
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 
 void main() async {
