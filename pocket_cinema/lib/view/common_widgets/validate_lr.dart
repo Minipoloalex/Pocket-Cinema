@@ -1,5 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:pocket_cinema/model/my_user.dart';
+
 
 class ValidateLR {
   static String? validateLogin(String? userId, String? password) {
