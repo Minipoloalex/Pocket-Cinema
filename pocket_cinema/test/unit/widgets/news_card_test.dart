@@ -3,8 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:pocket_cinema/model/news.dart';
-import 'package:pocket_cinema/view/home/widgets/news_widget.dart';
 import 'package:pocket_cinema/view/home/widgets/news_page.dart';
+import 'package:pocket_cinema/view/home/widgets/news_widget.dart';
 
 import '../../testable_widget.dart';
 
