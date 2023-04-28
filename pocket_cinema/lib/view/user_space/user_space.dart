@@ -10,6 +10,8 @@ import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
+import 'package:pocket_cinema/view/common_widgets/comment_and_list_form.dart';
+import 'package:pocket_cinema/controller/firestore_database.dart';
 
 class UserSpacePage extends StatefulWidget {
   const UserSpacePage({super.key});
@@ -19,6 +21,23 @@ class UserSpacePage extends StatefulWidget {
 }
 
 class _MyUserSpacePageState extends State<UserSpacePage> {
+  final TextEditingController _controller = TextEditingController();
+  final FocusNode _node = FocusNode();
+  bool _isFormVisible = false;
+  void _handleSubmit(String listName) {
+    // if (listName.length() > 20) display error and snackBar;
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      FirestoreDatabase.createPersonalList(listName);
+    }
+    _controller.clear();
+    _node.unfocus();
+  }
+  void toggleCreateListFormVisibility() {
+    setState(() {
+      _isFormVisible = !_isFormVisible;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,12 +86,39 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
                 ),
               ],
             ),
+            Expanded(
+              child: Visibility(
+              visible: _isFormVisible,
+              child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: CommentAndListForm(
+                    controller: _controller,
+                    focusNode: _node,
+                    handleSubmit: _handleSubmit,
+                    maxLines: 1,
+                    prefixIcon: IconButton(
+                      color: Colors.white,
+                      icon: const HeroIcon(HeroIcons.minus),
+                      onPressed: toggleCreateListFormVisibility,
+                    ),
+                    suffixIcon: IconButton(
+                      color: Colors.white,
+                      icon: const HeroIcon(HeroIcons.plus),
+                      onPressed: () {
+                        _handleSubmit(_controller.text);
+                      },
+                    ),
+                  )
+              ),
+            ),
+            )
           ],
       ),
-      floatingActionButton: AddButton(
-        onPressed: () {
-
-        },
+      floatingActionButton: Visibility (
+          visible: !_isFormVisible,
+          child: AddButton(
+            onPressed: toggleCreateListFormVisibility,
+          )
       ),
     );
   }
