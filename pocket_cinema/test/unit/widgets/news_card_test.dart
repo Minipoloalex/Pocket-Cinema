@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:intl/intl.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:pocket_cinema/model/news.dart';
 import 'package:pocket_cinema/view/home/widgets/news_page.dart';
 import 'package:pocket_cinema/view/home/widgets/news_widget.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../testable_widget.dart';
 
@@ -22,7 +22,7 @@ void main() {
     await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(widget)));
 
     final titleFinder = find.text(news.title);
-    final dateFinder = find.text(DateFormat('yyyy-MM-dd – kk:mm').format(news.date));
+    final dateFinder = find.text(timeago.format(news.date));
 
     expect(titleFinder, findsOneWidget);
     expect(dateFinder, findsOneWidget);
