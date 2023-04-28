@@ -25,10 +25,13 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
   final FocusNode _node = FocusNode();
   bool _isFormVisible = false;
   void _handleSubmit(String listName) {
-    // if (listName.length() > 20) display error and snackBar;
+    if (listName.length < 2 || listName.length > 20) {
+      return; // TODO: display error
+    }
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       FirestoreDatabase.createPersonalList(listName);
+      toggleCreateListFormVisibility();
     }
     _controller.clear();
     _node.unfocus();
@@ -108,6 +111,7 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
                         _handleSubmit(_controller.text);
                       },
                     ),
+                    hintText: "Create a new list",
                   )
               ),
             ),
@@ -117,10 +121,13 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
       floatingActionButton: Visibility (
           visible: !_isFormVisible,
           child: AddButton(
-            onPressed: toggleCreateListFormVisibility,
-          )
-      ),
+            onPressed: () {
+              toggleCreateListFormVisibility();
+            }
+    )
+    ),
     );
+    }
   }
 }
 

@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 
 class CommentAndListForm extends StatelessWidget {
   const CommentAndListForm({super.key, required this.focusNode, required this.controller,
-    required this.handleSubmit, this.suffixIcon, this.prefixIcon, this.maxLines = 1});
+    required this.handleSubmit, this.suffixIcon, this.prefixIcon, this.maxLines = 1,
+    this.hintText});
   final FocusNode focusNode;
   final TextEditingController controller;
   final void Function(String) handleSubmit;
   final IconButton? suffixIcon;
   final IconButton? prefixIcon;
   final int maxLines;
+  final String? hintText;
   @override
   Widget build(BuildContext context) {
+    print(hintText);
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 30.0),
       child: TextField(
@@ -30,9 +33,10 @@ class CommentAndListForm extends StatelessWidget {
             borderSide: const BorderSide(color: Colors.transparent),
             borderRadius: BorderRadius.circular(20),
           ),
-          contentPadding: const EdgeInsets.fromLTRB(20, 5, 0, 5),
+          contentPadding: const EdgeInsets.fromLTRB(10, 5, 0, 5),
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
+          hintText: hintText,
         ),
       ),
     );
