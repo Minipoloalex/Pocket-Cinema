@@ -96,18 +96,14 @@ class CommentSectionState extends ConsumerState<CommentSection> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     contentPadding: const EdgeInsets.fromLTRB(10, 5, 30, 5),
-                  ),
-                ),
-                Positioned(
-                  bottom: 2,
-                  right: 1,
-                  child: IconButton(
-                    color: Colors.white,
-                    icon: const Icon(Icons.send),
-                    onPressed: () {
-                      String value = _controller.text;
-                      _handleSubmit(value);
-                    },
+                    suffixIcon: IconButton(
+                      color: Colors.white,
+                      icon: const Icon(Icons.send),
+                      onPressed: () {
+                        String value = _controller.text;
+                        _handleSubmit(value);
+                      },
+                    ),
                   ),
                 ),
               ],

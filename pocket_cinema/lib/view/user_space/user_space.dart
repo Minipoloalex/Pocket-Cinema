@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
+import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
@@ -45,31 +46,34 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
           ),
         ],
       ),
-      /*
       body: Column(
         children: <Widget>[
           const ToWatchList(),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ListButton(
-                icon: const HeroIcon(HeroIcons.checkCircle,
-                    style: HeroIconStyle.solid),
-                labelText: "Watched",
-                onPressed: () {},
-              ),
-              const SizedBox(width: 20),
-              ListButton(
-                icon: const HeroIcon(HeroIcons.ellipsisHorizontalCircle,
-                    style: HeroIconStyle.solid),
-                labelText: "Watching",
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ],
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ListButton(
+                  icon: const HeroIcon(HeroIcons.checkCircle,
+                      style: HeroIconStyle.solid),
+                  labelText: "Watched",
+                  onPressed: () {},
+                ),
+                const SizedBox(width: 20),
+                ListButton(
+                  icon: const HeroIcon(HeroIcons.ellipsisHorizontalCircle,
+                      style: HeroIconStyle.solid),
+                  labelText: "Watching",
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ],
       ),
-      */
+      floatingActionButton: AddButton(
+        onPressed: () {
+
+        },
+      ),
     );
   }
 }

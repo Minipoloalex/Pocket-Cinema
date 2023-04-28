@@ -176,7 +176,9 @@ class MediaPage extends ConsumerWidget {
                         ),
                         const SizedBox(width: 20),
                         const CheckButton(),
-                        const AddButton(),
+                        AddButton(
+                          onPressed: () {},
+                        ),
                       ],
                     )),
                 Positioned(
