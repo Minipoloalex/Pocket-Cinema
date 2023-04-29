@@ -13,7 +13,7 @@ class Fetcher {
     final String url = "https://v3.sg.media-imdb.com/suggestion/x/$query.json";
 
     final response = await http.get(Uri.parse(url));
-    return response.body;
+    return const Utf8Decoder().convert(response.bodyBytes);
   }
 
   static Future<Media> getMedia(String id) async {
@@ -48,7 +48,7 @@ class Fetcher {
         Uri.parse('https://movies-news1.p.rapidapi.com/movies_news/recent'),
         headers: {
           'X-RapidAPI-Key':
-              newsApiKey,
+          newsApiKey,
           'X-RapidAPI-Host': 'movies-news1.p.rapidapi.com'
         });
         const utf8Decoder = Utf8Decoder();

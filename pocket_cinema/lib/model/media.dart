@@ -11,5 +11,11 @@ class Media {
   final String nRatings;
   final String description;
   final MediaType type;
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'posterUrl': posterImage,
+    'type': type.toString(),
+  };
 }
 

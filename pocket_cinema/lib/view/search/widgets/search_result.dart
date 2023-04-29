@@ -58,9 +58,11 @@ class SearchResult extends StatelessWidget {
             ),
           ),
           Row(
-            children: const [
-              CheckButton(),
-              AddButton(),
+            children: [
+              const CheckButton(),
+              AddButton(
+                onPressed: () {},
+              ),
             ],
           )
         ],
