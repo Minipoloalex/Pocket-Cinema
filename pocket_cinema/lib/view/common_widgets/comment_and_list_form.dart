@@ -13,7 +13,6 @@ class CommentAndListForm extends StatelessWidget {
   final String? hintText;
   @override
   Widget build(BuildContext context) {
-    print(hintText);
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 30.0),
       child: TextField(
@@ -33,10 +32,11 @@ class CommentAndListForm extends StatelessWidget {
             borderSide: const BorderSide(color: Colors.transparent),
             borderRadius: BorderRadius.circular(20),
           ),
-          contentPadding: const EdgeInsets.fromLTRB(10, 5, 0, 5),
+          contentPadding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
           hintText: hintText,
+          hintStyle: const TextStyle(color: Colors.grey),
         ),
       ),
     );

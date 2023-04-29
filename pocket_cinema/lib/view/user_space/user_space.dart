@@ -26,7 +26,10 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
   bool _isFormVisible = false;
   void _handleSubmit(String listName) {
     if (listName.length < 2 || listName.length > 20) {
-      return; // TODO: display error
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("List name must be between 2 and 20 characters long."))
+      );
+      return;
     }
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
@@ -102,7 +105,10 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
                     prefixIcon: IconButton(
                       color: Colors.white,
                       icon: const HeroIcon(HeroIcons.minus),
-                      onPressed: toggleCreateListFormVisibility,
+                      onPressed: () {
+                        toggleCreateListFormVisibility();
+                        _controller.clear();
+                      },
                     ),
                     suffixIcon: IconButton(
                       color: Colors.white,
@@ -127,7 +133,6 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
     )
     ),
     );
-    }
   }
 }
 
