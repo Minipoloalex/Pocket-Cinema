@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pocket_cinema/controller/validate.dart';
-
 import 'package:pocket_cinema/model/my_user.dart';
 
 import 'firestore_database.dart';
@@ -68,7 +67,7 @@ class Authentication {
   static Future<void> registerUser(username, email, password) async{
     FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((value) async {
       await value.user?.updateDisplayName(username);
-      final user = MyUser(email: email, username: username);
+      final user = MyUser(email: email, username: username, watched:[], toWatch:[], personalLists: []);
       createUser(user);
     }).onError((error, stackTrace) => Future.error("Something went wrong"));
   }

@@ -9,6 +9,8 @@ class Media {
   final String? nRatings;
   final String? description;
   final MediaType? type;
+  final String? trailer;
+  final String? trailerDuration;
 
   Media(
       {required this.id,
@@ -18,5 +20,13 @@ class Media {
       this.rating,
       this.nRatings,
       this.description,
-      this.type});
+      this.type,
+      this.trailer,
+      this.trailerDuration});
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'posterUrl': posterImage,
+    'type': type.toString(),
+  };
 }

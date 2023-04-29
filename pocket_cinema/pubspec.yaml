@@ -48,6 +48,7 @@ dependencies:
   html: ^0.15.2
   url_launcher: ^6.1.10
   transparent_image: ^2.0.1
+  timeago: ^3.3.0
 
 dev_dependencies:
   flutter_gherkin: ^2.0.0

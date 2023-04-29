@@ -4,6 +4,7 @@ import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/search/widgets/search_result.dart';
 import 'package:pocket_cinema/view/search/widgets/search_result_shimmer.dart';
+import 'package:pocket_cinema/view/search/widgets/no_results_found.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SearchResultsPage extends ConsumerStatefulWidget {
@@ -97,9 +98,13 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                     controller: _tabController,
                     children: [
                       movies.when(
-                        data: (data) => ListView(
-                          children: data.map((e) => SearchResult(media: e)).toList(),
-                        ),
+                        data: (data) => data.isNotEmpty
+                            ? ListView(
+                          children: data
+                              .map((e) => SearchResult(media: e))
+                              .toList(),
+                        )
+                            : const NoResultsFoundWidget(),
                         loading: () => Shimmer.fromColors(
                           period: const Duration(milliseconds: 1000),
                           baseColor: Theme.of(context).highlightColor,
@@ -111,9 +116,13 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                         error: (error, stack) => Text(error.toString()),
                       ),
                       series.when(
-                        data: (data) => ListView(
-                          children: data.map((e) => SearchResult(media:e)).toList(),
-                        ),
+                        data: (data) => data.isNotEmpty
+                            ? ListView(
+                          children: data
+                              .map((e) => SearchResult(media: e))
+                              .toList(),
+                        )
+                            : const NoResultsFoundWidget(),
                         loading: () => Shimmer.fromColors(
                           period: const Duration(milliseconds: 1000),
                           baseColor: Theme.of(context).highlightColor,
