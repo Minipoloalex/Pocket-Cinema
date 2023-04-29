@@ -66,4 +66,12 @@ class Parser{
       trailerDuration: item.querySelector('span.ipc-lockup-overlay__text')?.text ?? "",
     )).toList();
   }
+
+  static List movieTrailerPlaybacks(String body){
+    final document = parse(body);
+    final script = document.querySelector('script#__NEXT_DATA__');
+    if(script == null) return throw Exception("No movie trailer playbacks found");
+
+    return jsonDecode(script.innerHtml)['props']['paegeProps']['videoPlaybackData']['playbackURLs'] ?? [];
+  }
 }
