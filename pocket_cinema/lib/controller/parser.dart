@@ -44,14 +44,26 @@ class Parser{
     final fatherDiv = document.querySelector('.lister-list');
     if(fatherDiv == null) return throw Exception("No movies in near theaters found");
 
-    List<Media> mediaList = fatherDiv.children.map((item) => 
+    return fatherDiv.children.map((item) => 
       Media(
         id: item.querySelector('img')?.attributes['data-tconst'] ?? "",
         posterImage: item.querySelector('img')?.attributes['loadlate'] ?? "",
         name: item.querySelector('.title > a')?.text ?? "",
       )
     ).toList();
+  }
 
-    return mediaList;
+  static List<Media> trendingMoviesTrailers(String body){
+    final document = parse(body);
+    final fatherDiv = document.querySelector('.ipc-sub-grid');
+    if(fatherDiv == null) return throw Exception("No trending movies trailers found");
+
+    return fatherDiv.children.map((item) => Media(
+      id: item.querySelector('a.ipc-poster-card__title')?.attributes['href']?.split('/')[2] ?? "",
+      name: item.querySelector('a.ipc-poster-card__title')?.text ?? "",
+      posterImage: item.querySelector('img.ipc-image')?.attributes['src'] ?? "",
+      trailer: item.querySelector('a.ipc-lockup-overlay')?.attributes['href'] ?? "",
+      trailerDuration: item.querySelector('span.ipc-lockup-overlay__text')?.text ?? "",
+    )).toList();
   }
 }
