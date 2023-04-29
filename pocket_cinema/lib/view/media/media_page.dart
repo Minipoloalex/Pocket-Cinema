@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
-
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
@@ -16,7 +15,9 @@ class MediaPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mediaInfo = ref.watch(mediaProvider(id));
 
-    return Scaffold(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -209,6 +210,6 @@ class MediaPage extends ConsumerWidget {
           ),
         ],
       ),
-    );
+    ),);
   }
 }

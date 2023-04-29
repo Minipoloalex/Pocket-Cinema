@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pocket_cinema/controller/validate.dart';
 import 'package:pocket_cinema/controller/authentication.dart';
-import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
-import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
-import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
-import 'package:pocket_cinema/view/common_widgets/topbar_logo.dart';
+import 'package:pocket_cinema/controller/validate.dart';
 import 'package:pocket_cinema/model/my_user.dart';
+import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dart';
+import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
+import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
+import 'package:pocket_cinema/view/common_widgets/topbar_logo.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -58,9 +58,11 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         Authentication.signInWithGoogle().then((user) {
                           if (user == null || user.displayName == null || user.email == null) return;
+
                           Authentication.createUserGoogleSignIn(
-                            MyUser(username: user.displayName, email: user.email),
+                            MyUser(username: user.displayName!, email: user.email!),
                           );
+
                           Navigator.pushNamed(context, '/');
                         });
                       },
