@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heroicons/heroicons.dart';
 
 class CheckButton extends StatefulWidget {
   const CheckButton({super.key});
@@ -8,14 +9,12 @@ class CheckButton extends StatefulWidget {
 }
 
 class _CheckButtonState extends State<CheckButton> {
-  // bool _isChecked = false;
+  bool _isChecked = false;
 
   @override
   Widget build(BuildContext context) {
-    // final Color checkedColor = Theme.of(context).colorScheme.primary;
-    // const Color whiteColor = Color.fromARGB(255, 221, 221, 221);
-    return Container();
-    /*
+    final Color checkedColor = Theme.of(context).colorScheme.primary;
+    const Color whiteColor = Color.fromARGB(255, 221, 221, 221);
     return IconButton(
       icon: const HeroIcon(HeroIcons.check),
       onPressed: () {
@@ -30,6 +29,5 @@ class _CheckButtonState extends State<CheckButton> {
             BorderSide(color: _isChecked ? checkedColor : whiteColor, width: 2)),
       ),
     );
-     */
   }
 }

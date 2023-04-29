@@ -12,7 +12,7 @@ class Fetcher {
     final String url = "https://v3.sg.media-imdb.com/suggestion/x/$query.json";
 
     final response = await http.get(Uri.parse(url));
-    return response.body;
+    return const Utf8Decoder().convert(response.bodyBytes);
   }
 
   static Future<String> getMedia(String id) async {
