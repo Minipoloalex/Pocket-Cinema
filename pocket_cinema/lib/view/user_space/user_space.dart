@@ -12,6 +12,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
 import 'package:pocket_cinema/view/common_widgets/comment_and_list_form.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
+import 'package:pocket_cinema/controller/validate.dart';
 
 class UserSpacePage extends StatefulWidget {
   const UserSpacePage({super.key});
@@ -25,7 +26,7 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
   final FocusNode _node = FocusNode();
   bool _isFormVisible = false;
   void _handleSubmit(String listName) {
-    if (listName.length < 2 || listName.length > 20) {
+    if (!Validate.listName(listName)) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("List name must be between 2 and 20 characters long."))
       );
@@ -34,6 +35,9 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       FirestoreDatabase.createPersonalList(listName);
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Created a new list named '$listName'"))
+      );
       toggleCreateListFormVisibility();
     }
     _controller.clear();
@@ -104,7 +108,7 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
                     maxLines: 1,
                     prefixIcon: IconButton(
                       color: Colors.white,
-                      icon: const HeroIcon(HeroIcons.minus),
+                      icon: const HeroIcon(HeroIcons.xMark),
                       onPressed: () {
                         toggleCreateListFormVisibility();
                         _controller.clear();
@@ -117,8 +121,8 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
                         _handleSubmit(_controller.text);
                       },
                     ),
-                    hintText: "Create a new list",
-                  )
+                    hintText: "New list name",
+                  ),
               ),
             ),
             )
@@ -129,9 +133,11 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
           child: AddButton(
             onPressed: () {
               toggleCreateListFormVisibility();
-            }
-    )
-    ),
+              _node.requestFocus();
+            },
+            tooltip: "Create a new list",
+        ),
+      ),
     );
   }
 }

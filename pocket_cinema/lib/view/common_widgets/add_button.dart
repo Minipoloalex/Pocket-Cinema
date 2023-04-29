@@ -3,7 +3,8 @@ import 'package:heroicons/heroicons.dart';
 
 class AddButton extends StatelessWidget {
   final void Function() onPressed;
-  const AddButton({super.key, required this.onPressed});
+  final String? tooltip;
+  const AddButton({super.key, required this.onPressed, this.tooltip});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class AddButton extends StatelessWidget {
         side: MaterialStateProperty.all(
             const BorderSide(color: whiteColor, width: 2)),
       ),
+      tooltip: tooltip,
     );
   }
 }
