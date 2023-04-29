@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
+import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/view/search/widgets/search_results_page.dart';
+import 'package:pocket_cinema/view/search/widgets/trailer_card.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
@@ -72,7 +74,21 @@ class MySearchPageState extends ConsumerState<SearchPage>
                         },
                       )
                     ],
-                  )))
+                  ))),
+          Flexible(
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                  child: Column(
+                    children: [
+                      TrailerCard(media: Media(
+                        id: "",
+                        name: "Class of '09",
+                        posterImage: "https://m.media-amazon.com/images/M/MV5BZDdkNjIyY2YtZTc3My00MDY1LThlNGEtYjExMWYzY2ViYWMyXkEyXkFqcGdeQXVyOTM4MTIwNTA@._V1_QL75_UY281_CR18,0,190,281_.jpg",
+                        trailerDuration: "2:10",
+                        releaseDate: "May 10, 2023"
+                      ),)
+                    ],
+                  ))),
         ],
       ),
     ));
