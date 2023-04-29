@@ -6,6 +6,7 @@ class GivenPage extends Given1WithWorld<String, FlutterWorld> {
   GivenPage() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:10));
   @override
   Future<void> executeStep(String input) async {
+    FlutterDriverUtils.waitForFlutter(world.driver);
     final page = find.byType(input);
     expect(
         await FlutterDriverUtils.isPresent(
@@ -25,6 +26,7 @@ class ThenPage extends Then1WithWorld<String, FlutterWorld> {
   ThenPage() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:10));
   @override
   Future<void> executeStep(String input) async {
+    FlutterDriverUtils.waitForFlutter(world.driver);
     final page = find.byType(input);
     expect(
       await FlutterDriverUtils.isPresent(
