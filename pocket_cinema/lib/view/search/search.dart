@@ -27,19 +27,23 @@ class MySearchPageState extends ConsumerState<SearchPage>
   @override
   Widget build(BuildContext context) {
     FocusScope.of(context).unfocus();
+
     final inTheatersMedia = ref.watch(inTheaters);
+    final trendingTrailersMedia = ref.watch(trendingTrailers);
 
     return Scaffold(
         body: Container(
       margin: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0),
-      child: Column(
+      child: ListView(
+        padding: EdgeInsets.zero,
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
               autofocus: false,
               focusNode: _searchFocusNode,
-              onTap: () => Navigator.of(context).push(_searchResultsFadeTransition()),
+              onTap: () =>
+                  Navigator.of(context).push(_searchResultsFadeTransition()),
               decoration: InputDecoration(
                 hintText: 'Search...',
                 prefixIcon: Padding(
@@ -55,40 +59,49 @@ class MySearchPageState extends ConsumerState<SearchPage>
               ),
             ),
           ),
-          Flexible(
-              child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                  child: Column(
-                    children: [
-                      inTheatersMedia.when(
-                        data: (data) => HorizontalMediaList(
-                            name: 'In Theaters', media: data),
-                        //TODO: Add a shimmer effect
-                        loading: () =>
-                            const Center(child: CircularProgressIndicator()),
-                        error: (error, stack) {
-                          print(error);
-                          return const Center(
-                            child: Text('Error'),
-                          );
-                        },
-                      )
-                    ],
+          Column(
+            children: [
+              inTheatersMedia.when(
+                data: (data) =>
+                    HorizontalMediaList(name: 'In Theaters', media: data),
+                //TODO: Add a shimmer effect
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, stack) {
+                  print(error);
+                  return const Center(
+                    child: Text('Error'),
+                  );
+                },
+              )
+            ],
+          ),
+          const Padding(
+              padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
+              child: Text("Trending Trailers",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 30,
                   ))),
-          Flexible(
-              child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                  child: Column(
-                    children: [
-                      TrailerCard(media: Media(
-                        id: "",
-                        name: "Class of '09",
-                        posterImage: "https://m.media-amazon.com/images/M/MV5BZDdkNjIyY2YtZTc3My00MDY1LThlNGEtYjExMWYzY2ViYWMyXkEyXkFqcGdeQXVyOTM4MTIwNTA@._V1_QL75_UY281_CR18,0,190,281_.jpg",
-                        trailerDuration: "2:10",
-                        releaseDate: "May 10, 2023"
-                      ),)
-                    ],
-                  ))),
+          Padding(
+              padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+              child: Column(
+                children: [
+                  trendingTrailersMedia.when(
+                    data: (data) => (Column(
+                        children: data
+                            .map((item) => TrailerCard(media: item))
+                            .toList())),
+                    error: (error, stack) {
+                      print(error);
+                      return const Center(
+                        child: Text('Error'),
+                      );
+                    },
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                  )
+                ],
+              )),
         ],
       ),
     ));
@@ -96,15 +109,14 @@ class MySearchPageState extends ConsumerState<SearchPage>
 
   Route _searchResultsFadeTransition() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          const SearchResultsPage(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child){
-        return FadeTransition(
-          opacity: animation,
-          child: child,
-        );
-      },
-      transitionDuration: const Duration(milliseconds: 400)
-    );
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const SearchResultsPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 400));
   }
 }

@@ -63,7 +63,7 @@ class Fetcher {
     return response.body;
   }
 
-  static Future getTrendingMoviesTrailers() async{
+  static Future getTrendingTrailers() async{
     final response = await http.get(Uri.parse('https://www.imdb.com/trailers/?ref_=hm_hp_sm'));
     if (response.statusCode != 200) throw Exception();
     return response.body;

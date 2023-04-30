@@ -42,3 +42,8 @@ final inTheaters = FutureProvider.autoDispose<List<Media>>((ref) async {
   final data = await Fetcher.getMoviesInNearTheaters();
   return Parser.moviesInNearTheaters(data);
 });
+
+final trendingTrailers = FutureProvider.autoDispose<List<Media>>((ref) async {
+  final data = await Fetcher.getTrendingTrailers();
+  return Parser.trendingTrailers(data);
+});

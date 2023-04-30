@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:intl/intl.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/media/media_page.dart';
 
@@ -42,23 +43,30 @@ class TrailerCard extends StatelessWidget {
               children: [
                 Text(
                   media.name,
+                  overflow: TextOverflow.fade,
+                  maxLines: 2,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 2),
-                Text(media.releaseDate ?? '',
+                if (media.releaseDate != null)
+                  Text(
+                    media.releaseDate!,
                     style: const TextStyle(
                       fontSize: 14,
-                    ))
+                    ),
+                  ),
               ],
             ),
           ),
-          Text(
-            media.trailerDuration ?? '',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
+          Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(
+                media.trailerDuration ?? '',
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              )),
           Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: IconButton(
