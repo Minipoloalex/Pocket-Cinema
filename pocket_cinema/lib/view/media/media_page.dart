@@ -24,7 +24,7 @@ class MediaPage extends ConsumerWidget {
           elevation: 0,
           leading: Transform.translate(
             offset: const Offset(10, 0),
-            child: const GoBackButton(),
+            child: const GoBackButton(key: Key('backButton')),
           ),
         ),
         body: Column(

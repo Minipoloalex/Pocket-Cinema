@@ -17,23 +17,26 @@ class SearchResult extends StatelessWidget {
       child: Row(
         children: [
           InkWell(
+            key: Key(media.name),
             onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => MediaPage(id : media.id)));
+                      builder: (context) => MediaPage(id : media.id)
+                  )
+              );
             },
-          child:Container(
-            width: 100,
-            height: 150,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(media.posterImage),
-                fit: BoxFit.cover,
+            child:Container(
+              width: 100,
+              height: 150,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(media.posterImage),
+                  fit: BoxFit.cover,
+                ),
+                borderRadius: BorderRadius.circular(5),
               ),
-              borderRadius: BorderRadius.circular(5),
             ),
-          ),
           ),
           const SizedBox(width: 10),
           Expanded(
