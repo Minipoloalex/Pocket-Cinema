@@ -7,6 +7,8 @@ import 'package:pocket_cinema/model/media.dart';
 
 final searchQueryProvider = StateProvider.autoDispose<String>((ref) => '');
 
+// Riverpod
+
 final searchResultsProvider =
     FutureProvider.autoDispose<List<Media>>((ref) async {
   final searchQuery = ref.watch(searchQueryProvider);
@@ -28,7 +30,7 @@ final searchSeriesProvider =
 });
 
 final mediaProvider = FutureProvider.family<Media, String>((ref, id) async {
-  return await Fetcher.getMedia(id);
+  return Parser.media(await Fetcher.getMedia(id));
 });
 
 //create a comments provider for the media
