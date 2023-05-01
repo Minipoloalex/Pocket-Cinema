@@ -103,8 +103,8 @@ class Parser {
       return throw Exception("No movie trailer playbacks found");
     }
 
-    return jsonDecode(script.innerHtml)['props']['paegeProps']
-            ['videoPlaybackData']['playbackURLs'] ??
+    return jsonDecode(script.innerHtml)['props']['pageProps']
+            ['videoPlaybackData']['video']['playbackURLs'] ??
         [];
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:intl/intl.dart';
+import 'package:pocket_cinema/controller/fetcher.dart';
+import 'package:pocket_cinema/controller/parser.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/media/media_page.dart';
 
@@ -72,7 +73,20 @@ class TrailerCard extends StatelessWidget {
               child: IconButton(
                 icon:
                     const HeroIcon(HeroIcons.play, style: HeroIconStyle.solid),
-                onPressed: () {},
+                onPressed: () {
+                  if (media.trailer == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("No trailer available")));
+                    return;
+                  }
+
+                  Fetcher.getMovieTrailerPlaybacks(media.trailer!)
+                      .then((playbacksResponse) {
+                    final List playbacks =
+                        Parser.movieTrailerPlaybacks(playbacksResponse);
+                    print(playbacks);
+                  });
+                },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         Theme.of(context).colorScheme.primary),

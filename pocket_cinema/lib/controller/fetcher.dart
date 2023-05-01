@@ -70,7 +70,7 @@ class Fetcher {
   }
 
   static Future getMovieTrailerPlaybacks(String videoId) async{
-    final response = await http.get(Uri.parse('https://www.imdb.com/$videoId'));
+    final response = await http.get(Uri.parse('https://www.imdb.com$videoId'));
     if (response.statusCode != 200) throw Exception();
     return response.body;
   }
