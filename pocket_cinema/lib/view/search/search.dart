@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
-import 'package:pocket_cinema/view/search/widgets/search_results_page.dart';
+import 'package:pocket_cinema/view/search/search_results_page.dart';
 import 'package:pocket_cinema/view/search/widgets/trailer_card.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
@@ -46,9 +46,8 @@ class MySearchPageState extends ConsumerState<SearchPage>
               key: const Key('searchField'),
               onSubmitted: (query) {},
               onChanged: (value) => {
-                if(value.length > 2){
-                  ref.read(searchQueryProvider.notifier).state = value
-                }
+                if (value.length > 2)
+                  {ref.read(searchQueryProvider.notifier).state = value}
               },
               decoration: InputDecoration(
                 hintText: 'Search...',
@@ -56,7 +55,10 @@ class MySearchPageState extends ConsumerState<SearchPage>
                   padding: const EdgeInsets.only(left: 10.0),
                   child: IconButton(
                     icon: const HeroIcon(HeroIcons.magnifyingGlass),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(_searchResultsFadeTransition());
+                    },
                     key: const Key("searchButton"),
                   ),
                 ),

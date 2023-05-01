@@ -52,13 +52,15 @@ class TrailerCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                if (media.releaseDate != null)
-                  Text(
-                    media.releaseDate!,
+                Visibility(
+                  visible: media.releaseDate != null,
+                  child: Text(
+                    media.releaseDate ?? 'Unknown',
                     style: const TextStyle(
                       fontSize: 14,
                     ),
                   ),
+                )
               ],
             ),
           ),
