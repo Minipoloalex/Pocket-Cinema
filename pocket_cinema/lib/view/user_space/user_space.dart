@@ -13,6 +13,7 @@ import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
 import 'package:pocket_cinema/view/common_widgets/comment_and_list_form.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/validate.dart';
+import 'package:pocket_cinema/view/media_list/media_list.dart';
 
 class UserSpacePage extends StatefulWidget {
   const UserSpacePage({super.key});
@@ -85,7 +86,14 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
                   icon: const HeroIcon(HeroIcons.checkCircle,
                       style: HeroIconStyle.solid),
                   labelText: "Watched",
-                  onPressed: () {},
+                  onPressed: () async {
+                    List<Media> mediaList = await FirestoreDatabase.getWatchedList();
+                    Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => MediaListPage(name: "Watched", mediaList: mediaList)
+                        )
+                    );
+                  },
                 ),
                 const SizedBox(width: 20),
                 ListButton(
