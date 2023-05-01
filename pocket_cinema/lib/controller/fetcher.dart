@@ -31,10 +31,28 @@ class Fetcher {
           newsApiKey,
           'X-RapidAPI-Host': 'movies-news1.p.rapidapi.com'
         });
-        const utf8Decoder = Utf8Decoder();
-        final decodedResponse = utf8Decoder.convert(response.bodyBytes);
+    const utf8Decoder = Utf8Decoder();
+    final decodedResponse = utf8Decoder.convert(response.bodyBytes);
     if (response.statusCode != 200) throw Exception();
     List<dynamic> map = jsonDecode(decodedResponse);
     return map.map((news) => News.fromJson(news)).toList();
   }
-} 
+
+  static Future getMoviesInNearTheaters() async{
+    final response = await http.get(Uri.parse('https://www.imdb.com/showtimes/location?ref_=sh_lc'));
+    if (response.statusCode != 200) throw Exception();
+    return response.body;
+  }
+
+  static Future getTrendingTrailers() async{
+    final response = await http.get(Uri.parse('https://www.imdb.com/trailers/?ref_=hm_hp_sm'));
+    if (response.statusCode != 200) throw Exception();
+    return response.body;
+  }
+
+  static Future getMovieTrailerPlaybacks(String videoId) async{
+    final response = await http.get(Uri.parse('https://www.imdb.com$videoId'));
+    if (response.statusCode != 200) throw Exception();
+    return response.body;
+  }
+}

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
-import 'package:pocket_cinema/view/search/widgets/search_result.dart';
-import 'package:pocket_cinema/view/search/widgets/search_result_shimmer.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:pocket_cinema/view/search/widgets/no_results_found.dart';
+import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
+import 'package:pocket_cinema/view/search/search_results_page.dart';
+import 'package:pocket_cinema/view/search/widgets/trailer_card.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
@@ -16,57 +15,51 @@ class SearchPage extends ConsumerStatefulWidget {
 
 class MySearchPageState extends ConsumerState<SearchPage>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+  final _searchFocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
+    _searchFocusNode.unfocus();
   }
 
   @override
   Widget build(BuildContext context) {
-    
-    final movies = ref.watch(searchMoviesProvider);
-    final series = ref.watch(searchSeriesProvider);
+    FocusScope.of(context).unfocus();
+
+    final inTheatersMedia = ref.watch(inTheaters);
+    final trendingTrailersMedia = ref.watch(trendingTrailers);
 
     return Scaffold(
         body: Container(
       margin: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0),
-      child: 
-      Column(
+      child: ListView(
+        padding: EdgeInsets.zero,
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
               key: const Key('searchField'),
+              autofocus: false,
+              focusNode: _searchFocusNode,
+              onTap: () =>
+                  Navigator.of(context).push(_searchResultsFadeTransition()),
               onSubmitted: (query) {},
               onChanged: (value) => {
-                if(value.length > 2){
-                  ref.read(searchQueryProvider.notifier).state = value
-                }
+                if (value.length > 2)
+                  {ref.read(searchQueryProvider.notifier).state = value}
               },
               decoration: InputDecoration(
                 hintText: 'Search...',
                 prefixIcon: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: IconButton(
-                    icon: const HeroIcon(HeroIcons.arrowLeft),
-                    onPressed: () {},
-                  ),
-                ),
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
-                  child: IconButton(
-                    key: const Key("searchButton"),
                     icon: const HeroIcon(HeroIcons.magnifyingGlass),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(_searchResultsFadeTransition());
+                    },
+                    key: const Key("searchButton"),
                   ),
                 ),
                 border: OutlineInputBorder(
@@ -75,69 +68,62 @@ class MySearchPageState extends ConsumerState<SearchPage>
               ),
             ),
           ),
-          TabBar(
-            controller: _tabController,
-            tabs: const [
-              Tab(
-                key: Key('moviesTab'),
-                text: 'Movies',
-              ),
-              Tab(
-                  key: Key('seriesTab'),
-                  text: 'Series',
-              ),
+          Column(
+            children: [
+              inTheatersMedia.when(
+                data: (data) =>
+                    HorizontalMediaList(name: 'In Theaters', media: data),
+                //TODO: Add a shimmer effect
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, stack) {
+                  return const Center(
+                    child: Text('Error'),
+                  );
+                },
+              )
             ],
           ),
-          Flexible(
-              child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      movies.when(
-                        data: (data) => data.isNotEmpty
-                            ? ListView(
-                              key: const Key('moviesListView'),
-                          children: data
-                              .map((e) => SearchResult(media: e))
-                              .toList(),
-                        )
-                            : const NoResultsFoundWidget(),
-                        loading: () => Shimmer.fromColors(
-                          period: const Duration(milliseconds: 1000),
-                          baseColor: Theme.of(context).highlightColor,
-                          highlightColor: Theme.of(context).colorScheme.onPrimary,
-                          child: ListView(
-                            children: List.generate(3, (index) => const SearchResultShimmer()).toList(),
-                          ),
-                        ),
-                        error: (error, stack) => Text(error.toString()),
-                      ),
-                      series.when(
-                        data: (data) => data.isNotEmpty
-                            ? ListView(
-                              key: const Key('seriesListView'),
-                          children: data
-                              .map((e) => SearchResult(media: e))
-                              .toList(),
-                        )
-                            : const NoResultsFoundWidget(),
-                        loading: () => Shimmer.fromColors(
-                          period: const Duration(milliseconds: 1000),
-                          baseColor: Theme.of(context).highlightColor,
-                          highlightColor: Theme.of(context).colorScheme.onPrimary,
-                          child: ListView(
-                            children: List.generate(3, (index) => const SearchResultShimmer()).toList(),
-                          ),
-                        ),
-                        error: (error, stack) => Text(error.toString()),
-                      ),
-                    ],
+          const Padding(
+              padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
+              child: Text("Trending Trailers",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 30,
+                  ))),
+          Padding(
+              padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+              child: Column(
+                children: [
+                  trendingTrailersMedia.when(
+                    data: (data) => (Column(
+                        children: data
+                            .map((item) => TrailerCard(media: item))
+                            .toList())),
+                    error: (error, stack) {
+                      return const Center(
+                        child: Text('Error'),
+                      );
+                    },
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
                   )
-              )
-          )
+                ],
+              )),
         ],
       ),
     ));
+  }
+
+  Route _searchResultsFadeTransition() {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const SearchResultsPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 400));
   }
 }

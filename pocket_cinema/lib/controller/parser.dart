@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:html/parser.dart';
 import 'package:pocket_cinema/model/media.dart';
 
 class Parser {
@@ -15,14 +16,13 @@ class Parser {
 
     List<Media> mediaList = searchResults
         .map((result) => Media(
-            result["id"],
-            result["l"],
-            result["i"]["imageUrl"] ?? "",
-            "",
-            "",
-            "",
-            result["s"] ?? "",
-            result["qid"] == "tvSeries" ? MediaType.series : MediaType.movie))
+            id: result["id"],
+            name: result["l"],
+            posterImage: result["i"]["imageUrl"] ?? "",
+            description: result["s"] ?? "",
+            type: result["qid"] == "tvSeries"
+                ? MediaType.series
+                : MediaType.movie))
         .toList();
 
     return mediaList;
@@ -35,21 +35,78 @@ class Parser {
     final thumbnail = thumbnails.isNotEmpty ? thumbnails[0]["node"]["thumbnail"]["url"] : "";
 
     return Media(
-        map["props"]["pageProps"]["tconst"],
-        map["props"]["pageProps"]["aboveTheFoldData"]["titleText"]["text"],
-        map["props"]["pageProps"]["aboveTheFoldData"]["primaryImage"]["url"],
-        thumbnail,
-        map["props"]["pageProps"]["aboveTheFoldData"]["ratingsSummary"]
+        id: map["props"]["pageProps"]["tconst"],
+        name: map["props"]["pageProps"]["aboveTheFoldData"]["titleText"]["text"],
+        posterImage: map["props"]["pageProps"]["aboveTheFoldData"]["primaryImage"]?["url"] ?? '',
+        backgroundImage: thumbnail,
+        rating: map["props"]["pageProps"]["aboveTheFoldData"]["ratingsSummary"]
                 ["aggregateRating"]
             .toString(),
-        map["props"]["pageProps"]["aboveTheFoldData"]["ratingsSummary"]
+        nRatings: map["props"]["pageProps"]["aboveTheFoldData"]["ratingsSummary"]
                 ["voteCount"]
             .toString(),
-        map["props"]["pageProps"]["aboveTheFoldData"]["plot"]["plotText"]
+        description: map["props"]["pageProps"]["aboveTheFoldData"]["plot"]["plotText"]
             ["plainText"],
-        map["props"]["pageProps"]["aboveTheFoldData"]["titleType"]["id"] ==
+        type: map["props"]["pageProps"]["aboveTheFoldData"]["titleType"]["id"] ==
                 "movie"
             ? MediaType.movie
             : MediaType.series);
+  }
+
+  static List<Media> moviesInNearTheaters(String body) {
+    final document = parse(body);
+    final fatherDiv = document.querySelector('.lister-list');
+    if (fatherDiv == null) {
+      return throw Exception("No movies in near theaters found");
+    }
+
+    return fatherDiv.children
+        .map((item) => Media(
+              id: item.querySelector('img')?.attributes['data-tconst'] ?? "",
+              posterImage:
+                  item.querySelector('img')?.attributes['loadlate'] ?? "",
+              name: item.querySelector('.title > a')?.text ?? "",
+            ))
+        .toList();
+  }
+
+  static List<Media> trendingTrailers(String body) {
+    final document = parse(body);
+    final fatherDiv = document.querySelector('.ipc-sub-grid');
+    if (fatherDiv == null) return throw Exception("No trending trailers found");
+
+    return fatherDiv.children
+        .map((item) => Media(
+              id: item
+                      .querySelector('a.ipc-poster-card__title')
+                      ?.attributes['href']
+                      ?.split('/')[2] ??
+                  "",
+              name: item.querySelector('a.ipc-poster-card__title')?.text ?? "",
+              posterImage:
+                  item.querySelector('img.ipc-image')?.attributes['src'] ?? "",
+              trailer: item
+                      .querySelector('a.ipc-lockup-overlay')
+                      ?.attributes['href'] ??
+                  "",
+              trailerDuration:
+                  item.querySelector('span.ipc-lockup-overlay__text')?.text ??
+                      "",
+              releaseDate:
+                  item.querySelector('.ipc-poster-card__actions > span')?.text,
+            ))
+        .toList();
+  }
+
+  static List movieTrailerPlaybacks(String body) {
+    final document = parse(body);
+    final script = document.querySelector('script#__NEXT_DATA__');
+    if (script == null) {
+      return throw Exception("No movie trailer playbacks found");
+    }
+
+    return jsonDecode(script.innerHtml)['props']['pageProps']
+            ['videoPlaybackData']['video']['playbackURLs'] ??
+        [];
   }
 }
