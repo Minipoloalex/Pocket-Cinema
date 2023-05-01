@@ -55,6 +55,7 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
+              key: const Key('searchField'),
               controller: _searchController,
               focusNode: _searchFocusNode,
               onSubmitted: (query) {},
@@ -63,6 +64,7 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                 prefixIcon: Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: IconButton(
+                    key: const Key("backButtonSearch"),
                     icon: const HeroIcon(HeroIcons.arrowLeft),
                     onPressed: () {
                       Navigator.pop(context);

@@ -39,11 +39,11 @@ class MySearchPageState extends ConsumerState<SearchPage>
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
+              key: const Key('searchField'),
               autofocus: false,
               focusNode: _searchFocusNode,
               onTap: () =>
                   Navigator.of(context).push(_searchResultsFadeTransition()),
-              key: const Key('searchField'),
               onSubmitted: (query) {},
               onChanged: (value) => {
                 if (value.length > 2)

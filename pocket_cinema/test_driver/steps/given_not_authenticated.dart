@@ -23,13 +23,14 @@ class GivenNotAuthenticated extends GivenWithWorld<FlutterWorld> {
 
     final userSpacePage = find.byType('UserSpacePage');
     expect(
-      await FlutterDriverUtils.isPresent(world.driver, userSpacePage, timeout: const Duration(seconds: 1)),
+      await FlutterDriverUtils.isPresent(world.driver, userSpacePage, timeout: const Duration(seconds: 2)),
       true,
       reason: "UserSpacePage is not present",
     );
 
     final logoutButton = find.byValueKey('logoutButton');
     await FlutterDriverUtils.tap(world.driver, logoutButton);
+    await FlutterDriverUtils.waitForFlutter(world.driver);
   }
 
   @override
