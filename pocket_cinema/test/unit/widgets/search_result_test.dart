@@ -15,6 +15,7 @@ void main() {
       name: 'Media Name',
       posterImage: 'assets/images/poster_image.jpg',
       backgroundImage: 'assets/images/background_image.jpg',
+      description: 'Media Description',
       type: MediaType.movie,
     );
 

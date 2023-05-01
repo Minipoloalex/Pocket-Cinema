@@ -87,8 +87,14 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
           TabBar(
             controller: _tabController,
             tabs: const [
-              Tab(text: 'Movies'),
-              Tab(text: 'Series'),
+              Tab(
+                key: Key('moviesTab'),
+                text: 'Movies',
+              ),
+              Tab(
+                  key: Key('seriesTab'),
+                  text: 'Series',
+              ),
             ],
           ),
           Flexible(
@@ -100,6 +106,7 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                       movies.when(
                         data: (data) => data.isNotEmpty
                             ? ListView(
+                          key: const Key('moviesListView'),
                           children: data
                               .map((e) => SearchResult(media: e))
                               .toList(),
@@ -118,6 +125,7 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                       series.when(
                         data: (data) => data.isNotEmpty
                             ? ListView(
+                          key: const Key('seriesListView'),
                           children: data
                               .map((e) => SearchResult(media: e))
                               .toList(),

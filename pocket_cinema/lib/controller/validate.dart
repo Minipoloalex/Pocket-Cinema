@@ -47,4 +47,7 @@ class Validate {
 
     return "";
   }
+  static bool listName(String listName) {
+    return listName.length >= 2 && listName.length <= 20;
+  }
 }

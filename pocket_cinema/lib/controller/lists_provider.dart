@@ -15,10 +15,10 @@ final toWatchListProvider = FutureProvider<List<Media>>((ref) async {
   // Fake get call
   final mediaToWatch = await Future.delayed(
     const Duration(seconds: 1),
-    () => [],
+    () => <Media>[],
   );
 
-  return [];
+  return mediaToWatch;
 });
 
 

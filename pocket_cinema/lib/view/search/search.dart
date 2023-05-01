@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
-import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/view/search/widgets/search_results_page.dart';
 import 'package:pocket_cinema/view/search/widgets/trailer_card.dart';
@@ -44,6 +43,13 @@ class MySearchPageState extends ConsumerState<SearchPage>
               focusNode: _searchFocusNode,
               onTap: () =>
                   Navigator.of(context).push(_searchResultsFadeTransition()),
+              key: const Key('searchField'),
+              onSubmitted: (query) {},
+              onChanged: (value) => {
+                if(value.length > 2){
+                  ref.read(searchQueryProvider.notifier).state = value
+                }
+              },
               decoration: InputDecoration(
                 hintText: 'Search...',
                 prefixIcon: Padding(
@@ -51,6 +57,7 @@ class MySearchPageState extends ConsumerState<SearchPage>
                   child: IconButton(
                     icon: const HeroIcon(HeroIcons.magnifyingGlass),
                     onPressed: () {},
+                    key: const Key("searchButton"),
                   ),
                 ),
                 border: OutlineInputBorder(
@@ -67,7 +74,6 @@ class MySearchPageState extends ConsumerState<SearchPage>
                 //TODO: Add a shimmer effect
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, stack) {
-                  print(error);
                   return const Center(
                     child: Text('Error'),
                   );
@@ -92,7 +98,6 @@ class MySearchPageState extends ConsumerState<SearchPage>
                             .map((item) => TrailerCard(media: item))
                             .toList())),
                     error: (error, stack) {
-                      print(error);
                       return const Center(
                         child: Text('Error'),
                       );

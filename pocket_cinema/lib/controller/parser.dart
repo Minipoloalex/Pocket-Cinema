@@ -28,6 +28,31 @@ class Parser {
     return mediaList;
   }
 
+  static Media media(String body) {
+    Map<String, dynamic> map = jsonDecode(body);
+
+    final thumbnails = map["props"]["pageProps"]["aboveTheFoldData"]["primaryVideos"]["edges"];
+    final thumbnail = thumbnails.isNotEmpty ? thumbnails[0]["node"]["thumbnail"]["url"] : "";
+
+    return Media(
+        id: map["props"]["pageProps"]["tconst"],
+        name: map["props"]["pageProps"]["aboveTheFoldData"]["titleText"]["text"],
+        posterImage: map["props"]["pageProps"]["aboveTheFoldData"]["primaryImage"]?["url"] ?? '',
+        backgroundImage: thumbnail,
+        rating: map["props"]["pageProps"]["aboveTheFoldData"]["ratingsSummary"]
+                ["aggregateRating"]
+            .toString(),
+        nRatings: map["props"]["pageProps"]["aboveTheFoldData"]["ratingsSummary"]
+                ["voteCount"]
+            .toString(),
+        description: map["props"]["pageProps"]["aboveTheFoldData"]["plot"]["plotText"]
+            ["plainText"],
+        type: map["props"]["pageProps"]["aboveTheFoldData"]["titleType"]["id"] ==
+                "movie"
+            ? MediaType.movie
+            : MediaType.series);
+  }
+
   static List<Media> featured(String className, String body) {
     var fullDoc = parse(body);
     //get the good part of the html
