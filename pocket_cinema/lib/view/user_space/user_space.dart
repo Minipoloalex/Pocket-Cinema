@@ -15,17 +15,19 @@ import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/validate.dart';
 import 'package:pocket_cinema/view/media_list/media_list.dart';
 
-class UserSpacePage extends StatefulWidget {
+class UserSpacePage extends ConsumerStatefulWidget {
   const UserSpacePage({super.key});
 
   @override
-  State<UserSpacePage> createState() => _MyUserSpacePageState();
+  MyUserSpacePageState createState() => MyUserSpacePageState();
 }
 
-class _MyUserSpacePageState extends State<UserSpacePage> {
+class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _node = FocusNode();
   bool _isFormVisible = false;
+
+
   void _handleSubmit(String listName) {
     if (!Validate.listName(listName)) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -51,6 +53,7 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
   }
   @override
   Widget build(BuildContext context) {
+    final watchedList = ref.watch(watchedListProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -82,18 +85,25 @@ class _MyUserSpacePageState extends State<UserSpacePage> {
           Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                ListButton(
-                  icon: const HeroIcon(HeroIcons.checkCircle,
-                      style: HeroIconStyle.solid),
-                  labelText: "Watched",
-                  onPressed: () async {
-                    List<Media> mediaList = await FirestoreDatabase.getWatchedList();
-                    Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => MediaListPage(name: "Watched", mediaList: mediaList)
-                        )
-                    );
-                  },
+                watchedList.when(
+                  data: (data) => ListButton(
+                      icon: const HeroIcon(HeroIcons.checkCircle, style: HeroIconStyle.solid),
+                      labelText: "Watched",
+                      onPressed: () {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => MediaListPage(name: "Watched", mediaList: data),
+                            )
+                        );
+                      }
+                ),
+                loading: () => ListButton(
+                    icon: const HeroIcon(HeroIcons.checkCircle, style: HeroIconStyle.solid),
+                    labelText: "Watched",
+                    onPressed: () {},
+                ),
+                  error: (error, stackTrace)  {
+                    return Center(child: Text("Error: ${error.toString()}")); }
                 ),
                 const SizedBox(width: 20),
                 ListButton(

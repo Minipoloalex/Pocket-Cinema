@@ -183,20 +183,15 @@ class FirestoreDatabase {
     final userSnapshot = await FirebaseFirestore.instance.collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid).get();
 
-    final List<String> watchedList = userSnapshot.data()?['watched'] ?? [];
+    final List watchedList = userSnapshot.data()?['watched'] ?? [];
 
     final List<Media> medias = await Future.wait(watchedList.map((mediaId) async {
       final mediaSnapshot = await FirebaseFirestore.instance.collection('medias')
           .doc(mediaId).get();
       return Media(
-        mediaSnapshot.id,
-        mediaSnapshot.get('name'),
-        mediaSnapshot.get('posterUrl'),
-        "",
-        "",
-        "",
-        "",
-        MediaType.values[mediaSnapshot.get('type')],
+        id: mediaSnapshot.id,
+        name: mediaSnapshot.get('name'),
+        posterImage: mediaSnapshot.get('posterUrl'),
       );
     }));
     return medias;
