@@ -3,6 +3,7 @@ import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/fetcher.dart';
 import 'package:pocket_cinema/controller/parser.dart';
 import 'package:pocket_cinema/model/media.dart';
+import 'package:pocket_cinema/view/common_widgets/video_player.dart';
 import 'package:pocket_cinema/view/media/media_page.dart';
 
 class TrailerCard extends StatelessWidget {
@@ -74,6 +75,11 @@ class TrailerCard extends StatelessWidget {
                 icon:
                     const HeroIcon(HeroIcons.play, style: HeroIconStyle.solid),
                 onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const TrailerPlayer()));
+
                   if (media.trailer == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text("No trailer available")));
