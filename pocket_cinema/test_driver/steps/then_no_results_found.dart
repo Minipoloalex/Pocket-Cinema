@@ -40,6 +40,7 @@ class ThenNoResultsFound extends Then1WithWorld<String, FlutterWorld> {
       true,
       reason: "Search results are present",
     );
+    await FlutterDriverUtils.waitForFlutter(world.driver);
 
   }
 

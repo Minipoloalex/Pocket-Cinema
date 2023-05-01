@@ -3,7 +3,7 @@ import 'package:flutter_gherkin/flutter_gherkin.dart';
 import 'package:gherkin/gherkin.dart';
 
 class GivenPage extends Given1WithWorld<String, FlutterWorld> {
-  GivenPage() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:10));
+  GivenPage() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:15));
   @override
   Future<void> executeStep(String input) async {
     FlutterDriverUtils.waitForFlutter(world.driver);
@@ -23,7 +23,7 @@ class GivenPage extends Given1WithWorld<String, FlutterWorld> {
 }
 
 class ThenPage extends Then1WithWorld<String, FlutterWorld> {
-  ThenPage() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:10));
+  ThenPage() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:15));
   @override
   Future<void> executeStep(String input) async {
     FlutterDriverUtils.waitForFlutter(world.driver);

@@ -13,6 +13,8 @@ final searchResultsProvider =
     FutureProvider.autoDispose<List<Media>>((ref) async {
   final searchQuery = ref.watch(searchQueryProvider);
 
+  if(searchQuery.isEmpty) return [];
+
   final String response = await Fetcher.searchMedia(searchQuery);
   return Parser.searchMedia(response);
 });
@@ -33,8 +35,17 @@ final mediaProvider = FutureProvider.family<Media, String>((ref, id) async {
   return Parser.media(await Fetcher.getMedia(id));
 });
 
-//create a comments provider for the media
 final commentsProvider =
     FutureProvider.family<List<Comment>, String>((ref, id) async {
   return await FirestoreDatabase.getComments(id);
+});
+
+final inTheaters = FutureProvider.autoDispose<List<Media>>((ref) async {
+  final data = await Fetcher.getMoviesInNearTheaters();
+  return Parser.moviesInNearTheaters(data);
+});
+
+final trendingTrailers = FutureProvider.autoDispose<List<Media>>((ref) async {
+  final data = await Fetcher.getTrendingTrailers();
+  return Parser.trendingTrailers(data);
 });
