@@ -98,11 +98,11 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                         ));
                       }),
                   loading: () => ListButton(
-                    icon: const HeroIcon(HeroIcons.checkCircle,
-                        style: HeroIconStyle.solid),
-                    labelText: "Watched",
-                    onPressed: () {},
-                  ),
+                        icon: const HeroIcon(HeroIcons.checkCircle,
+                            style: HeroIconStyle.solid),
+                        labelText: "Watched",
+                        onPressed: () {},
+                      ),
                   error: (error, stackTrace) {
                     return Center(child: Text("Error: ${error.toString()}"));
                   }),
@@ -115,7 +115,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
               ),
             ],
           ),
-          const PersonalList(),
+          PersonalList(),
           Expanded(
             child: Visibility(
               visible: _isFormVisible,
@@ -162,7 +162,6 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
   }
 }
 
-
 class ToWatchList extends ConsumerWidget {
   const ToWatchList({super.key});
 
@@ -206,7 +205,7 @@ class PersonalList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<List<MediaList>> PersonalList = ref.watch(listsProvider);
     return PersonalList.when(
-      data: (List<MediaList> data) => MediaListScrollView(mediaLists: data),
+      data: (List<MediaList> data) => MediaListList(mediaListList: data),
       error: (Object error, StackTrace stackTrace) => Text(error.toString()),
       loading: () => Shimmer.fromColors(
           period: const Duration(milliseconds: 1000),
