@@ -8,6 +8,7 @@ StepDefinitionGeneric thenTapButton() {
         (key, context) async {
       final button = find.byValueKey(key);
       await FlutterDriverUtils.tap(context.world.driver, button);
+      await FlutterDriverUtils.waitForFlutter(context.world.driver);
     },
   );
 }

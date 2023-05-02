@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pocket_cinema/model/news.dart';
 import 'package:pocket_cinema/view/home/widgets/news_page.dart';
+import 'package:transparent_image/transparent_image.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class NewsCard extends StatelessWidget {
@@ -32,7 +33,7 @@ class NewsCard extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
-                          image: NetworkImage(news.image),
+                          image: FadeInImage.memoryNetwork(image: news.image, placeholder: kTransparentImage).image,
                           fit: BoxFit.cover,
                         )),
                   ),
