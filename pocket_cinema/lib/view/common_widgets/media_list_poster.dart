@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pocket_cinema/model/mediaList.dart';
 import 'package:pocket_cinema/model/media.dart';
+import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
 
 class MediaListPoster extends StatelessWidget {
   final String name;
@@ -15,21 +16,22 @@ class MediaListPoster extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget buildImage(Media media) => Container(
-      width: 125,
-      height: 187.5,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage(media.posterImage),
-          fit: BoxFit.cover,
-        ),
-        borderRadius: BorderRadius.circular(5),
-      ),
-    );
+          width: 125,
+          height: 187.5,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(media.posterImage),
+              fit: BoxFit.cover,
+            ),
+            borderRadius: BorderRadius.circular(5),
+          ),
+        );
 
     if (mediaList.media.length == 1) {
       return Column(
         children: [
-          buildImage(mediaList.media[0]),
+          Expanded(child: buildImage(mediaList.media[0])),
+          Expanded(child: PosterShimmer()),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
@@ -52,7 +54,6 @@ class MediaListPoster extends StatelessWidget {
           Row(
             children: [
               Expanded(child: buildImage(mediaList.media[0])),
-              SizedBox(width: 8),
               Expanded(child: buildImage(mediaList.media[1])),
             ],
           ),
@@ -79,3 +80,31 @@ class MediaListPoster extends StatelessWidget {
   }
 }
 
+class MediaListScrollView extends StatelessWidget {
+  final List<MediaList> mediaLists;
+
+  const MediaListScrollView({Key? key, required this.mediaLists})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      const Text("Personal Lists",
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontSize: 30,
+          )),
+      ListView.builder(
+        itemCount: mediaLists.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MediaListPoster(
+                name: mediaLists[index].name,
+                mediaList: mediaLists[index],
+              ));
+        },
+      )
+    ]);
+  }
+}

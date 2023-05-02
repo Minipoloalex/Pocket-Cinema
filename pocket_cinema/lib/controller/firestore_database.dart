@@ -122,26 +122,33 @@ class FirestoreDatabase {
     });
   }
 
-  static Future<MediaList> getPersonalList(String id) async {
+  static Future<List<MediaList>> getPersonalLists() async {
+    final userSnapshot = await FirebaseFirestore.instance.collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid).get();
     final personalListRef = FirebaseFirestore.instance.collection('lists');
     final querySnapshot = await personalListRef
-        .where("id", isEqualTo: id)
+        .where("id", isEqualTo: userSnapshot)
         .get();
-    final doc = querySnapshot.docs.first;
-    final name = doc.data()['name'] as String;
-    final mediaIds = doc.data()['mediaIds'] as List<dynamic>;
-    final createdAt = doc.data()['createdAt'] as Timestamp;
-    final List<Media> media = await Future.wait(mediaIds.map((mediaId) async {
-      final mediaSnapshot = await FirebaseFirestore.instance.collection('medias')
-          .doc(mediaId).get();
-      return Media(
-        id: mediaSnapshot.id,
-        name: mediaSnapshot.get('name'),
-        posterImage: mediaSnapshot.get('posterUrl'),
-      );
-    }));
-    return MediaList(name:name,media:media,createdAt: createdAt);
+
+    final List<MediaList> mediaLists = [];
+    for (final doc in querySnapshot.docs) {
+      final name = doc.data()['name'] as String;
+      final mediaIds = doc.data()['mediaIds'] as List<dynamic>;
+      final createdAt = doc.data()['createdAt'] as Timestamp;
+      final List<Media> media = await Future.wait(mediaIds.map((mediaId) async {
+        final mediaSnapshot = await FirebaseFirestore.instance.collection('medias')
+            .doc(mediaId).get();
+        return Media(
+          id: mediaSnapshot.id,
+          name: mediaSnapshot.get('name'),
+          posterImage: mediaSnapshot.get('posterUrl'),
+        );
+      }));
+      mediaLists.add(MediaList(name: name, media: media, createdAt: createdAt));
+    }
+    return mediaLists;
   }
+
 
 
   static Future<void> deletePersonalList(String listId) async {
