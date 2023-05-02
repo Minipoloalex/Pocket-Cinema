@@ -115,6 +115,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
               ),
             ],
           ),
+          PersonalList(),
           Expanded(
             child: Visibility(
               visible: _isFormVisible,
