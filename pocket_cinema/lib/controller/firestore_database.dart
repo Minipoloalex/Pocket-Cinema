@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pocket_cinema/model/comment.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/my_user.dart';
+import 'package:pocket_cinema/model/mediaList.dart';
 
 class FirestoreDatabase {
   static Future<String> getUsernameById(String id) async {
@@ -120,7 +121,17 @@ class FirestoreDatabase {
       'personalLists': FieldValue.arrayUnion([docList.id])
     });
   }
-
+  static Future<MediaList> getPersonalList(String id) async {
+    final personalListRef = FirebaseFirestore.instance.collection('lists');
+    final querySnapshot = await personalListRef
+        .where("id", isEqualTo: id)
+        .get();
+    final doc = querySnapshot.docs.first;
+    final name = doc.data()['name'] as String;
+    final mediaIds = doc.data()['mediaIds'] as List<dynamic>;
+    final createdAt = doc.data()['createdAt'] as Timestamp;
+    return MediaList(name:name,mediaIds: mediaIds,createdAt: createdAt);
+  }
   static Future<void> deletePersonalList(String listId) async {
     final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
     await docList.delete();
