@@ -28,7 +28,7 @@ class MediaListPoster extends StatelessWidget {
         );
 
     if (mediaList.media.length == 1) {
-      return Column(
+      return Row(
         children: [
           Expanded(child: buildImage(mediaList.media[0])),
           Expanded(child: PosterShimmer()),
@@ -49,7 +49,7 @@ class MediaListPoster extends StatelessWidget {
         ],
       );
     } else if (mediaList.media.length >= 2) {
-      return Column(
+      return Row(
         children: [
           Row(
             children: [
@@ -74,8 +74,10 @@ class MediaListPoster extends StatelessWidget {
         ],
       );
     } else {
-      // Return an empty container if there are no media items
-      return Container();
+      return Row(children: [
+        Expanded(child: PosterShimmer()),
+        Expanded(child: PosterShimmer()),
+      ]);
     }
   }
 }
@@ -89,10 +91,10 @@ class MediaListScrollView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      const Text("Personal Lists",
+      const Text("     Personal Lists",
           textAlign: TextAlign.left,
           style: TextStyle(
-            fontSize: 30,
+            fontSize: 26,
           )),
       ListView.builder(
         itemCount: mediaLists.length,

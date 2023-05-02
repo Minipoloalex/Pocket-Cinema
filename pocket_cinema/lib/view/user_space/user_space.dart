@@ -80,7 +80,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
           ),
         ],
       ),
-      body: Column(
+      body: ListView(
         children: <Widget>[
           const ToWatchList(),
           Row(
@@ -98,11 +98,11 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                         ));
                       }),
                   loading: () => ListButton(
-                        icon: const HeroIcon(HeroIcons.checkCircle,
-                            style: HeroIconStyle.solid),
-                        labelText: "Watched",
-                        onPressed: () {},
-                      ),
+                    icon: const HeroIcon(HeroIcons.checkCircle,
+                        style: HeroIconStyle.solid),
+                    labelText: "Watched",
+                    onPressed: () {},
+                  ),
                   error: (error, stackTrace) {
                     return Center(child: Text("Error: ${error.toString()}"));
                   }),
@@ -115,7 +115,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
               ),
             ],
           ),
-          PersonalList(),
+          const PersonalList(),
           Expanded(
             child: Visibility(
               visible: _isFormVisible,
@@ -161,6 +161,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
     );
   }
 }
+
 
 class ToWatchList extends ConsumerWidget {
   const ToWatchList({super.key});

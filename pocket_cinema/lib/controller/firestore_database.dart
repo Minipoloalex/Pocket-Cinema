@@ -123,11 +123,12 @@ class FirestoreDatabase {
   }
 
   static Future<List<MediaList>> getPersonalLists() async {
-    final userSnapshot = await FirebaseFirestore.instance.collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid).get();
+    if (FirebaseAuth.instance.currentUser == null) {
+      throw Exception('User not logged in');
+    }
     final personalListRef = FirebaseFirestore.instance.collection('lists');
     final querySnapshot = await personalListRef
-        .where("id", isEqualTo: userSnapshot)
+        .where("ownerId", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
 
     final List<MediaList> mediaLists = [];
@@ -207,7 +208,7 @@ class FirestoreDatabase {
     }
   }
   static Future<List<Media>> getWatchedList() async {
-    if (FirebaseAuth.instance.currentUser?.uid == null) {
+    if (FirebaseAuth.instance.currentUser == null) {
       throw Exception('User not logged in');
     }
     final userSnapshot = await FirebaseFirestore.instance.collection('users')
