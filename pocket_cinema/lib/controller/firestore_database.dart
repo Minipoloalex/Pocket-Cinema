@@ -121,6 +121,7 @@ class FirestoreDatabase {
       'personalLists': FieldValue.arrayUnion([docList.id])
     });
   }
+
   static Future<MediaList> getPersonalList(String id) async {
     final personalListRef = FirebaseFirestore.instance.collection('lists');
     final querySnapshot = await personalListRef
@@ -130,8 +131,19 @@ class FirestoreDatabase {
     final name = doc.data()['name'] as String;
     final mediaIds = doc.data()['mediaIds'] as List<dynamic>;
     final createdAt = doc.data()['createdAt'] as Timestamp;
-    return MediaList(name:name,mediaIds: mediaIds,createdAt: createdAt);
+    final List<Media> media = await Future.wait(mediaIds.map((mediaId) async {
+      final mediaSnapshot = await FirebaseFirestore.instance.collection('medias')
+          .doc(mediaId).get();
+      return Media(
+        id: mediaSnapshot.id,
+        name: mediaSnapshot.get('name'),
+        posterImage: mediaSnapshot.get('posterUrl'),
+      );
+    }));
+    return MediaList(name:name,media:media,createdAt: createdAt);
   }
+
+
   static Future<void> deletePersonalList(String listId) async {
     final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
     await docList.delete();
