@@ -190,7 +190,12 @@ class MediaPage extends ConsumerWidget {
                                 )),
                           ),
                           const SizedBox(width: 20),
-                          const CheckButton(),
+                          mediaInfo.when(
+                            data: (data) => CheckButton(media: data),
+                            loading: () => const SizedBox(),
+                            error: (error, stack) => Text(error.toString()),
+                          ),
+
                           AddButton(onPressed: () {}),
                         ],
                       )),

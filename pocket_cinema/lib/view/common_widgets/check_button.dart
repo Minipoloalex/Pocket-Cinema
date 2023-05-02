@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:pocket_cinema/controller/firestore_database.dart';
+import 'package:pocket_cinema/model/media.dart';
 
 class CheckButton extends StatefulWidget {
-  const CheckButton({super.key});
+  final Media media;
+  const CheckButton({super.key, required this.media});
 
   @override
   State<CheckButton> createState() => _CheckButtonState();
 }
 
 class _CheckButtonState extends State<CheckButton> {
-  bool _isChecked = false;
-
+  late bool _isChecked = false;
+  @override
+  void initState() {
+    super.initState();
+    FirestoreDatabase.isMediaWatched(widget.media.id).then((value) {
+      setState(() {
+        _isChecked = value;
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final Color checkedColor = Theme.of(context).colorScheme.primary;
@@ -20,6 +31,7 @@ class _CheckButtonState extends State<CheckButton> {
       onPressed: () {
         setState(() {
           _isChecked = !_isChecked;
+          FirestoreDatabase.toggleMediaStatus(widget.media, "watched");
         });
       },
       style: ButtonStyle(
