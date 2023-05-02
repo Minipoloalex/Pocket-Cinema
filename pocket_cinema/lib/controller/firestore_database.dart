@@ -172,7 +172,7 @@ class FirestoreDatabase {
       await docUser.update({
         listName: FieldValue.arrayUnion([media.id])
       });
-    }
+    }  
   }
   static Future<List<Media>> getWatchedList() async {
     if (FirebaseAuth.instance.currentUser?.uid == null) {

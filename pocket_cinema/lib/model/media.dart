@@ -12,6 +12,7 @@ class Media {
   final String? trailer;
   final String? trailerDuration;
   final String? releaseDate;
+  bool? watched;
 
   Media(
       {required this.id,
@@ -24,11 +25,20 @@ class Media {
       this.type,
       this.trailer,
       this.trailerDuration,
-      this.releaseDate});
+      this.releaseDate,
+      this.watched});
 
   Map<String, dynamic> toJson() => {
     'name': name,
     'posterUrl': posterImage,
     'type': type.toString(),
   };
+  
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+      other is Media && runtimeType == other.runtimeType && id == other.id;
+  }
+  @override
+  int get hashCode => id.hashCode;
 }

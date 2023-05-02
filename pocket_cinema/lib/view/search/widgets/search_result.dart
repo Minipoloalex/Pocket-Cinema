@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
@@ -62,7 +63,9 @@ class SearchResult extends StatelessWidget {
           ),
           Row(
             children: [
-              CheckButton(media: media),
+              CheckButton(initialChecked: media.watched ?? false, onPressed: () {
+                FirestoreDatabase.toggleMediaStatus(media, "watched");
+              }),
               AddButton(
                 onPressed: () {},
               ),

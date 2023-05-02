@@ -26,7 +26,6 @@ final watchedListProvider = FutureProvider<List<Media>>((ref) async {
   return await FirestoreDatabase.getWatchedList();
 });
 
-// Return the lists of the user
 final listsProvider = FutureProvider.autoDispose<List>((ref) async {
   return [];
 });
