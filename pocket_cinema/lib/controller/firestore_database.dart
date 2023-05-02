@@ -176,5 +176,24 @@ class FirestoreDatabase {
       });
     }
   }
+  static Future<List<Media>> getWatchedList() async {
+    if (FirebaseAuth.instance.currentUser?.uid == null) {
+      throw Exception('User not logged in');
+    }
+    final userSnapshot = await FirebaseFirestore.instance.collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid).get();
 
+    final List watchedList = userSnapshot.data()?['watched'] ?? [];
+
+    final List<Media> medias = await Future.wait(watchedList.map((mediaId) async {
+      final mediaSnapshot = await FirebaseFirestore.instance.collection('medias')
+          .doc(mediaId).get();
+      return Media(
+        id: mediaSnapshot.id,
+        name: mediaSnapshot.get('name'),
+        posterImage: mediaSnapshot.get('posterUrl'),
+      );
+    }));
+    return medias;
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/model/media.dart';
 
 /*
@@ -21,6 +22,9 @@ final toWatchListProvider = FutureProvider<List<Media>>((ref) async {
   return mediaToWatch;
 });
 
+final watchedListProvider = FutureProvider<List<Media>>((ref) async {
+  return await FirestoreDatabase.getWatchedList();
+});
 
 // Return the lists of the user
 final listsProvider = FutureProvider.autoDispose<List>((ref) async {
