@@ -8,6 +8,7 @@ import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/validate.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/media_list.dart';
+import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/comment_and_list_form.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
@@ -45,6 +46,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
     }
     _controller.clear();
     _node.unfocus();
+    ref.refresh(watchedListProvider).value;
   }
 
   void toggleCreateListFormVisibility() {
@@ -84,6 +86,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
           const ToWatchList(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+
             children: <Widget>[
               watchedList.when(
                   data: (data) => ListButton(
@@ -105,13 +108,14 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                   error: (error, stackTrace) {
                     return Center(child: Text("Error: ${error.toString()}"));
                   }),
+                  /*
               const SizedBox(width: 20),
               ListButton(
                 icon: const HeroIcon(HeroIcons.ellipsisHorizontalCircle,
                     style: HeroIconStyle.solid),
                 labelText: "Watching",
                 onPressed: () {},
-              ),
+              ),*/
             ],
           ),
           const PersonalList(),
@@ -147,6 +151,16 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
             ),
           ),
       ],
+      ),
+      floatingActionButton: Visibility(
+        visible: !_isFormVisible,
+        child: AddButton(
+          onPressed: () => {
+            toggleCreateListFormVisibility(),
+            _node.requestFocus(),
+          },
+          tooltip: "Create a new list",
+        )
       ),
     );
   }

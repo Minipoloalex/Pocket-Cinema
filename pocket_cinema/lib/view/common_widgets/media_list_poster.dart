@@ -79,11 +79,10 @@ class MediaListPoster extends StatelessWidget {
         padding: const EdgeInsets.only(top: 12.0),
         child: SizedBox(
             width: 157,
-            child: Expanded(
-                child: Text(name,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2))),
+            child: Text(name,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2)),
       )
     ]);
   }
@@ -97,7 +96,6 @@ class MediaListList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final columnChildren = <Widget>[];
     final rows = (mediaListList.length / 2).ceil();
 
@@ -108,21 +106,24 @@ class MediaListList extends StatelessWidget {
         if (index < mediaListList.length) {
           rowChildren.add(
             MediaListPoster(
-                  name: mediaListList[index].name,
-                  mediaList: mediaListList[index]
-              ),
+                name: mediaListList[index].name,
+                mediaList: mediaListList[index]),
           );
         }
       }
       columnChildren.add(
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: rowChildren.length == 2 ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.start,
-          children: rowChildren.map((widget) => Padding(
-            padding: EdgeInsets.only(top: 25.0, left: (rowChildren.length == 2) ? 0 : 25.0),
-            child: widget,
-          )
-          ).toList(),
+          mainAxisAlignment: rowChildren.length == 2
+              ? MainAxisAlignment.spaceEvenly
+              : MainAxisAlignment.start,
+          children: rowChildren
+              .map((widget) => Padding(
+                    padding: EdgeInsets.only(
+                        top: 25.0, left: (rowChildren.length == 2) ? 0 : 25.0),
+                    child: widget,
+                  ))
+              .toList(),
         ),
       );
     }
