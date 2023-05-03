@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/authentication.dart';
-import 'package:pocket_cinema/controller/lists_provider.dart';
-import 'package:pocket_cinema/model/mediaList.dart';
-import 'package:pocket_cinema/view/common_widgets/add_button.dart';
-import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
-import 'package:pocket_cinema/model/media.dart';
-import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
-import 'package:pocket_cinema/view/common_widgets/comment_and_list_form.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
+import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/validate.dart';
+import 'package:pocket_cinema/model/media.dart';
+import 'package:pocket_cinema/model/media_list.dart';
+import 'package:pocket_cinema/view/common_widgets/comment_and_list_form.dart';
+import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
+import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
 import 'package:pocket_cinema/view/media_list/media_list.dart';
+import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../common_widgets/media_list_poster.dart';
 
@@ -116,7 +115,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
             ],
           ),
           const PersonalList(),
-          Container(
+          SizedBox(
             height: 100,
             child: Visibility(
               visible: _isFormVisible,
@@ -194,8 +193,8 @@ class PersonalList extends ConsumerWidget {
   const PersonalList({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<List<MediaList>> PersonalList = ref.watch(listsProvider);
-    return PersonalList.when(
+    AsyncValue<List<MediaList>> personalList = ref.watch(listsProvider);
+    return personalList.when(
       data: (List<MediaList> data) => MediaListList(mediaListList: data),
       error: (Object error, StackTrace stackTrace) => Text(error.toString()),
       // loading: () => Container(),

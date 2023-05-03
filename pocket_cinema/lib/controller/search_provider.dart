@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/fetcher.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
+import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/parser.dart';
 import 'package:pocket_cinema/model/comment.dart';
 import 'package:pocket_cinema/model/media.dart';
-import 'package:pocket_cinema/controller/lists_provider.dart';
 
 final searchQueryProvider = StateProvider.autoDispose<String>((ref) => '');
 

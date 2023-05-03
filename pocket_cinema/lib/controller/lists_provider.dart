@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/model/media.dart';
-import 'package:pocket_cinema/model/mediaList.dart';
+import 'package:pocket_cinema/model/media_list.dart';
 
 /*
 List<Media> _mediaToWatch = const [

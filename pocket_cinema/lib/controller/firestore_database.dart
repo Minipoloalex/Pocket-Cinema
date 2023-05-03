@@ -4,8 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pocket_cinema/model/comment.dart';
 import 'package:pocket_cinema/model/media.dart';
+import 'package:pocket_cinema/model/media_list.dart';
 import 'package:pocket_cinema/model/my_user.dart';
-import 'package:pocket_cinema/model/mediaList.dart';
 
 class FirestoreDatabase {
   static Future<String> getUsernameById(String id) async {

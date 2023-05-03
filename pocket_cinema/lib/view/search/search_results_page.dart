@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
+import 'package:pocket_cinema/view/search/widgets/no_results_found.dart';
 import 'package:pocket_cinema/view/search/widgets/search_result.dart';
 import 'package:pocket_cinema/view/search/widgets/search_result_shimmer.dart';
-import 'package:pocket_cinema/view/search/widgets/no_results_found.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SearchResultsPage extends ConsumerStatefulWidget {

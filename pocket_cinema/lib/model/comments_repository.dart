@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class CommentRepository {
   CommentRepository._();
 
-  static CommentRepository _instance = CommentRepository._();
+  static final CommentRepository _instance = CommentRepository._();
   static CommentRepository get instance => _instance;
 
   final CollectionReference _commentCollection = FirebaseFirestore.instance.collection('comments');

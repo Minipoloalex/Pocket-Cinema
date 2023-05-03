@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pocket_cinema/model/mediaList.dart';
-import 'package:pocket_cinema/model/media.dart';
-import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
-import 'package:pocket_cinema/controller/lists_provider.dart';
+import 'package:pocket_cinema/model/media_list.dart';
 
 class MediaListPoster extends StatelessWidget {
   final String name;
