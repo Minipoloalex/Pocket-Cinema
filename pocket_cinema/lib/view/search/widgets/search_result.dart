@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
+import 'package:pocket_cinema/view/common_widgets/bottom_modal.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
 import 'package:pocket_cinema/view/media/media_page.dart';
 
@@ -27,7 +28,7 @@ class SearchResult extends StatelessWidget {
                   )
               );
             },
-            child:Container(
+            child: Container(
               width: 100,
               height: 150,
               decoration: BoxDecoration(
@@ -66,8 +67,17 @@ class SearchResult extends StatelessWidget {
               CheckButton(initialChecked: media.watched ?? false, onPressed: () {
                 FirestoreDatabase.toggleMediaStatus(media, "watched");
               }),
+              
               AddButton(
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet<void>(
+                    context: context,
+                    builder: (_) {
+                      return BottomModal(
+                        media: media,
+                      );
+                    });
+                },
               ),
             ],
           ),

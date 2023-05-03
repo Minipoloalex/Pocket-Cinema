@@ -4,6 +4,7 @@ import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
+import 'package:pocket_cinema/view/common_widgets/bottom_modal.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_section.dart';
@@ -60,7 +61,8 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                 image: NetworkImage(
                                   data.backgroundImage!,
                                 ),
-                                fadeInDuration: const Duration(milliseconds: 100), 
+                                fadeInDuration:
+                                    const Duration(milliseconds: 100),
                                 placeholder: const AssetImage(
                                     'assets/images/placeholder.png'),
                               )
@@ -205,14 +207,29 @@ class MediaPageState extends ConsumerState<MediaPage> {
                           ),
                           const SizedBox(width: 20),
                           mediaInfo.when(
-                            data: (data) => CheckButton(initialChecked: data.watched ?? false, onPressed: () {
-                              FirestoreDatabase.toggleMediaStatus(data, "watched");
+                            data: (data) => CheckButton(
+                                initialChecked: data.watched ?? false,
+                                onPressed: () {
+                                  FirestoreDatabase.toggleMediaStatus(
+                                      data, "watched");
+                                }),
+                            loading: () => const SizedBox(),
+                            error: (error, stack) => Text(error.toString()),
+                          ),
+                          mediaInfo.when(
+                            data: (data) => AddButton(onPressed: () {
+                              showModalBottomSheet<void>(
+                                  context: context,
+                                  builder: (_) {
+                                    return BottomModal(
+                                      media: data,
+                                    );
+                                  });
                             }),
                             loading: () => const SizedBox(),
                             error: (error, stack) => Text(error.toString()),
                           ),
-
-                          AddButton(onPressed: () {}),
+                          //
                         ],
                       )),
                   Positioned(

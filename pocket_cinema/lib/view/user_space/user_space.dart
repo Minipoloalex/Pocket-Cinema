@@ -6,17 +6,12 @@ import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/validate.dart';
-import 'package:pocket_cinema/model/media.dart';
-import 'package:pocket_cinema/model/media_list.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/comment_and_list_form.dart';
-import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
-import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
+import 'package:pocket_cinema/view/common_widgets/personal_lists.dart';
 import 'package:pocket_cinema/view/media_list/media_list.dart';
 import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
-import 'package:shimmer/shimmer.dart';
-
-import '../common_widgets/media_list_poster.dart';
+import 'package:pocket_cinema/view/user_space/widgets/to_watch_list.dart';
 
 class UserSpacePage extends ConsumerStatefulWidget {
   const UserSpacePage({super.key});
@@ -29,7 +24,13 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _node = FocusNode();
   bool _isFormVisible = false;
-
+  
+  @override
+  void initState() {
+    super.initState();
+    ref.refresh(watchedListProvider).value;
+    ref.refresh(toWatchListProvider).value;
+  }
   void _handleSubmit(String listName) {
     if (!Validate.listName(listName)) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -81,9 +82,17 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
           ),
         ],
       ),
-      body: ListView(
+      body: 
+        RefreshIndicator(
+      onRefresh: () async {
+        ref.refresh(listsProvider).value;
+        ref.refresh(toWatchListProvider).value;
+      },
+      child:
+      ListView(
         children: <Widget>[
           const ToWatchList(),
+          
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
 
@@ -119,6 +128,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
             ],
           ),
           const PersonalList(),
+
           SizedBox(
             height: 100,
             child: Visibility(
@@ -151,7 +161,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
             ),
           ),
       ],
-      ),
+      )),
       floatingActionButton: Visibility(
         visible: !_isFormVisible,
         child: AddButton(
@@ -161,77 +171,6 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
           },
           tooltip: "Create a new list",
         )
-      ),
-    );
-  }
-}
-
-class ToWatchList extends ConsumerWidget {
-  const ToWatchList({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<List<Media>> toWatchList = ref.watch(toWatchListProvider);
-
-    return toWatchList.when(
-      data: (data) => HorizontalMediaList(
-        name: "In your pocket to Watch",
-        media: data,
-      ),
-      // a list of 10 PosterShimmer widgets
-      loading: () => Shimmer.fromColors(
-          period: const Duration(milliseconds: 1000),
-          baseColor: Theme.of(context).highlightColor,
-          highlightColor: Theme.of(context).colorScheme.onPrimary,
-          child: SizedBox(
-              height: 300,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.all(20),
-                shrinkWrap: true,
-                separatorBuilder: (context, index) => const Divider(
-                  color: Colors.black,
-                ),
-                itemCount: 7,
-                itemBuilder: (context, index) => const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: PosterShimmer(),
-                ),
-              ))),
-      error: (error, stack) => Text(error.toString()),
-    );
-  }
-}
-
-class PersonalList extends ConsumerWidget {
-  const PersonalList({super.key});
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<List<MediaList>> personalList = ref.watch(listsProvider);
-    return personalList.when(
-      data: (List<MediaList> data) => MediaListList(mediaListList: data),
-      error: (Object error, StackTrace stackTrace) => Text(error.toString()),
-      // loading: () => Container(),
-      loading: () => Shimmer.fromColors(
-          period: const Duration(milliseconds: 1000),
-          baseColor: Theme.of(context).highlightColor,
-          highlightColor: Theme.of(context).colorScheme.onPrimary,
-          child: SizedBox(
-              height: 300,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.all(20),
-                shrinkWrap: true,
-                separatorBuilder: (context, index) => const Divider(
-                  color: Colors.black,
-                ),
-                itemCount: 7,
-                itemBuilder: (context, index) => const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: PosterShimmer(),
-                ),
-              )
-          )
       ),
     );
   }
