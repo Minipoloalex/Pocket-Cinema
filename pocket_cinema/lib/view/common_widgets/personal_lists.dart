@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
+import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/media_list.dart';
 import 'package:pocket_cinema/view/common_widgets/media_list_poster.dart';
 import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
 import 'package:shimmer/shimmer.dart';
 
 class PersonalList extends ConsumerWidget {
-  const PersonalList({super.key});
+  final Media? media;
+  const PersonalList({super.key, this.media});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<List<MediaList>> personalList = ref.watch(listsProvider);
     
     return personalList.when(
-      data: (List<MediaList> data) => MediaListList(mediaListList: data),
+      data: (List<MediaList> data) => MediaListList(mediaListList: data, media: media),
       error: (Object error, StackTrace stackTrace) => Text(error.toString()),
       loading: () => Shimmer.fromColors(
           period: const Duration(milliseconds: 1000),

@@ -132,6 +132,7 @@ class FirestoreDatabase {
         .get();
     final List<MediaList> mediaLists = [];
     for (final doc in querySnapshot.docs) {
+      final id = doc.id;
       final name = doc.data()['name'] as String;
       final mediaIds = doc.data()['mediaIds'] as List<dynamic>;
       final createdAt = doc.data()['createdAt'] as Timestamp;
@@ -144,7 +145,7 @@ class FirestoreDatabase {
           posterImage: mediaSnapshot.get('posterUrl'),
         );
       }));
-      mediaLists.add(MediaList(name: name, media: media, createdAt: createdAt));
+      mediaLists.add(MediaList(id: id, name: name, media: media, createdAt: createdAt));
     }
     return mediaLists;
   }
@@ -159,7 +160,7 @@ class FirestoreDatabase {
   static Future<void> addMediaToList(Media media, String listId) async {
     final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
     await docList.update({
-      'mediasIds': FieldValue.arrayUnion([media.id])
+      'mediaIds': FieldValue.arrayUnion([media.id])
     });
     mediaExists(media);
   }
@@ -179,7 +180,7 @@ class FirestoreDatabase {
   static Future<void> removeMediaFromList(String mediaId, String listId) async {
     final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
     await docList.update({
-      'mediasIds': FieldValue.arrayRemove([mediaId])
+      'mediaId': FieldValue.arrayRemove([mediaId])
     });
   }
 

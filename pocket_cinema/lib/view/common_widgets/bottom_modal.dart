@@ -38,8 +38,7 @@ class BottomModal extends StatelessWidget {
                         child: Text('Add to Watch',
                             style: TextStyle(fontSize: 23))))),
 
-            // scrollable PersonalList
-            const PersonalList()
+            PersonalList(media: media)
           ],
         ),
       ),
