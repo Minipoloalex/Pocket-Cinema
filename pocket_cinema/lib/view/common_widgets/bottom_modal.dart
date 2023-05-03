@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/model/media.dart';
+import 'package:pocket_cinema/view/common_widgets/personal_lists.dart';
 
 class BottomModal extends StatelessWidget {
   final Media media;
@@ -13,24 +14,32 @@ class BottomModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).colorScheme.tertiary,
-      height: 200,
+      height: 400,
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
+        child: ListView(
           children: <Widget>[
-            ElevatedButton(
-              onPressed: () => addToWatchList(context, media),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).colorScheme.secondary),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).colorScheme.onSecondary),
-              ),
-              child: const Text('To Watch'),
-            ),
+            Container(
+                margin: const EdgeInsets.only(top: 28, left: 28, right: 28),
+                child: ElevatedButton(
+                    onPressed: () => addToWatchList(context, media),
+                    style: ButtonStyle(
+                      //radius
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      )),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).colorScheme.secondary),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).colorScheme.onSecondary),
+                    ),
+                    child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        child: Text('Add to Watch',
+                            style: TextStyle(fontSize: 23))))),
 
-            // TODO: lists (lists posters)
+            // scrollable PersonalList
+            const PersonalList()
           ],
         ),
       ),
