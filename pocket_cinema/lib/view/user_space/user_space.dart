@@ -82,7 +82,14 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
           ),
         ],
       ),
-      body: ListView(
+      body: 
+        RefreshIndicator(
+      onRefresh: () async {
+        ref.refresh(listsProvider).value;
+        ref.refresh(toWatchListProvider).value;
+      },
+      child:
+      ListView(
         children: <Widget>[
           const ToWatchList(),
           
@@ -154,7 +161,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
             ),
           ),
       ],
-      ),
+      )),
       floatingActionButton: Visibility(
         visible: !_isFormVisible,
         child: AddButton(
