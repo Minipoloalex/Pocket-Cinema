@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pocket_cinema/model/comment.dart';
 import 'package:pocket_cinema/model/media.dart';
+import 'package:pocket_cinema/model/media_list.dart';
 import 'package:pocket_cinema/model/my_user.dart';
 
 class FirestoreDatabase {
@@ -120,6 +121,35 @@ class FirestoreDatabase {
       'personalLists': FieldValue.arrayUnion([docList.id])
     });
   }
+
+  static Future<List<MediaList>> getPersonalLists() async {
+    if (FirebaseAuth.instance.currentUser == null) {
+      throw Exception('User not logged in');
+    }
+    final personalListRef = FirebaseFirestore.instance.collection('lists');
+    final querySnapshot = await personalListRef
+        .where("ownerId", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    final List<MediaList> mediaLists = [];
+    for (final doc in querySnapshot.docs) {
+      final name = doc.data()['name'] as String;
+      final mediaIds = doc.data()['mediaIds'] as List<dynamic>;
+      final createdAt = doc.data()['createdAt'] as Timestamp;
+      final List<Media> media = await Future.wait(mediaIds.map((mediaId) async {
+        final mediaSnapshot = await FirebaseFirestore.instance.collection('medias')
+            .doc(mediaId).get();
+        return Media(
+          id: mediaSnapshot.id,
+          name: mediaSnapshot.get('name'),
+          posterImage: mediaSnapshot.get('posterUrl'),
+        );
+      }));
+      mediaLists.add(MediaList(name: name, media: media, createdAt: createdAt));
+    }
+    return mediaLists;
+  }
+
+
 
   static Future<void> deletePersonalList(String listId) async {
     final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
