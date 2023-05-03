@@ -13,17 +13,11 @@ List<Media> _mediaToWatch = const [
 ];*/
 
 final toWatchListProvider = FutureProvider<List<Media>>((ref) async {
-  // Fake get call
-  final mediaToWatch = await Future.delayed(
-    const Duration(seconds: 1),
-    () => <Media>[],
-  );
-
-  return mediaToWatch;
+  return await FirestoreDatabase.getPredefinedList("ToWatch");
 });
 
 final watchedListProvider = FutureProvider<List<Media>>((ref) async {
-  return await FirestoreDatabase.getWatchedList();
+  return await FirestoreDatabase.getPredefinedList("watched");
 });
 
 final listsProvider = FutureProvider.autoDispose<List>((ref) async {

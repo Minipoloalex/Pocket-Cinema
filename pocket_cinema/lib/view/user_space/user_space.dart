@@ -26,8 +26,13 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _node = FocusNode();
   bool _isFormVisible = false;
-
-
+  
+  @override
+  void initState() {
+    super.initState();
+    ref.refresh(watchedListProvider).value;
+    ref.refresh(toWatchListProvider).value;
+  }
   void _handleSubmit(String listName) {
     if (!Validate.listName(listName)) {
       ScaffoldMessenger.of(context).showSnackBar(

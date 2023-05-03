@@ -51,6 +51,7 @@ dependencies:
   timeago: ^3.3.0
   video_player: ^2.6.1
   chewie: ^1.4.0
+  fluttertoast: ^8.2.1
 
 dev_dependencies:
   flutter_gherkin: ^2.0.0
