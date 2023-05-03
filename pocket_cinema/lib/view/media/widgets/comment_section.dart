@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
-import 'package:pocket_cinema/view/media/widgets/comment_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/comment_and_list_form.dart';
+import 'package:pocket_cinema/view/media/widgets/comment_widget.dart';
 
 class CommentSection extends ConsumerStatefulWidget {
   final String mediaID;
