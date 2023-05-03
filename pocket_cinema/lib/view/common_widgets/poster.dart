@@ -5,41 +5,32 @@ class Poster extends StatelessWidget {
   final String name;
   final String url;
 
-  const Poster(
-      {super.key,
-        required this.name,
-        required this.url});
+  const Poster({super.key, required this.name, required this.url});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: [
-          Container(
-            width: 125,
-            height: 187.5,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: FadeInImage.memoryNetwork(image: url, placeholder: kTransparentImage).image,
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.circular(5),
-            ),
+    return Column(children: [
+      Container(
+        width: 125,
+        height: 187.5,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: FadeInImage.memoryNetwork(
+                    image: url, placeholder: kTransparentImage)
+                .image,
+            fit: BoxFit.cover,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
+          borderRadius: BorderRadius.circular(5),
+        ),
+      ),
+      Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
               width: 125,
-              child: Expanded(
-                child: Text(
-                  name,
+              child: Text(name,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
-                  maxLines: 2
-                )
-              )
-            )
-          )
-        ]
-    );
+                  maxLines: 2)))
+    ]);
   }
 }
