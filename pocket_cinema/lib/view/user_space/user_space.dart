@@ -115,8 +115,9 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
               ),
             ],
           ),
-          PersonalList(),
-          Expanded(
+          const PersonalList(),
+          Container(
+            height: 100,
             child: Visibility(
               visible: _isFormVisible,
               child: Align(
@@ -145,18 +146,8 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                 ),
               ),
             ),
-          )
-        ],
-      ),
-      floatingActionButton: Visibility(
-        visible: !_isFormVisible,
-        child: AddButton(
-          onPressed: () {
-            toggleCreateListFormVisibility();
-            _node.requestFocus();
-          },
-          tooltip: "Create a new list",
-        ),
+          ),
+      ],
       ),
     );
   }
@@ -207,6 +198,7 @@ class PersonalList extends ConsumerWidget {
     return PersonalList.when(
       data: (List<MediaList> data) => MediaListList(mediaListList: data),
       error: (Object error, StackTrace stackTrace) => Text(error.toString()),
+      // loading: () => Container(),
       loading: () => Shimmer.fromColors(
           period: const Duration(milliseconds: 1000),
           baseColor: Theme.of(context).highlightColor,
@@ -225,7 +217,9 @@ class PersonalList extends ConsumerWidget {
                   padding: EdgeInsets.all(8.0),
                   child: PosterShimmer(),
                 ),
-              ))),
+              )
+          )
+      ),
     );
   }
 }

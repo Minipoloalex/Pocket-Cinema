@@ -133,11 +133,8 @@ class FirestoreDatabase {
     final List<MediaList> mediaLists = [];
     for (final doc in querySnapshot.docs) {
       final name = doc.data()['name'] as String;
-      print(name);
       final mediaIds = doc.data()['mediaIds'] as List<dynamic>;
-      print(mediaIds);
       final createdAt = doc.data()['createdAt'] as Timestamp;
-      print(createdAt);
       final List<Media> media = await Future.wait(mediaIds.map((mediaId) async {
         final mediaSnapshot = await FirebaseFirestore.instance.collection('medias')
             .doc(mediaId).get();
