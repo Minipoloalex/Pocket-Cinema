@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pocket_cinema/controller/firestore_database.dart';
+import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
@@ -8,12 +10,24 @@ import 'package:pocket_cinema/view/media/widgets/comment_section.dart';
 import 'package:pocket_cinema/view/media/widgets/description_shimmer.dart';
 import 'package:shimmer/shimmer.dart';
 
-class MediaPage extends ConsumerWidget {
+class MediaPage extends ConsumerStatefulWidget {
   final String id;
-  const MediaPage({Key? key, required this.id}) : super(key: key);
+  const MediaPage({super.key, required this.id});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final mediaInfo = ref.watch(mediaProvider(id));
+  MediaPageState createState() => MediaPageState();
+}
+
+class MediaPageState extends ConsumerState<MediaPage> {
+  @override
+  void initState() {
+    super.initState();
+    ref.refresh(watchedListProvider).value;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaInfo = ref.watch(mediaProvider(widget.id));
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -190,7 +204,14 @@ class MediaPage extends ConsumerWidget {
                                 )),
                           ),
                           const SizedBox(width: 20),
-                          const CheckButton(),
+                          mediaInfo.when(
+                            data: (data) => CheckButton(initialChecked: data.watched ?? false, onPressed: () {
+                              FirestoreDatabase.toggleMediaStatus(data, "watched");
+                            }),
+                            loading: () => const SizedBox(),
+                            error: (error, stack) => Text(error.toString()),
+                          ),
+
                           AddButton(onPressed: () {}),
                         ],
                       )),
@@ -223,7 +244,7 @@ class MediaPage extends ConsumerWidget {
             ),
             Flexible(
               fit: FlexFit.tight,
-              child: CommentSection(mediaID: id),
+              child: CommentSection(mediaID: widget.id),
             ),
           ],
         ),

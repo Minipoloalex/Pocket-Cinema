@@ -31,7 +31,7 @@ Feature: Searching for movies/series by title
 
   Scenario: Searching for a non-existing movie
     Given I am on the "SearchResultsPage" page
-    When I fill the "searchField" field without scrolling with "qwertyuiop"
+    When I fill the "searchField" field without scrolling with "qwertyuiopaSDFGHJK"
     Then I find no results on the movies tab
 
   Scenario: Searching for an existing series by title

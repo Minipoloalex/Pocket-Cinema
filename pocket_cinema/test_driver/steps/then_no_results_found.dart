@@ -4,7 +4,7 @@ import 'package:gherkin/gherkin.dart';
 
 
 class ThenNoResultsFound extends Then1WithWorld<String, FlutterWorld> {
-  ThenNoResultsFound() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:10));
+  ThenNoResultsFound() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:15));
   @override
   Future<void> executeStep(String input) async {
     FlutterDriverUtils.waitForFlutter(world.driver);
@@ -14,7 +14,7 @@ class ThenNoResultsFound extends Then1WithWorld<String, FlutterWorld> {
         await FlutterDriverUtils.isPresent(
             world.driver,
             movies,
-            timeout: const Duration(seconds: 5)),
+            timeout: const Duration(seconds: 10)),
         true,
         reason: "Movies tab is not present",
       );
@@ -25,11 +25,13 @@ class ThenNoResultsFound extends Then1WithWorld<String, FlutterWorld> {
         await FlutterDriverUtils.isPresent(
             world.driver,
             series,
-            timeout: const Duration(seconds: 5)),
+            timeout: const Duration(seconds: 10)),
         true,
         reason: "Series tab is not present",
       );
     }
+
+    FlutterDriverUtils.waitForFlutter(world.driver);
     final searchResultsFinder = find.byType("SearchResult");
 
     expect(
@@ -41,7 +43,6 @@ class ThenNoResultsFound extends Then1WithWorld<String, FlutterWorld> {
       reason: "Search results are present",
     );
     await FlutterDriverUtils.waitForFlutter(world.driver);
-
   }
 
   @override

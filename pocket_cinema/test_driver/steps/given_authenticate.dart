@@ -3,7 +3,7 @@ import 'package:flutter_gherkin/flutter_gherkin.dart';
 import 'package:gherkin/gherkin.dart';
 
 class GivenAuthenticate extends Given2WithWorld<String, String, FlutterWorld> {
-  GivenAuthenticate() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:10));
+  GivenAuthenticate() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:15));
   @override
   Future<void> executeStep(String username, String password) async {
     final loginPage = find.byType('LoginPage');

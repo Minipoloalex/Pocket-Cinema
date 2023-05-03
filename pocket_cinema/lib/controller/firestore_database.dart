@@ -182,29 +182,27 @@ class FirestoreDatabase {
     });
   }
 
-  static Future<void> toggleMediaStatus(String mediaId, String listName) async {
+  static Future<void> toggleMediaStatus(Media media, String listName) async {
     if(listName != 'watched' && listName != 'toWatch') {
       throw Exception('Invalid list');
     }
-
-    //TODO: create the media if doesn't exist in the database yet
-
+    mediaExists(media);
     final docUser = FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid);
 
-    final DocumentSnapshot snapshot = await docUser.get();
-    final List listMedia = snapshot.get(listName);
+    final userSnapshot = await docUser.get();
+    final List listMedia = userSnapshot.data()?[listName] ?? [];
 
-    if (listMedia.contains(mediaId)) {
+    if (listMedia.contains(media.id)) {
       await docUser.update({
-        listName: FieldValue.arrayRemove([mediaId])
+        listName: FieldValue.arrayRemove([media.id])
       });
     } else {
       await docUser.update({
-        listName: FieldValue.arrayUnion([mediaId])
+        listName: FieldValue.arrayUnion([media.id])
       });
-    }
+    }  
   }
   static Future<List<Media>> getWatchedList() async {
     if (FirebaseAuth.instance.currentUser == null) {
@@ -225,5 +223,14 @@ class FirestoreDatabase {
       );
     }));
     return medias;
+}
+  static Future<bool> isMediaWatched(String mediaId) async {
+    if (FirebaseAuth.instance.currentUser == null) {
+      throw Exception('User not logged in');
+    }
+    final userSnapshot = await FirebaseFirestore.instance.collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid).get();
+    final List watchedList = userSnapshot.data()?['watched'] ?? [];
+    return watchedList.contains(mediaId);
   }
 }
