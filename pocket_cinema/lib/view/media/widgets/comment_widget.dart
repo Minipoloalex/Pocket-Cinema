@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pocket_cinema/model/comment.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:pocket_cinema/view/common_widgets/string_capitalize.dart';
 
 class CommentWidget extends StatelessWidget {
   final Comment comment;
@@ -28,7 +29,7 @@ class CommentWidget extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            timeago.format(comment.createdAt.toDate()),
+            timeago.format(comment.createdAt.toDate()).capitalize(),
             style: const TextStyle(fontSize: 12.0, color: Colors.grey),
           ),
         ],

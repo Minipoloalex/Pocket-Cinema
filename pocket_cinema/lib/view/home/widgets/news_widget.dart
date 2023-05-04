@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pocket_cinema/model/news.dart';
 import 'package:pocket_cinema/view/home/widgets/news_page.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:pocket_cinema/view/common_widgets/string_capitalize.dart';
 
 class NewsCard extends StatelessWidget {
   final News news;
@@ -49,7 +50,7 @@ class NewsCard extends StatelessWidget {
                                 maxLines: 3,
                                 overflow: TextOverflow.fade,
                               ),
-                            Text(timeago.format(news.date)),
+                            Text(timeago.format(news.date).capitalize()),
                           ],
                         )),
                 ),
