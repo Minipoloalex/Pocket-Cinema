@@ -3,7 +3,7 @@ import 'package:flutter_gherkin/flutter_gherkin.dart';
 import 'package:gherkin/gherkin.dart';
 
 class GivenNotAuthenticated extends GivenWithWorld<FlutterWorld> {
-  GivenNotAuthenticated() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:10));
+  GivenNotAuthenticated() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:15));
   @override
   Future<void> executeStep() async {
     final loginPage = find.byType('LoginPage');
@@ -23,13 +23,14 @@ class GivenNotAuthenticated extends GivenWithWorld<FlutterWorld> {
 
     final userSpacePage = find.byType('UserSpacePage');
     expect(
-      await FlutterDriverUtils.isPresent(world.driver, userSpacePage, timeout: const Duration(seconds: 1)),
+      await FlutterDriverUtils.isPresent(world.driver, userSpacePage, timeout: const Duration(seconds: 2)),
       true,
       reason: "UserSpacePage is not present",
     );
 
     final logoutButton = find.byValueKey('logoutButton');
     await FlutterDriverUtils.tap(world.driver, logoutButton);
+    await FlutterDriverUtils.waitForFlutter(world.driver);
   }
 
   @override

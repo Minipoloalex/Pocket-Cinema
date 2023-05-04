@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
+import 'package:pocket_cinema/view/common_widgets/bottom_modal.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
 import 'package:pocket_cinema/view/media/media_page.dart';
 
@@ -17,23 +19,26 @@ class SearchResult extends StatelessWidget {
       child: Row(
         children: [
           InkWell(
+            key: Key(media.name),
             onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => MediaPage(id : media.id)));
+                      builder: (context) => MediaPage(id : media.id)
+                  )
+              );
             },
-          child:Container(
-            width: 100,
-            height: 150,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(media.posterImage),
-                fit: BoxFit.cover,
+            child: Container(
+              width: 100,
+              height: 150,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(media.posterImage),
+                  fit: BoxFit.cover,
+                ),
+                borderRadius: BorderRadius.circular(5),
               ),
-              borderRadius: BorderRadius.circular(5),
             ),
-          ),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -49,7 +54,7 @@ class SearchResult extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  media.description,
+                  media.description ?? '',
                   style: const TextStyle(
                     fontSize: 14,
                   ),
@@ -58,11 +63,24 @@ class SearchResult extends StatelessWidget {
             ),
           ),
           Row(
-            children: const [
-              CheckButton(),
-              AddButton(),
+            children: [
+              CheckButton(initialChecked: media.watched ?? false, onPressed: () {
+                FirestoreDatabase.toggleMediaStatus(media, "watched");
+              }),
+              
+              AddButton(
+                onPressed: () {
+                  showModalBottomSheet<void>(
+                    context: context,
+                    builder: (_) {
+                      return BottomModal(
+                        media: media,
+                      );
+                    });
+                },
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

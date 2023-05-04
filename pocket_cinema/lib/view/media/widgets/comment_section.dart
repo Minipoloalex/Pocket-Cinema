@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
+import 'package:pocket_cinema/view/common_widgets/comment_and_list_form.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_widget.dart';
 
 class CommentSection extends ConsumerStatefulWidget {
@@ -72,46 +73,19 @@ class CommentSectionState extends ConsumerState<CommentSection> {
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding:
-                const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 30.0),
-            child: Stack(
-              children: [
-                TextField(
-                  minLines: 1,
-                  maxLines: 4,
-                  focusNode: _node,
-                  controller: _controller,
-                  onSubmitted: _handleSubmit,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Theme.of(context).cardColor,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: const BorderSide(color: Colors.white, width: 1, style: BorderStyle.solid, strokeAlign: BorderSide.strokeAlignInside),
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(color: Colors.transparent),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    contentPadding: const EdgeInsets.fromLTRB(10, 5, 30, 5),
-                  ),
-                ),
-                Positioned(
-                  bottom: 2,
-                  right: 1,
-                  child: IconButton(
-                    color: Colors.white,
-                    icon: const Icon(Icons.send),
-                    onPressed: () {
-                      String value = _controller.text;
-                      _handleSubmit(value);
-                    },
-                  ),
-                ),
-              ],
+            child: CommentAndListForm(
+            controller: _controller,
+            focusNode: _node,
+            handleSubmit: _handleSubmit,
+            maxLines: 4,
+            suffixIcon: IconButton(
+              color: Colors.white,
+              icon: const Icon(Icons.send),
+              onPressed: () {
+                _handleSubmit(_controller.text);
+              },
             ),
-          ),
+          )
         ),
       ],
     );

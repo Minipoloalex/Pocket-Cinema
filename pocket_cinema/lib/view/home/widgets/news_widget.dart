@@ -3,6 +3,7 @@ import 'package:pocket_cinema/model/news.dart';
 import 'package:pocket_cinema/view/home/widgets/news_page.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:pocket_cinema/view/common_widgets/string_capitalize.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class NewsCard extends StatelessWidget {
   final News news;
@@ -33,7 +34,7 @@ class NewsCard extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
-                          image: NetworkImage(news.image),
+                          image: FadeInImage.memoryNetwork(image: news.image, placeholder: kTransparentImage).image,
                           fit: BoxFit.cover,
                         )),
                   ),

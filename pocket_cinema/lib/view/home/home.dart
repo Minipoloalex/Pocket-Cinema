@@ -19,7 +19,7 @@ class NewsList extends ConsumerWidget {
       onRefresh: () => _refreshNews(context, ref),
       child: news.when(
         data: (news) => ListView(
-          children: news.map((news) => NewsCard(news: news)).toList(),
+          children: news.map((news_) => NewsCard(key: Key("newsCard${news.indexOf(news_)}"), news: news_)).toList(),
         ),
         loading: () => Shimmer.fromColors(
           period: const Duration(milliseconds: 1000),
