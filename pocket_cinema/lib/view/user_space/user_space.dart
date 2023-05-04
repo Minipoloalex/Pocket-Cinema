@@ -65,21 +65,33 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          IconButton(
-            key: const Key("logoutButton"),
-            icon: const HeroIcon(HeroIcons.arrowLeftOnRectangle,
-                style: HeroIconStyle.solid),
-            iconSize: 30,
-            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-            onPressed: () {
-              User? user = FirebaseAuth.instance.currentUser;
-              if (user != null) {
-                Authentication.signOut();
-              }
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/login');
-            },
-          ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "MySpace",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 42,
+                  ),
+                ),
+                const SizedBox(width: 65),
+                IconButton(
+                  key: const Key("logoutButton"),
+                  icon: const HeroIcon(HeroIcons.arrowLeftOnRectangle,
+                      style: HeroIconStyle.solid),
+                  iconSize: 30,
+                  onPressed: () {
+                    User? user = FirebaseAuth.instance.currentUser;
+                    if (user != null) {
+                      Authentication.signOut();
+                    }
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed('/login');
+                  },
+                ),
+              ],
+            ),
         ],
       ),
       body: 
