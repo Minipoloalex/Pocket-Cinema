@@ -3,7 +3,7 @@ import 'package:pocket_cinema/model/news.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:pocket_cinema/view/common_widgets/string_capitalize.dart';
+import 'package:pocket_cinema/model/string_capitalize.dart';
 
 class NewsPage extends StatelessWidget {
   final News news;

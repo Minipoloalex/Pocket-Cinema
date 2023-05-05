@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 
 class TrailerPlayer extends StatefulWidget {
@@ -21,9 +22,18 @@ class _TrailerPlayerState extends State<TrailerPlayer> {
     _controller = VideoPlayerController.network(widget.videoUrl);
     _chewieController = ChewieController(
       videoPlayerController: _controller,
-      fullScreenByDefault: true,
+      aspectRatio: 16 / 9,
       autoPlay: true,
     );
+
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => {
+          _chewieController.enterFullScreen(),
+          SystemChrome.setPreferredOrientations([
+            DeviceOrientation.landscapeLeft,
+            DeviceOrientation.landscapeRight,
+          ]),
+    });
   }
 
   @override
