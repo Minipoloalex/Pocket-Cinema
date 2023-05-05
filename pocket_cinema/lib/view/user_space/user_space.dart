@@ -129,7 +129,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
           ),
           const PersonalList(),
 
-          SizedBox(
+          /*SizedBox(
             height: 100,
             child: Visibility(
               visible: _isFormVisible,
@@ -159,9 +159,45 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                 ),
               ),
             ),
-          ),
+          ),*/
       ],
       )),
+      bottomSheet: SizedBox(
+        height: 100,
+        child: Visibility(
+          visible: _isFormVisible,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: CommentAndListForm(
+              controller: _controller,
+              focusNode: _node,
+              handleSubmit: _handleSubmit,
+              maxLines: 1,
+              onTapOutside: (_) {
+                toggleCreateListFormVisibility();
+                _node.unfocus();
+                _controller.clear();
+              },
+              prefixIcon: IconButton(
+                color: Colors.white,
+                icon: const HeroIcon(HeroIcons.xMark),
+                onPressed: () {
+                  toggleCreateListFormVisibility();
+                  _controller.clear();
+                },
+              ),
+              suffixIcon: IconButton(
+                color: Colors.white,
+                icon: const HeroIcon(HeroIcons.plus),
+                onPressed: () {
+                  _handleSubmit(_controller.text);
+                },
+              ),
+              hintText: "New list name",
+            ),
+          ),
+        ),
+      ),
       floatingActionButton: Visibility(
         visible: !_isFormVisible,
         child: AddButton(
@@ -169,6 +205,8 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
             toggleCreateListFormVisibility(),
             _node.requestFocus(),
           },
+          buttonColor: Theme.of(context).colorScheme.secondary,
+          borderColor: Theme.of(context).colorScheme.primary,
           tooltip: "Create a new list",
         )
       ),
