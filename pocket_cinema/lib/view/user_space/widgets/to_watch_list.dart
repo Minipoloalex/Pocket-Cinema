@@ -4,9 +4,7 @@ import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list_shimmer.dart';
-import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
-import 'package:shimmer/shimmer.dart';
 
 class ToWatchList extends ConsumerWidget {
   const ToWatchList({super.key});

@@ -8,7 +8,6 @@ import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/search/search_results_page.dart';
 import 'package:pocket_cinema/view/search/widgets/trailer_card.dart';
 import 'package:pocket_cinema/view/search/widgets/trailer_card_shimmer.dart';
-import 'package:shimmer/shimmer.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});

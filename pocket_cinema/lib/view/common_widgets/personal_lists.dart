@@ -5,7 +5,7 @@ import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/media_list.dart';
 import 'package:pocket_cinema/view/common_widgets/media_list_poster.dart';
 import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 
 class PersonalList extends ConsumerWidget {
   final Media? media;
@@ -17,10 +17,7 @@ class PersonalList extends ConsumerWidget {
     return personalList.when(
       data: (List<MediaList> data) => MediaListList(mediaListList: data, media: media),
       error: (Object error, StackTrace stackTrace) => Text(error.toString()),
-      loading: () => Shimmer.fromColors(
-          period: const Duration(milliseconds: 1000),
-          baseColor: Theme.of(context).highlightColor,
-          highlightColor: Theme.of(context).colorScheme.onPrimary,
+      loading: () => ShimmerEffect(
           child: SizedBox(
               height: 300,
               child: ListView.separated(
