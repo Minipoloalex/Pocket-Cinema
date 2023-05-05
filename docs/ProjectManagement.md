@@ -6,7 +6,7 @@ All the management of the project is done using this [Github Project board](http
 - [v0](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T1/releases/tag/v0)
 - [v1](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T1/releases/tag/v1)
 - [v2](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T1/releases/tag/v2)
-- v3
+- [v3](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T1/releases/tag/v3)
 - v4
 
 # Iteration planning and Retrospectives
@@ -76,3 +76,18 @@ End
 
 ### Puzzles
 - Firebase test mode and security rules
+## Iteration **#3**
+End
+<img src="../images/iterations/iteration03-end.png">
+
+## Retrospective **#3**
+
+### Positive Aspects
+- We were able to implement good features
+
+### What can be better
+- We left important things for the last week that other issues depended on
+- Some issues we thought were simpler ended up being way more complex than expected
+
+### Puzzles
+- We are not sure if we will be able to implement all the features we want in time: we have to make sure everything gets implemented well
