@@ -74,8 +74,11 @@ class MySearchPageState extends ConsumerState<SearchPage>
           Column(
             children: [
               inTheatersMedia.when(
-                data: (data) =>
-                    HorizontalMediaList(name: 'In Theaters', media: data),
+                data: (data) => HorizontalMediaList(
+                  key: const Key("InTheaters"),
+                  name: 'In Theaters',
+                  media: data,
+                ),
                 loading: () =>
                     const ShimmerEffect(child: HorizontalMediaListShimmer()),
                 error: (error, stack) {
@@ -100,16 +103,17 @@ class MySearchPageState extends ConsumerState<SearchPage>
                   trendingTrailersMedia.when(
                     data: (data) => (Column(
                         children: data
-                            .map((item) => TrailerCard(media: item))
+                            .map((item) => TrailerCard(
+                                key: Key("TrailerCard${data.indexOf(item)}"),
+                                media: item))
                             .toList())),
                     error: (error, stack) {
                       return const Center(
                         child: Text('Error'),
                       );
                     },
-                    loading: () => 
-                    ShimmerEffect(child: 
-                    Column(
+                    loading: () => ShimmerEffect(
+                        child: Column(
                       children: List.generate(
                           4, (index) => const TrailerCardShimmer()),
                     )),
