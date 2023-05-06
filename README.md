@@ -25,4 +25,4 @@ You can find here details about the product, from a high-level vision to low-lev
 - Implementation
 - Test
 - Configuration and change management
-- Project management
+- [Project management](docs/ProjectManagement.md)

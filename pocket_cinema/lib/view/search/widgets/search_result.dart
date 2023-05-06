@@ -6,7 +6,6 @@ import 'package:pocket_cinema/view/common_widgets/bottom_modal.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
 import 'package:pocket_cinema/view/media/media_page.dart';
 
-
 class SearchResult extends StatelessWidget {
   final Media media;
 
@@ -15,74 +14,68 @@ class SearchResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      child: Row(
-        children: [
-          InkWell(
-            key: Key(media.name),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MediaPage(id : media.id)
-                  )
-              );
-            },
-            child: Container(
-              width: 100,
-              height: 150,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(media.posterImage),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  media.name,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  media.description ?? '',
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Row(
+        margin: const EdgeInsets.only(bottom: 10),
+        child: GestureDetector(
+          key: Key(media.name),
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MediaPage(id: media.id))),
+          child: Row(
             children: [
-              CheckButton(initialChecked: media.watched ?? false, onPressed: () {
-                FirestoreDatabase.toggleMediaStatus(media, "watched");
-              }),
-              
-              AddButton(
-                onPressed: () {
-                  showModalBottomSheet<void>(
-                    context: context,
-                    builder: (_) {
-                      return BottomModal(
-                        media: media,
-                      );
-                    });
-                },
+              Container(
+                width: 100,
+                height: 150,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(media.posterImage),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      media.name,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      media.description ?? '',
+                      style: const TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                children: [
+                  CheckButton(
+                      initialChecked: media.watched ?? false,
+                      onPressed: () {
+                        FirestoreDatabase.toggleMediaStatus(media, "watched");
+                      }),
+                  AddButton(
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                          context: context,
+                          builder: (_) {
+                            return BottomModal(
+                              media: media,
+                            );
+                          });
+                    },
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }

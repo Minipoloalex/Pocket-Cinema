@@ -7,9 +7,9 @@ import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/bottom_modal.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
+import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_section.dart';
 import 'package:pocket_cinema/view/media/widgets/description_shimmer.dart';
-import 'package:shimmer/shimmer.dart';
 
 class MediaPage extends ConsumerStatefulWidget {
   final String id;
@@ -119,16 +119,12 @@ class MediaPageState extends ConsumerState<MediaPage> {
                         ),
                       ),
                       error: (error, stack) => Text(error.toString()),
-                      loading: () => Shimmer.fromColors(
-                          period: const Duration(milliseconds: 1000),
-                          baseColor: Theme.of(context).highlightColor,
-                          highlightColor:
-                              Theme.of(context).colorScheme.onPrimary,
+                      loading: () => ShimmerEffect(
                           child: Container(
-                            height: 188,
-                            width: 108,
-                            color: Colors.black,
-                          )),
+                        height: 188,
+                        width: 108,
+                        color: Colors.black,
+                      )),
                     ),
                   ),
                   Positioned(
@@ -142,16 +138,12 @@ class MediaPageState extends ConsumerState<MediaPage> {
                         ),
                       ),
                       error: (error, stack) => Text(error.toString()),
-                      loading: () => Shimmer.fromColors(
-                          period: const Duration(milliseconds: 1000),
-                          baseColor: Theme.of(context).highlightColor,
-                          highlightColor:
-                              Theme.of(context).colorScheme.onPrimary,
+                      loading: () => ShimmerEffect(
                           child: Container(
-                            height: 10,
-                            width: 50,
-                            color: Colors.black,
-                          )),
+                        height: 10,
+                        width: 50,
+                        color: Colors.black,
+                      )),
                     ),
                   ),
                   Positioned(
@@ -174,16 +166,12 @@ class MediaPageState extends ConsumerState<MediaPage> {
                               ),
                             ),
                             error: (error, stack) => Text(error.toString()),
-                            loading: () => Shimmer.fromColors(
-                                period: const Duration(milliseconds: 1000),
-                                baseColor: Theme.of(context).highlightColor,
-                                highlightColor:
-                                    Theme.of(context).colorScheme.onPrimary,
+                            loading: () => ShimmerEffect(
                                 child: Container(
-                                  height: 10,
-                                  width: 100,
-                                  color: Colors.black,
-                                )),
+                              height: 10,
+                              width: 100,
+                              color: Colors.black,
+                            )),
                           ),
                           const SizedBox(width: 6),
                           mediaInfo.when(
@@ -194,16 +182,12 @@ class MediaPageState extends ConsumerState<MediaPage> {
                               ),
                             ),
                             error: (error, stack) => Text(error.toString()),
-                            loading: () => Shimmer.fromColors(
-                                period: const Duration(milliseconds: 1000),
-                                baseColor: Theme.of(context).highlightColor,
-                                highlightColor:
-                                    Theme.of(context).colorScheme.onPrimary,
+                            loading: () => ShimmerEffect(
                                 child: Container(
-                                  height: 10,
-                                  width: 100,
-                                  color: Colors.black,
-                                )),
+                              height: 10,
+                              width: 100,
+                              color: Colors.black,
+                            )),
                           ),
                           const SizedBox(width: 20),
                           mediaInfo.when(
@@ -247,12 +231,8 @@ class MediaPageState extends ConsumerState<MediaPage> {
                           ),
                         ),
                         error: (error, stack) => Text(error.toString()),
-                        loading: () => Shimmer.fromColors(
-                            period: const Duration(milliseconds: 1000),
-                            baseColor: Theme.of(context).highlightColor,
-                            highlightColor:
-                                Theme.of(context).colorScheme.onPrimary,
-                            child: const DescriptionShimmer()),
+                        loading: () =>
+                            const ShimmerEffect(child: DescriptionShimmer()),
                       ),
                     ),
                   ),
