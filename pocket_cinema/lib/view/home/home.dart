@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/news_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pocket_cinema/view/common_widgets/logo_title_app_bar.dart';
 import 'package:pocket_cinema/view/home/widgets/news_widget.dart';
 import 'package:pocket_cinema/view/home/widgets/news_widget_shimmer.dart';
 
@@ -47,22 +47,8 @@ class _MyHomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.tertiary,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-           children: [
-             Padding(
-               padding: const EdgeInsets.only(bottom: 5),
-               child: SvgPicture.asset(
-                 "assets/logo/logo.svg",
-                 width: 50,
-                 color: Theme.of(context).primaryColor,
-                ),
-             ),
-             const SizedBox(width: 8),
-             const Text('Pocket Cinema'),
-           ],
-        ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        title: const LogoTitleAppBar(),
       ),
       body: const Center(
         child: NewsList(),

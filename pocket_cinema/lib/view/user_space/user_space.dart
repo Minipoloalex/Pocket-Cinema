@@ -12,6 +12,7 @@ import 'package:pocket_cinema/view/common_widgets/personal_lists.dart';
 import 'package:pocket_cinema/view/media_list/media_list.dart';
 import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
 import 'package:pocket_cinema/view/user_space/widgets/to_watch_list.dart';
+import 'package:pocket_cinema/view/common_widgets/logo_title_app_bar.dart';
 
 class UserSpacePage extends ConsumerStatefulWidget {
   const UserSpacePage({super.key});
@@ -62,7 +63,8 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        title: const LogoTitleAppBar(),
         elevation: 0,
         actions: [
           IconButton(
