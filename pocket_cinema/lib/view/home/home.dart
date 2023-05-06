@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/news_provider.dart';
+import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/home/widgets/news_widget.dart';
 import 'package:pocket_cinema/view/home/widgets/news_widget_shimmer.dart';
-import 'package:shimmer/shimmer.dart';
 
 class NewsList extends ConsumerWidget {
   const NewsList({Key? key}) : super(key: key);
@@ -21,10 +21,7 @@ class NewsList extends ConsumerWidget {
         data: (news) => ListView(
           children: news.map((news_) => NewsCard(key: Key("newsCard${news.indexOf(news_)}"), news: news_)).toList(),
         ),
-        loading: () => Shimmer.fromColors(
-          period: const Duration(milliseconds: 1000),
-          baseColor: Theme.of(context).highlightColor,
-          highlightColor: Theme.of(context).colorScheme.onPrimary,
+        loading: () => ShimmerEffect(
           child: ListView.builder(
             itemBuilder: (context, index) {
               return const NewsCardShimmer();

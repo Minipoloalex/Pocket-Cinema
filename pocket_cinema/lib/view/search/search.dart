@@ -3,8 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
+import 'package:pocket_cinema/view/common_widgets/horizontal_media_list_shimmer.dart';
+import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/search/search_results_page.dart';
 import 'package:pocket_cinema/view/search/widgets/trailer_card.dart';
+import 'package:pocket_cinema/view/search/widgets/trailer_card_shimmer.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
@@ -73,8 +76,8 @@ class MySearchPageState extends ConsumerState<SearchPage>
               inTheatersMedia.when(
                 data: (data) =>
                     HorizontalMediaList(name: 'In Theaters', media: data),
-                //TODO: Add a shimmer effect
-                loading: () => const Center(child: CircularProgressIndicator()),
+                loading: () =>
+                    const ShimmerEffect(child: HorizontalMediaListShimmer()),
                 error: (error, stack) {
                   return const Center(
                     child: Text('Error'),
@@ -104,8 +107,12 @@ class MySearchPageState extends ConsumerState<SearchPage>
                         child: Text('Error'),
                       );
                     },
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
+                    loading: () => 
+                    ShimmerEffect(child: 
+                    Column(
+                      children: List.generate(
+                          4, (index) => const TrailerCardShimmer()),
+                    )),
                   )
                 ],
               )),

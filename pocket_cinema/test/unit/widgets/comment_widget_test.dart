@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pocket_cinema/model/comment.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_widget.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:pocket_cinema/model/string_capitalize.dart';
 
 import '../../testable_widget.dart';
 
@@ -20,7 +21,7 @@ void main() {
     await tester.pumpWidget(testableWidget(CommentWidget(comment: comment)));
 
     final usernameTextFinder = find.text('${comment.username}: ${comment.content}');
-    final dateTextFinder = find.text(timeago.format(comment.createdAt.toDate()));
+    final dateTextFinder = find.text(timeago.format(comment.createdAt.toDate()).capitalize());
 
     expect(usernameTextFinder, findsOneWidget);
     expect(dateTextFinder, findsOneWidget);
