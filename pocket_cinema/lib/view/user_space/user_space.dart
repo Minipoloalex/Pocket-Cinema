@@ -31,6 +31,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
     ref.refresh(watchedListProvider).value;
     ref.refresh(toWatchListProvider).value;
   }
+
   void _handleSubmit(String listName) {
     if (!Validate.listName(listName)) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -43,11 +44,11 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
       FirestoreDatabase.createPersonalList(listName);
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Created a new list named '$listName'")));
+      ref.refresh(listsProvider).value;
       toggleCreateListFormVisibility();
     }
     _controller.clear();
     _node.unfocus();
-    ref.refresh(watchedListProvider).value;
   }
 
   void toggleCreateListFormVisibility() {
@@ -127,7 +128,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
               ),*/
             ],
           ),
-          const PersonalList(),
+          const PersonalLists(),
 
           SizedBox(
             height: 100,
