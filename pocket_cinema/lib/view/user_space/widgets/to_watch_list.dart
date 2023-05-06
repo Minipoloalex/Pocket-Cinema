@@ -7,37 +7,60 @@ import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ToWatchList extends ConsumerWidget {
-  const ToWatchList({super.key});
+  const ToWatchList({required Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<List<Media>> toWatchList = ref.watch(toWatchListProvider);
 
     return toWatchList.when(
-      data: (data) => HorizontalMediaList(
-        name: "In your pocket to Watch",
-        media: data,
-      ),
-      // a list of 10 PosterShimmer widgets
+      data: (data) {
+        if (data.isEmpty) {
+          return Column(
+            children: [
+              const Text(
+                "Your 'In your Pocket to Watch' list is empty.",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/search");
+                },
+                child: const Text("Search"),
+              ),
+            ],
+          );
+        } else {
+          return HorizontalMediaList(
+            name: "In your pocket to Watch",
+            media: data,
+          );
+        }
+      },
       loading: () => Shimmer.fromColors(
-          period: const Duration(milliseconds: 1000),
-          baseColor: Theme.of(context).highlightColor,
-          highlightColor: Theme.of(context).colorScheme.onPrimary,
-          child: SizedBox(
-              height: 300,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.all(20),
-                shrinkWrap: true,
-                separatorBuilder: (context, index) => const Divider(
-                  color: Colors.black,
-                ),
-                itemCount: 7,
-                itemBuilder: (context, index) => const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: PosterShimmer(),
-                ),
-              ))),
+        period: const Duration(milliseconds: 1000),
+        baseColor: Theme.of(context).highlightColor,
+        highlightColor: Theme.of(context).colorScheme.onPrimary,
+        child: SizedBox(
+          height: 300,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.all(20),
+            shrinkWrap: true,
+            separatorBuilder: (context, index) => const Divider(
+              color: Colors.black,
+            ),
+            itemCount: 7,
+            itemBuilder: (context, index) => const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: PosterShimmer(),
+            ),
+          ),
+        ),
+      ),
       error: (error, stack) => Text(error.toString()),
     );
   }
