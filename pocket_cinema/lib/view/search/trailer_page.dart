@@ -4,6 +4,7 @@ import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/bottom_modal.dart';
+import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/common_widgets/trailer_player.dart';
 import 'package:pocket_cinema/view/search/widgets/trailer_card.dart';
@@ -28,6 +29,15 @@ class MyTrailerPageState extends ConsumerState<TrailerPage>
     });
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Transform.translate(
+          offset: const Offset(10, 0),
+          child: const GoBackButton(key: Key('backButton')),
+        ),
+      ),
       body: ListView(
         addAutomaticKeepAlives: true,
         padding: EdgeInsets.zero,
