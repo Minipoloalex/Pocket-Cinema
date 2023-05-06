@@ -7,7 +7,7 @@ import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ToWatchList extends ConsumerWidget {
-  const ToWatchList({required Key key}) : super(key: key);
+  const ToWatchList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,12 +19,19 @@ class ToWatchList extends ConsumerWidget {
           return Column(
             children: [
               const Text(
-                "Your 'In your Pocket to Watch' list is empty.",
+                "This list is empty.",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              const Text(
+                "Start searching content.",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  ),
+                ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, "/search");
