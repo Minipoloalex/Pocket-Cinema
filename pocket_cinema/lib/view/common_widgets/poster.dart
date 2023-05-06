@@ -24,7 +24,7 @@ class Poster extends StatelessWidget {
         ),
       ),
       Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(5),
           child: SizedBox(
               width: 125,
               child: Text(name,
