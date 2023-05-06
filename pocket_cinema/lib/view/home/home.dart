@@ -51,10 +51,13 @@ class _MyHomePageState extends State<HomePage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
            children: [
-             SvgPicture.asset(
-               "assets/logo/logo.svg",
-               width: 60,
-               color: Theme.of(context).primaryColor,
+             Padding(
+               padding: const EdgeInsets.only(bottom: 5),
+               child: SvgPicture.asset(
+                 "assets/logo/logo.svg",
+                 width: 50,
+                 color: Theme.of(context).primaryColor,
+                ),
              ),
              const SizedBox(width: 8),
              const Text('Pocket Cinema'),
