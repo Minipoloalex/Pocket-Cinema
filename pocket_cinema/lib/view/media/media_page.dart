@@ -177,7 +177,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                           const SizedBox(width: 6),
                           mediaInfo.when(
                             data: (data) => Tooltip(
-                                message: 'Number of votes',
+                                message: 'Number of rankings',
                                 child: Row(
                                   children: [
                                     Text(
