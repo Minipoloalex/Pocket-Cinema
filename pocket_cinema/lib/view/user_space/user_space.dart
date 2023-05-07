@@ -155,6 +155,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                       },
                     ),
                     suffixIcon: IconButton(
+                      key: const Key("submitNewListButton"),
                       color: Colors.white,
                       icon: const HeroIcon(HeroIcons.plus),
                       onPressed: () {

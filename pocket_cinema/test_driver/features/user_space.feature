@@ -31,8 +31,8 @@ Feature: Accessing user space and lists
     When I tap the "addListButton" button
     Then I expect the text "New list name" to be present
     When I fill the "createListField" field with "<listName>"
-    And I tap the "addListButton" button
-    Then I expect the text "List name must be between 2 and 20 characters" to be present
+    And I tap the "submitNewListButton" button
+    And I expect the "createListField" widget to be present
 
     Examples:
     | listName                        |

@@ -10,6 +10,7 @@ import 'steps/on_page_step.dart';
 import 'steps/then_no_results_found.dart';
 import 'steps/when_fill_field_no_scroll.dart';
 import 'steps/when_tap_name_media.dart';
+import 'steps/then_expect_present.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
@@ -27,6 +28,7 @@ Future<void> main() {
     ThenNoResultsFound(),
     whenFillFieldNoScroll(),
     WhenTapNameMedia(),
+    ThenExpectPresent(),
   ]
   ..customStepParameterDefinitions = []
   ..restartAppBetweenScenarios = false
