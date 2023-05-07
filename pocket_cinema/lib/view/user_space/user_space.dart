@@ -135,6 +135,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: CommentAndListForm(
+                    key: const Key("createListField"),
                     controller: _controller,
                     focusNode: _node,
                     handleSubmit: _handleSubmit,
@@ -169,6 +170,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
       floatingActionButton: Visibility(
           visible: !_isFormVisible,
           child: AddButton(
+            key: const Key("addListButton"),
             onPressed: () => {
               toggleCreateListFormVisibility(),
               _node.requestFocus(),

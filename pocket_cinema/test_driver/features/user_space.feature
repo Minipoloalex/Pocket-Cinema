@@ -17,6 +17,26 @@ Feature: Accessing user space and lists
     And I expect the text "Watched" to be present
     When I tap the back button
     Then I am on the "UserSpacePage" page
+
+  Scenario: Entering pocket to watch list
+    Given I am on the "UserSpacePage" page
+    When I tap the "toWatchList" widget
+    Then I am on the "MediaListPage" page
+    And I expect the text "In your pocket to Watch" to be present
+    When I tap the back button
+    Then I am on the "UserSpacePage" page
+
+  Scenario Outline: Adding a list with an invalid name
+    Given I am on the "UserSpacePage" page
+    When I tap the "addListButton" button
+    Then I expect the text "New list name" to be present
+    When I fill the "createListField" field with "<listName>"
+    And I tap the "addListButton" button
+    Then I expect the text "List name must be between 2 and 20 characters" to be present
+
+    Examples:
+    | listName                        |
+    |                                 |
     | a                               |
     | tooo_bigg_name_21char           |
     | tooooooooooooooooooooooooooBIG  |
