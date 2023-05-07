@@ -113,7 +113,7 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                                     .map((e) => SearchResult(media: e))
                                     .toList(),
                               )
-                            : const NoResultsFoundWidget(),
+                            : const NoResultsFoundWidget(key: Key("noResultsMovies")),
                         loading: () => ShimmerEffect(
                           child: ListView(
                             children: List.generate(
@@ -131,7 +131,7 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                                     .map((e) => SearchResult(media: e))
                                     .toList(),
                               )
-                            : const NoResultsFoundWidget(),
+                            : const NoResultsFoundWidget(key: Key("noResultsSeries")),
                         loading: () => ShimmerEffect(
                           child: ListView(
                             children: List.generate(
