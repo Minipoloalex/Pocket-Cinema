@@ -97,6 +97,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
             children: <Widget>[
               watchedList.when(
                   data: (data) => ListButton(
+                      key: const Key("watchedListButton"),
                       icon: const HeroIcon(HeroIcons.checkCircle,
                           style: HeroIconStyle.solid),
                       labelText: "Watched",

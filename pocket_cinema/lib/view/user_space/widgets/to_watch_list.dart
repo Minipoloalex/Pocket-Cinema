@@ -15,6 +15,7 @@ class ToWatchList extends ConsumerWidget {
 
     return toWatchList.when(
       data: (data) => HorizontalMediaList(
+        key: const Key("toWatchList"),
         name: "In your pocket to Watch",
         media: data,
       ),

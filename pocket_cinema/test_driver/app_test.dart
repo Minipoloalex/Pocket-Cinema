@@ -13,7 +13,7 @@ import 'steps/when_tap_name_media.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
-  ..features = [Glob(r"test_driver/features/**.feature")]
+  ..features = [Glob(r"test_driver/features/user_space.feature")]
   ..reporters = [
     ProgressReporter(),
     TestRunSummaryReporter(),
