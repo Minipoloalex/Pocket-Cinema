@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
-import 'package:pocket_cinema/model/search_navigation.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list_shimmer.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 
 class ToWatchList extends ConsumerWidget {
-  const ToWatchList({super.key});
+  final Function() switchToSearch;
+  const ToWatchList({super.key, required this.switchToSearch});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,9 +34,7 @@ class ToWatchList extends ConsumerWidget {
                   ),
                 ),
               ElevatedButton(
-                onPressed: () {
-                  navigateToSearchPage(context);
-                },
+                onPressed: switchToSearch,
                 child: const Text("Search"),
               ),
             ],

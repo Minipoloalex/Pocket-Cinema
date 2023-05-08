@@ -11,7 +11,6 @@ import 'package:pocket_cinema/view/register/register.dart';
 import 'package:pocket_cinema/view/search/search.dart';
 import 'package:pocket_cinema/view/theme.dart';
 import 'package:pocket_cinema/view/user_space/user_space.dart';
-import 'package:pocket_cinema/model/search_navigation.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -45,6 +44,16 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  final pageController = PageController(initialPage: 0);
+
+   switchPage(int newPage) {
+    if (newPage != selectedPage) {
+      pageController.animateToPage(newPage,
+          duration: const Duration(microseconds: 300),
+          curve: Curves.easeIn);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -54,9 +63,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
-        '/search': (context) => const SearchPage(),
         '/': (context) {
-          final pageController = PageController(initialPage: 0);
           return Scaffold(
             body: PageView(
               controller: pageController,
@@ -66,26 +73,19 @@ class _MyAppState extends State<MyApp> {
                   selectedPage = newIndex;
                 });
               },
-              children: const [
-                HomePage(),
-                SearchPage(),
-                UserSpacePage(),
+              children: [
+                const HomePage(),
+                const SearchPage(),
+                UserSpacePage(switchToSearch: (){
+                  switchPage(1);
+                }),
+
               ],
             ),
             bottomNavigationBar: NavigationBar(
               selectedIndex: selectedPage,
               onDestinationSelected: (int index) {
-                if (index == 1) {
-                  navigateToSearchPage(context);
-                  pageController.animateToPage(selectedPage,
-                      duration: const Duration(microseconds: 300),
-                      curve: Curves.easeIn);
-                }
-                else {
-                  pageController.animateToPage(index,
-                      duration: const Duration(microseconds: 300),
-                      curve: Curves.easeIn);
-                }
+                switchPage(index);
               },
               backgroundColor: Theme.of(context).colorScheme.tertiary,
               surfaceTintColor: Theme.of(context).colorScheme.tertiary,

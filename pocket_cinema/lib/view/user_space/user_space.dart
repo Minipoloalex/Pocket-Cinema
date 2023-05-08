@@ -15,7 +15,8 @@ import 'package:pocket_cinema/view/user_space/widgets/to_watch_list.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class UserSpacePage extends ConsumerStatefulWidget {
-  const UserSpacePage({super.key});
+  final Function() switchToSearch;
+  const UserSpacePage({super.key, required this.switchToSearch});
 
   @override
   MyUserSpacePageState createState() => MyUserSpacePageState();
@@ -89,7 +90,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
           },
           child: ListView(
             children: <Widget>[
-              const ToWatchList(),
+              ToWatchList(switchToSearch: widget.switchToSearch),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
