@@ -7,7 +7,6 @@ final toWatchListProvider = FutureProvider<List<Media>>((ref) async {
   return await FirestoreDatabase.getPredefinedList("ToWatch");
 });
 
-<<<<<<< HEAD
 final watchedListProvider = FutureProvider<List<Media>>((ref) async {
   return await FirestoreDatabase.getPredefinedList("watched");
 });
