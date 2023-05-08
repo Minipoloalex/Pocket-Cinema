@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:heroicons/heroicons.dart';
+import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
@@ -9,6 +11,7 @@ import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_section.dart';
 import 'package:pocket_cinema/view/media/widgets/description_shimmer.dart';
+import 'package:pocket_cinema/model/number_extension.dart';
 
 class MediaPage extends ConsumerStatefulWidget {
   final String id;
@@ -149,11 +152,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                       left: 160,
                       child: Row(
                         children: [
-                          const Image(
-                            height: 16,
-                            width: 16,
-                            image: AssetImage('assets/images/star.png'),
-                          ),
+                          const HeroIcon(HeroIcons.star,
+                              style: HeroIconStyle.solid,
+                              size: 17,
+                              color: Color(0xFFD3A70B)),
                           const SizedBox(width: 6),
                           mediaInfo.when(
                             data: (data) => Text(
@@ -173,12 +175,24 @@ class MediaPageState extends ConsumerState<MediaPage> {
                           ),
                           const SizedBox(width: 6),
                           mediaInfo.when(
-                            data: (data) => Text(
-                              data.nRatings ?? '',
-                              style: const TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
+                            data: (data) => Tooltip(
+                                message: 'Number of ratings',
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      data.nRatings?.format() ?? '',
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 1),
+                                    const HeroIcon(HeroIcons.users,
+                                        style: HeroIconStyle.solid,
+                                        size: 15,
+                                        color: Colors.grey)
+                                  ],
+                                )),
                             error: (error, stack) => Text(error.toString()),
                             loading: () => ShimmerEffect(
                                 child: Container(

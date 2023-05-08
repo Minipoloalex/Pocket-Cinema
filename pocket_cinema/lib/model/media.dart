@@ -6,7 +6,7 @@ class Media {
   final String posterImage;
   final String? backgroundImage;
   final String? rating;
-  final String? nRatings;
+  final int? nRatings;
   final String? description;
   final MediaType? type;
   final String? trailer;
