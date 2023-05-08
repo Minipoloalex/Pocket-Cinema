@@ -12,6 +12,7 @@ import 'package:pocket_cinema/view/common_widgets/personal_lists.dart';
 import 'package:pocket_cinema/view/media_list/media_list.dart';
 import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
 import 'package:pocket_cinema/view/user_space/widgets/to_watch_list.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class UserSpacePage extends ConsumerStatefulWidget {
   const UserSpacePage({super.key});
@@ -34,16 +35,13 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
 
   void _handleSubmit(String listName) {
     if (!Validate.listName(listName)) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content:
-              Text("List name must be between 2 and 20 characters long.")));
+      Fluttertoast.showToast(msg: "List name must be between 2 and 20 characters long");
       return;
     }
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       FirestoreDatabase.createPersonalList(listName);
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Created a new list named '$listName'")));
+      Fluttertoast.showToast(msg: "Created a new list named '$listName'");
       ref.refresh(listsProvider).value;
       toggleCreateListFormVisibility();
     }
