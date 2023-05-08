@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
