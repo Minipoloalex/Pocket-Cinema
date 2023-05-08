@@ -35,8 +35,15 @@ class WatchListNotifier extends StateNotifier<List<Media>> {
       add(media);
     }
 
-    await FirestoreDatabase.toggleMediaStatus(media, "watched");
-    //TODO: reset the local action if some error occurs in FirestoreDatabase
+    try{
+      await FirestoreDatabase.toggleMediaStatus(media, "watched");
+    }catch(e){
+      if (state.contains(media)) {
+        remove(media);
+      } else {
+        add(media);
+      }
+    }
   }
 }
 
