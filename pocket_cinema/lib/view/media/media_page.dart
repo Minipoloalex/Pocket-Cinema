@@ -79,7 +79,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                   Container(width: 40),
                   SizedBox(
                     width: 100,
-                    height: 170,
+                    height: 150,
                     child: mediaInfo.when(
                       data: (data) => Image.network(data.posterImage),
                       error: (error, stack) =>
@@ -111,29 +111,25 @@ class MediaPageState extends ConsumerState<MediaPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           mediaInfo.when(
-                            data: (data) => ConstrainedBox(
-                                constraints:
-                                    const BoxConstraints(maxWidth: 300),
-                                child: Row(
-                                  children: [
-                                    Flexible(
-                                      child: TextScroll(
-                                        data.name,
-                                        mode: TextScrollMode.endless,
-                                        velocity: const Velocity(
-                                            pixelsPerSecond: Offset(50, 0)),
-                                        selectable: true,
-                                        pauseBetween:
-                                            const Duration(seconds: 1),
-                                        fadedBorder: true,
-                                        fadeBorderSide: FadeBorderSide.both,
-                                        style: const TextStyle(
-                                          fontSize: 28,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                )),
+                            data: (data) => Row(
+                              children: [
+                                Flexible(
+                                  child: TextScroll(
+                                    data.name,
+                                    mode: TextScrollMode.endless,
+                                    velocity: const Velocity(
+                                        pixelsPerSecond: Offset(50, 0)),
+                                    selectable: true,
+                                    pauseBetween: const Duration(seconds: 1),
+                                    fadedBorder: true,
+                                    fadeBorderSide: FadeBorderSide.both,
+                                    style: const TextStyle(
+                                      fontSize: 28,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                             error: (error, stack) => Text(error.toString()),
                             loading: () => ShimmerEffect(
                                 child: Container(
@@ -237,8 +233,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                         ],
                       )),
                 ],
-              )
-          ),
+              )),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             color: Theme.of(context).cardColor,
@@ -251,8 +246,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                 ),
               ),
               error: (error, stack) => Text(error.toString()),
-              loading: () =>
-              const ShimmerEffect(child: DescriptionShimmer()),
+              loading: () => const ShimmerEffect(child: DescriptionShimmer()),
             ),
           ),
           Flexible(
