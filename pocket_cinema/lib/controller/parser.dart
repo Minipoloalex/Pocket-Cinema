@@ -33,6 +33,7 @@ class Parser {
 
     final thumbnails = map["props"]["pageProps"]["aboveTheFoldData"]["primaryVideos"]["edges"];
     final thumbnail = thumbnails.isNotEmpty ? thumbnails[0]["node"]["thumbnail"]["url"] : "";
+    final date = map["props"]["pageProps"]["aboveTheFoldData"]["releaseDate"];
 
     return Media(
         id: map["props"]["pageProps"]["tconst"],
@@ -43,10 +44,10 @@ class Parser {
                 ["aggregateRating"]
             .toString(),
         nRatings: map["props"]["pageProps"]["aboveTheFoldData"]["ratingsSummary"]
-                ["voteCount"]
-            ,
+                ["voteCount"],
         description: map["props"]["pageProps"]["aboveTheFoldData"]["plot"]["plotText"]
             ["plainText"],
+        releaseDate: '${date["year"]}-${date["month"].toString().padLeft(2, '0')}-${date["day"].toString().padLeft(2, '0')}',
         type: map["props"]["pageProps"]["aboveTheFoldData"]["titleType"]["id"] ==
                 "movie"
             ? MediaType.movie
@@ -93,7 +94,7 @@ class Parser {
                   item.querySelector('span.ipc-lockup-overlay__text')?.text ??
                       "",
               releaseDate:
-                  item.querySelector('.ipc-poster-card__actions > span')?.text,
+                  item.querySelector('.ipc-poster-card__actions > span')?.text ?? "",
             ))
         .toList();
   }
