@@ -11,7 +11,7 @@ import 'package:pocket_cinema/view/register/register.dart';
 import 'package:pocket_cinema/view/search/search.dart';
 import 'package:pocket_cinema/view/theme.dart';
 import 'package:pocket_cinema/view/user_space/user_space.dart';
-
+import 'package:pocket_cinema/model/search_navigation.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -54,6 +54,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
+        '/search': (context) => const SearchPage(),
         '/': (context) {
           final pageController = PageController(initialPage: 0);
           return Scaffold(
@@ -74,9 +75,17 @@ class _MyAppState extends State<MyApp> {
             bottomNavigationBar: NavigationBar(
               selectedIndex: selectedPage,
               onDestinationSelected: (int index) {
-                pageController.animateToPage(index,
-                    duration: const Duration(microseconds: 300),
-                    curve: Curves.easeIn);
+                if (index == 1) {
+                  navigateToSearchPage(context);
+                  pageController.animateToPage(selectedPage,
+                      duration: const Duration(microseconds: 300),
+                      curve: Curves.easeIn);
+                }
+                else {
+                  pageController.animateToPage(index,
+                      duration: const Duration(microseconds: 300),
+                      curve: Curves.easeIn);
+                }
               },
               backgroundColor: Theme.of(context).colorScheme.tertiary,
               surfaceTintColor: Theme.of(context).colorScheme.tertiary,
