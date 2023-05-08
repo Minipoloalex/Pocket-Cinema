@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:pocket_cinema/controller/firestore_database.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/bottom_modal.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
 import 'package:pocket_cinema/view/media/media_page.dart';
 
-class SearchResult extends StatelessWidget {
+class SearchResult extends ConsumerStatefulWidget {
   final Media media;
+  const SearchResult({Key? key, required this.media}) : super(key: key);
 
-  const SearchResult({super.key, required this.media});
+  @override
+  SearchResultState createState() => SearchResultState();
+}
+
+class SearchResultState extends ConsumerState<SearchResult> {
 
   @override
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.only(bottom: 10),
         child: GestureDetector(
-          key: Key(media.name),
+          key: Key(widget.media.name),
           onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => MediaPage(id: media.id))),
+              MaterialPageRoute(builder: (context) => MediaPage(id: widget.media.id))),
           child: Row(
             children: [
               Container(
@@ -26,7 +32,7 @@ class SearchResult extends StatelessWidget {
                 height: 150,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(media.posterImage),
+                    image: NetworkImage(widget.media.posterImage),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(5),
@@ -38,7 +44,7 @@ class SearchResult extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      media.name,
+                      widget.media.name,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -46,7 +52,7 @@ class SearchResult extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      media.description ?? '',
+                      widget.media.description ?? '',
                       style: const TextStyle(
                         fontSize: 14,
                       ),
@@ -57,9 +63,9 @@ class SearchResult extends StatelessWidget {
               Row(
                 children: [
                   CheckButton(
-                      initialChecked: media.watched ?? false,
+                      mediaId: widget.media.id,
                       onPressed: () {
-                        FirestoreDatabase.toggleMediaStatus(media, "watched");
+                        ref.read(watchListProvider.notifier).toggle(widget.media);
                       }),
                   AddButton(
                     onPressed: () {
@@ -67,7 +73,7 @@ class SearchResult extends StatelessWidget {
                           context: context,
                           builder: (_) {
                             return BottomModal(
-                              media: media,
+                              media: widget.media,
                             );
                           });
                     },
