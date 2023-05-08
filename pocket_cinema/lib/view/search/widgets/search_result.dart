@@ -1,30 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pocket_cinema/controller/lists_provider.dart';
+import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/bottom_modal.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
 import 'package:pocket_cinema/view/media/media_page.dart';
 
-class SearchResult extends ConsumerStatefulWidget {
+class SearchResult extends StatelessWidget {
   final Media media;
-  const SearchResult({Key? key, required this.media}) : super(key: key);
-
-  @override
-  SearchResultState createState() => SearchResultState();
-}
-
-class SearchResultState extends ConsumerState<SearchResult> {
+  const SearchResult({super.key, required this.media});
 
   @override
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.only(bottom: 10),
         child: GestureDetector(
-          key: Key(widget.media.name),
-          onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => MediaPage(id: widget.media.id))),
+          key: Key(media.name),
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MediaPage(id: media.id))),
           child: Row(
             children: [
               Container(
@@ -32,7 +27,7 @@ class SearchResultState extends ConsumerState<SearchResult> {
                 height: 150,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(widget.media.posterImage),
+                    image: NetworkImage(media.posterImage),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(5),
@@ -44,7 +39,7 @@ class SearchResultState extends ConsumerState<SearchResult> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.media.name,
+                      media.name,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -52,7 +47,7 @@ class SearchResultState extends ConsumerState<SearchResult> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      widget.media.description ?? '',
+                      media.description ?? '',
                       style: const TextStyle(
                         fontSize: 14,
                       ),
@@ -63,9 +58,9 @@ class SearchResultState extends ConsumerState<SearchResult> {
               Row(
                 children: [
                   CheckButton(
-                      mediaId: widget.media.id,
+                      initialChecked: media.watched ?? false,
                       onPressed: () {
-                        ref.read(watchListProvider.notifier).toggle(widget.media);
+                        FirestoreDatabase.toggleMediaStatus(media, "watched");
                       }),
                   AddButton(
                     onPressed: () {
@@ -73,7 +68,7 @@ class SearchResultState extends ConsumerState<SearchResult> {
                           context: context,
                           builder: (_) {
                             return BottomModal(
-                              media: widget.media,
+                              media: media,
                             );
                           });
                     },
