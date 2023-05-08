@@ -5,6 +5,7 @@ import 'package:pocket_cinema/controller/parser.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/media/media_page.dart';
 import 'package:pocket_cinema/view/search/trailer_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class TrailerCard extends StatelessWidget {
   final Media media;
@@ -73,9 +74,7 @@ class TrailerCard extends StatelessWidget {
                         style: HeroIconStyle.solid),
                     onPressed: () {
                       if (media.trailer == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text("No trailer available")));
+                        Fluttertoast.showToast(msg: "No trailer available");
                         return;
                       }
 
@@ -84,10 +83,7 @@ class TrailerCard extends StatelessWidget {
                         final List playbacks =
                             Parser.movieTrailerPlaybacks(playbacksResponse);
                         if (playbacks.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("No trailer available")));
-                          return;
+                          Fluttertoast.showToast(msg: "No trailer available");
                         }
 
                         Navigator.push(

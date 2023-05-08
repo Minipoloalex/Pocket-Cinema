@@ -6,8 +6,8 @@ class MediaList{
   final String name;
   final List<Media> media;
   Timestamp createdAt;
-
-  MediaList({required this.id, required this.name, required this.media, required this.createdAt});
+  Timestamp lastUpdatedAt;
+  MediaList({required this.id, required this.name, required this.media, required this.createdAt, required this.lastUpdatedAt});
 
   Map<String, dynamic> toJson() => {
     'name': name,

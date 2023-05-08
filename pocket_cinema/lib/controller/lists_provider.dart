@@ -21,7 +21,6 @@ final watchedListProvider = FutureProvider<List<Media>>((ref) async {
   return await FirestoreDatabase.getPredefinedList("watched");
 });
 
-// Return the lists of the user
 final listsProvider = FutureProvider<List<MediaList>>((ref) async {
   return await FirestoreDatabase.getPersonalLists();
 });
