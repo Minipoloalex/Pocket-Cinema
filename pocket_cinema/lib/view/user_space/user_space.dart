@@ -29,8 +29,9 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
   @override
   void initState() {
     super.initState();
-    ref.refresh(watchedListProvider).value;
     ref.refresh(toWatchListProvider).value;
+    ref.read(watchListProvider.notifier).getWatchList();
+    
   }
   void _handleSubmit(String listName) {
     if (!Validate.listName(listName)) {
@@ -45,7 +46,6 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
     }
     _controller.clear();
     _node.unfocus();
-    ref.refresh(watchedListProvider).value;
   }
 
   void toggleCreateListFormVisibility() {
@@ -56,7 +56,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
 
   @override
   Widget build(BuildContext context) {
-    final watchedList = ref.watch(watchedListProvider);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -95,26 +95,16 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
             mainAxisAlignment: MainAxisAlignment.center,
 
             children: <Widget>[
-              watchedList.when(
-                  data: (data) => ListButton(
+              ListButton(
                       icon: const HeroIcon(HeroIcons.checkCircle,
                           style: HeroIconStyle.solid),
                       labelText: "Watched",
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              MediaListPage(name: "Watched", mediaList: data),
+                              MediaListPage(name: "Watched", mediaList: ref.watch(watchListProvider)),
                         ));
                       }),
-                  loading: () => ListButton(
-                        icon: const HeroIcon(HeroIcons.checkCircle,
-                            style: HeroIconStyle.solid),
-                        labelText: "Watched",
-                        onPressed: () {},
-                      ),
-                  error: (error, stackTrace) {
-                    return Center(child: Text("Error: ${error.toString()}"));
-                  }),
                   /*
               const SizedBox(width: 20),
               ListButton(

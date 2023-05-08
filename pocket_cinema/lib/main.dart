@@ -56,7 +56,6 @@ class _MyAppState extends State<MyApp> {
         '/register': (context) => const RegisterPage(),
         '/': (context) {
           final pageController = PageController(initialPage: 0);
-
           return Scaffold(
             body: PageView(
               controller: pageController,
