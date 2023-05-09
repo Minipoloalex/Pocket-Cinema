@@ -66,9 +66,7 @@ class NewsPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  news.description.length > 200
-                      ? '${news.description.substring(0, 200)}...'
-                      : news.description,
+                  news.description,
                   style: const TextStyle(
                     fontSize: 16,
                   ),
