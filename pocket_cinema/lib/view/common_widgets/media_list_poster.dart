@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/media_list.dart';
@@ -98,22 +99,28 @@ class MediaListPoster extends StatelessWidget {
                     width: 157 / 2,
                     height: 117,
                     decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                            'assets/images/halfDefaultListImage.png'),
-                      ),
                       borderRadius: BorderRadius.only(
                           topRight: Radius.circular(5),
                           bottomRight: Radius.circular(5)),
+                    ),
+                    child: const Center(
+                      child: HeroIcon(HeroIcons.film, style : HeroIconStyle.solid),
                     )),
               ],
             ),
           ] else ...[
-            const Image(
-              image: AssetImage('assets/images/defaultListImage.png'),
-              width: 157,
-              height: 117,
-            ),
+            Container(
+                width: 157,
+                height: 117,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(5),
+                    bottomRight: Radius.circular(5),
+                  ),
+                ),
+                child: const Center(
+                  child: HeroIcon(HeroIcons.film, style : HeroIconStyle.solid),
+                )),
           ],
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
