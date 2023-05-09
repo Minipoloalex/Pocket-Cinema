@@ -64,7 +64,9 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        title: const LogoTitleAppBar(),
+        title: const LogoTitleAppBar(
+          mainAxisAlignment: MainAxisAlignment.start,
+        ),
         elevation: 0,
         actions: [
           IconButton(
