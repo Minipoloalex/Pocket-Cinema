@@ -13,6 +13,7 @@ import 'package:pocket_cinema/view/media_list/media_list.dart';
 import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
 import 'package:pocket_cinema/view/user_space/widgets/to_watch_list.dart';
 import 'package:pocket_cinema/view/common_widgets/logo_title_app_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class UserSpacePage extends ConsumerStatefulWidget {
   const UserSpacePage({super.key});
@@ -29,26 +30,24 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
   @override
   void initState() {
     super.initState();
-    ref.refresh(watchedListProvider).value;
     ref.refresh(toWatchListProvider).value;
+    ref.read(watchListProvider.notifier).getWatchList();
   }
+
   void _handleSubmit(String listName) {
     if (!Validate.listName(listName)) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content:
-              Text("List name must be between 2 and 20 characters long.")));
+      Fluttertoast.showToast(msg: "List name must be between 2 and 20 characters long");
       return;
     }
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       FirestoreDatabase.createPersonalList(listName);
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Created a new list named '$listName'")));
+      Fluttertoast.showToast(msg: "Created a new list named '$listName'");
+      ref.refresh(listsProvider).value;
       toggleCreateListFormVisibility();
     }
     _controller.clear();
     _node.unfocus();
-    ref.refresh(watchedListProvider).value;
   }
 
   void toggleCreateListFormVisibility() {
@@ -59,7 +58,6 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
 
   @override
   Widget build(BuildContext context) {
-    final watchedList = ref.watch(watchedListProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -101,26 +99,17 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
             mainAxisAlignment: MainAxisAlignment.center,
 
             children: <Widget>[
-              watchedList.when(
-                  data: (data) => ListButton(
+              ListButton(
                       icon: const HeroIcon(HeroIcons.checkCircle,
                           style: HeroIconStyle.solid),
                       labelText: "Watched",
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              MediaListPage(name: "Watched", mediaList: data),
+                              MediaListPage(name: "Watched", mediaList: ref.watch(watchListProvider)),
                         ));
                       }),
-                  loading: () => ListButton(
-                        icon: const HeroIcon(HeroIcons.checkCircle,
-                            style: HeroIconStyle.solid),
-                        labelText: "Watched",
-                        onPressed: () {},
-                      ),
-                  error: (error, stackTrace) {
-                    return Center(child: Text("Error: ${error.toString()}"));
-                  }),
+                  
                   /*
               const SizedBox(width: 20),
               ListButton(
@@ -131,7 +120,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
               ),*/
             ],
           ),
-          const PersonalList(),
+          const PersonalLists(),
 
           SizedBox(
             height: 100,

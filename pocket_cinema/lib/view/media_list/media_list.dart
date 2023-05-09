@@ -28,7 +28,7 @@ class MediaListPage extends StatelessWidget {
                     crossAxisSpacing: 20,
                     childAspectRatio: 0.45),
                 delegate: SliverChildBuilderDelegate(
-                  (context, index) => InkWell(
+                  (context, index) => GestureDetector(
                     onTap: () {
                       Navigator.push(
                           context,

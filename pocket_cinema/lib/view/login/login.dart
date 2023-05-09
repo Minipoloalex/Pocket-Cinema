@@ -6,6 +6,7 @@ import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dar
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/topbar_logo.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -45,10 +46,10 @@ class _LoginPageState extends State<LoginPage> {
                         Authentication.signIn(_userIdTextController.text, _passwordTextController.text).then((value){
                           Navigator.pushNamed(context, '/');
                         }).catchError((error) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+                          Fluttertoast.showToast(msg: error);
                         });
                       }).catchError((error) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+                        Fluttertoast.showToast(msg: error);
                       });
                     },
                     child: const Text('Login'),
