@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
@@ -97,7 +98,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                         ),
                       ],
                     ),
-                    error: (error, stack) => Text(error.toString()),
+                    error: (error, stack) {
+                      Logger().e(error);
+                      return const SizedBox();
+                    },
                     loading: () => const Image(
                       height: 200,
                       fit: BoxFit.cover,
@@ -120,7 +124,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                           ),
                         ),
                       ),
-                      error: (error, stack) => Text(error.toString()),
+                      error: (error, stack) {
+                        Logger().e(error);
+                        return const SizedBox();
+                      },
                       loading: () => ShimmerEffect(
                           child: Container(
                         height: 188,
@@ -139,7 +146,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                           fontSize: 28,
                         ),
                       ),
-                      error: (error, stack) => Text(error.toString()),
+                      error: (error, stack) {
+                        Logger().e(error);
+                        return const SizedBox();
+                      },
                       loading: () => ShimmerEffect(
                           child: Container(
                         height: 10,
@@ -166,7 +176,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                 fontSize: 16,
                               ),
                             ),
-                            error: (error, stack) => Text(error.toString()),
+                            error: (error, stack) {
+                              Logger().e(error);
+                              return const SizedBox();
+                            },
                             loading: () => ShimmerEffect(
                                 child: Container(
                               height: 10,
@@ -194,7 +207,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                         color: Colors.grey)
                                   ],
                                 )),
-                            error: (error, stack) => Text(error.toString()),
+                            error: (error, stack) {
+                              Logger().e(error);
+                              return const SizedBox();
+                            },
                             loading: () => ShimmerEffect(
                                 child: Container(
                               height: 10,
@@ -211,7 +227,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                       data, "watched");
                                 }),
                             loading: () => const SizedBox(),
-                            error: (error, stack) => Text(error.toString()),
+                            error: (error, stack) {
+                              Logger().e(error);
+                              return const SizedBox();
+                            },
                           ),
                           mediaInfo.when(
                             data: (data) => AddButton(onPressed: () {
@@ -224,7 +243,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                   });
                             }),
                             loading: () => const SizedBox(),
-                            error: (error, stack) => Text(error.toString()),
+                            error: (error, stack) {
+                              Logger().e(error);
+                              return const SizedBox();
+                            },
                           ),
                           //
                         ],
@@ -243,7 +265,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                             fontSize: 12,
                           ),
                         ),
-                        error: (error, stack) => Text(error.toString()),
+                        error: (error, stack) {
+                          Logger().e(error);
+                          return const SizedBox();
+                        },
                         loading: () =>
                             const ShimmerEffect(child: DescriptionShimmer()),
                       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
@@ -19,7 +20,10 @@ class ToWatchList extends ConsumerWidget {
         media: data,
       ),
       loading: () => const ShimmerEffect(child: HorizontalMediaListShimmer()),
-      error: (error, stack) => Text(error.toString()),
+      error: (error, stack) {
+        Logger().e(error);
+        return const SizedBox();
+      },
     );
   }
 }

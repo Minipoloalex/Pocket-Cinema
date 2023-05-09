@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list_shimmer.dart';
@@ -74,16 +75,14 @@ class MySearchPageState extends ConsumerState<SearchPage>
           Column(
             children: [
               inTheatersMedia.when(
-                data: (data) =>
-                    HorizontalMediaList(name: 'In Theaters', media: data),
-                loading: () =>
-                    const ShimmerEffect(child: HorizontalMediaListShimmer()),
-                error: (error, stack) {
-                  return const Center(
-                    child: Text('Error'),
-                  );
-                },
-              )
+                  data: (data) =>
+                      HorizontalMediaList(name: 'In Theaters', media: data),
+                  loading: () =>
+                      const ShimmerEffect(child: HorizontalMediaListShimmer()),
+                  error: (error, stack) {
+                    Logger().e(error);
+                    return const SizedBox();
+                  })
             ],
           ),
           const Padding(
@@ -103,13 +102,11 @@ class MySearchPageState extends ConsumerState<SearchPage>
                             .map((item) => TrailerCard(media: item))
                             .toList())),
                     error: (error, stack) {
-                      return const Center(
-                        child: Text('Error'),
-                      );
+                      Logger().e(error);
+                      return const SizedBox();
                     },
-                    loading: () => 
-                    ShimmerEffect(child: 
-                    Column(
+                    loading: () => ShimmerEffect(
+                        child: Column(
                       children: List.generate(
                           4, (index) => const TrailerCardShimmer()),
                     )),

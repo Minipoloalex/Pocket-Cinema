@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/media_list.dart';
@@ -13,10 +14,14 @@ class PersonalList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<List<MediaList>> personalList = ref.watch(listsProvider);
-    
+
     return personalList.when(
-      data: (List<MediaList> data) => MediaListList(mediaListList: data, media: media),
-      error: (Object error, StackTrace stackTrace) => Text(error.toString()),
+      data: (List<MediaList> data) =>
+          MediaListList(mediaListList: data, media: media),
+      error: (error, stackTrace) {
+        Logger().e(error);
+        return const SizedBox();
+      },
       loading: () => ShimmerEffect(
           child: SizedBox(
               height: 300,
@@ -32,9 +37,7 @@ class PersonalList extends ConsumerWidget {
                   padding: EdgeInsets.all(8.0),
                   child: PosterShimmer(),
                 ),
-              )
-          )
-      ),
+              ))),
     );
   }
 }
