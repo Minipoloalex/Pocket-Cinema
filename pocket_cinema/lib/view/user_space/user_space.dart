@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
@@ -31,6 +32,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
     super.initState();
     ref.refresh(watchedListProvider).value;
     ref.refresh(toWatchListProvider).value;
+    ref.refresh(listsProvider).value;
   }
   void _handleSubmit(String listName) {
     if (!Validate.listName(listName)) {
@@ -113,7 +115,8 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                         onPressed: () {},
                       ),
                   error: (error, stackTrace) {
-                    return Center(child: Text("Error: ${error.toString()}"));
+                    Logger().e(error);
+                    return const SizedBox();
                   }),
                   /*
               const SizedBox(width: 20),
