@@ -25,7 +25,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _node = FocusNode();
   bool _isFormVisible = false;
-  
+
   @override
   void initState() {
     super.initState();
@@ -35,7 +35,8 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
 
   void _handleSubmit(String listName) {
     if (!Validate.listName(listName)) {
-      Fluttertoast.showToast(msg: "List name must be between 2 and 20 characters long");
+      Fluttertoast.showToast(
+          msg: "List name must be between 2 and 20 characters long");
       return;
     }
     User? currentUser = FirebaseAuth.instance.currentUser;
@@ -80,32 +81,28 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
           ),
         ],
       ),
-      body: 
-        RefreshIndicator(
-      onRefresh: () async {
-        ref.refresh(listsProvider).value;
-        ref.refresh(toWatchListProvider).value;
-      },
-      child:
-      ListView(
-        children: <Widget>[
-          const ToWatchList(),
-          
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-
-            children: <Widget>[
-              ListButton(
+      body: RefreshIndicator(
+          onRefresh: () async {
+            ref.refresh(listsProvider).value;
+            ref.refresh(toWatchListProvider).value;
+          },
+          child: Stack(children: [
+            ListView(children: <Widget>[
+              const ToWatchList(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ListButton(
                       icon: const HeroIcon(HeroIcons.checkCircle,
                           style: HeroIconStyle.solid),
                       labelText: "Watched",
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              MediaListPage(name: "Watched", mediaList: ref.watch(watchListProvider)),
+                          builder: (context) => MediaListPage(
+                              name: "Watched",
+                              mediaList: ref.watch(watchListProvider)),
                         ));
-                      }),
-                  
+                      })
                   /*
               const SizedBox(width: 20),
               ListButton(
@@ -114,53 +111,61 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                 labelText: "Watching",
                 onPressed: () {},
               ),*/
-            ],
-          ),
-          const PersonalLists(),
-
-          SizedBox(
-            height: 100,
-            child: Visibility(
-              visible: _isFormVisible,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: CommentAndListForm(
-                  controller: _controller,
-                  focusNode: _node,
-                  handleSubmit: _handleSubmit,
-                  maxLines: 1,
-                  prefixIcon: IconButton(
-                    color: Colors.white,
-                    icon: const HeroIcon(HeroIcons.xMark),
-                    onPressed: () {
+                ],
+              ),
+              const PersonalLists(),
+            ]),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Visibility(
+                visible: _isFormVisible,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: CommentAndListForm(
+                    controller: _controller,
+                    focusNode: _node,
+                    handleSubmit: _handleSubmit,
+                    maxLines: 1,
+                    onTapOutside: (_) {
                       toggleCreateListFormVisibility();
+                      _node.unfocus();
                       _controller.clear();
                     },
+                    prefixIcon: IconButton(
+                      color: Colors.white,
+                      icon: const HeroIcon(HeroIcons.xMark),
+                      onPressed: () {
+                        toggleCreateListFormVisibility();
+                        _node.unfocus();
+                        _controller.clear();
+                      },
+                    ),
+                    suffixIcon: IconButton(
+                      color: Colors.white,
+                      icon: const HeroIcon(HeroIcons.plus),
+                      onPressed: () {
+                        _handleSubmit(_controller.text);
+                      },
+                    ),
+                    hintText: "New list name",
                   ),
-                  suffixIcon: IconButton(
-                    color: Colors.white,
-                    icon: const HeroIcon(HeroIcons.plus),
-                    onPressed: () {
-                      _handleSubmit(_controller.text);
-                    },
-                  ),
-                  hintText: "New list name",
                 ),
               ),
-            ),
-          ),
-      ],
-      )),
+            )
+          ])),
       floatingActionButton: Visibility(
-        visible: !_isFormVisible,
-        child: AddButton(
-          onPressed: () => {
-            toggleCreateListFormVisibility(),
-            _node.requestFocus(),
-          },
-          tooltip: "Create a new list",
-        )
-      ),
+          visible: !_isFormVisible,
+          child: AddButton(
+            onPressed: () => {
+              toggleCreateListFormVisibility(),
+              _node.requestFocus(),
+            },
+            buttonColor: Theme.of(context).colorScheme.primary,
+            // borderColor: Theme.of(context).colorScheme.tertiary,
+            tooltip: "Create a new list",
+          )),
     );
   }
 }

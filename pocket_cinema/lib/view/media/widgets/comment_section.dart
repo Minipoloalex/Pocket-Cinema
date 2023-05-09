@@ -77,6 +77,8 @@ class CommentSectionState extends ConsumerState<CommentSection> {
             controller: _controller,
             focusNode: _node,
             handleSubmit: _handleSubmit,
+            onTapOutside: (_) => _node.unfocus(),
+            paddingLeft: 20,
             maxLines: 4,
             suffixIcon: IconButton(
               color: Colors.white,
