@@ -4,6 +4,7 @@ import 'package:heroicons/heroicons.dart';
 import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/search/widgets/no_results_found.dart';
 import 'package:pocket_cinema/view/search/widgets/search_result.dart';
@@ -125,7 +126,7 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                               ),
                           error: (error, stack) {
                             Logger().e(error);
-                            return const SizedBox();
+                            return const ErrorOccurred();
                           }),
                       series.when(
                           data: (data) => data.isNotEmpty
@@ -146,7 +147,7 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                               ),
                           error: (error, stack) {
                             Logger().e(error);
-                            return const SizedBox();
+                            return const ErrorOccurred();
                           }),
                     ],
                   )))

@@ -9,6 +9,7 @@ import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/validate.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/comment_and_list_form.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/personal_lists.dart';
 import 'package:pocket_cinema/view/media_list/media_list.dart';
 import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
@@ -116,7 +117,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                       ),
                   error: (error, stackTrace) {
                     Logger().e(error);
-                    return const SizedBox();
+                    return const ErrorOccurred();
                   }),
                   /*
               const SizedBox(width: 20),

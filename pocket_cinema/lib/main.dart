@@ -38,7 +38,6 @@ class MyAppState extends ConsumerState<MyApp> {
     super.initState();
     // Listen for changes in the authentication state
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      print("CHanged");
       if (user == null) {
         setState(() {
           selectedPage = 0;

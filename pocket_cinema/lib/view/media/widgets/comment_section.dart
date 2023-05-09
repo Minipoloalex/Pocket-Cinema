@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/comment_and_list_form.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_widget.dart';
 
 class CommentSection extends ConsumerStatefulWidget {
@@ -71,7 +72,7 @@ class CommentSectionState extends ConsumerState<CommentSection> {
             loading: () => Container(),
             error: (error, stack) {
               Logger().e(error);
-              return const SizedBox();
+              return const ErrorOccurred();
             },
           ),
         ),

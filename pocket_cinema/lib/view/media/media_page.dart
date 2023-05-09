@@ -8,6 +8,7 @@ import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/bottom_modal.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_section.dart';
@@ -100,7 +101,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                     ),
                     error: (error, stack) {
                       Logger().e(error);
-                      return const SizedBox();
+                      return const ErrorOccurred();
                     },
                     loading: () => const Image(
                       height: 200,
@@ -126,7 +127,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                       ),
                       error: (error, stack) {
                         Logger().e(error);
-                        return const SizedBox();
+                        return const ErrorOccurred();
                       },
                       loading: () => ShimmerEffect(
                           child: Container(
@@ -148,7 +149,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                       ),
                       error: (error, stack) {
                         Logger().e(error);
-                        return const SizedBox();
+                        return const ErrorOccurred();
                       },
                       loading: () => ShimmerEffect(
                           child: Container(
@@ -178,7 +179,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                             ),
                             error: (error, stack) {
                               Logger().e(error);
-                              return const SizedBox();
+                              return const ErrorOccurred();
                             },
                             loading: () => ShimmerEffect(
                                 child: Container(
@@ -209,7 +210,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                 )),
                             error: (error, stack) {
                               Logger().e(error);
-                              return const SizedBox();
+                              return const ErrorOccurred();
                             },
                             loading: () => ShimmerEffect(
                                 child: Container(
@@ -229,7 +230,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                             loading: () => const SizedBox(),
                             error: (error, stack) {
                               Logger().e(error);
-                              return const SizedBox();
+                              return const ErrorOccurred();
                             },
                           ),
                           mediaInfo.when(
@@ -245,7 +246,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                             loading: () => const SizedBox(),
                             error: (error, stack) {
                               Logger().e(error);
-                              return const SizedBox();
+                              return const ErrorOccurred();
                             },
                           ),
                           //
@@ -267,7 +268,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                         ),
                         error: (error, stack) {
                           Logger().e(error);
-                          return const SizedBox();
+                          return const ErrorOccurred();
                         },
                         loading: () =>
                             const ShimmerEffect(child: DescriptionShimmer()),

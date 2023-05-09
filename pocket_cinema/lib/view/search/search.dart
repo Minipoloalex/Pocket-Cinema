@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list_shimmer.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
@@ -81,7 +82,7 @@ class MySearchPageState extends ConsumerState<SearchPage>
                       const ShimmerEffect(child: HorizontalMediaListShimmer()),
                   error: (error, stack) {
                     Logger().e(error);
-                    return const SizedBox();
+                    return const ErrorOccurred();
                   })
             ],
           ),
@@ -103,7 +104,7 @@ class MySearchPageState extends ConsumerState<SearchPage>
                             .toList())),
                     error: (error, stack) {
                       Logger().e(error);
-                      return const SizedBox();
+                      return const ErrorOccurred();
                     },
                     loading: () => ShimmerEffect(
                         child: Column(

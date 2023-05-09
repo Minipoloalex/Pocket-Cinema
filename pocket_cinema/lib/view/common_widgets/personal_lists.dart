@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/media_list.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/media_list_poster.dart';
 import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
@@ -20,7 +21,7 @@ class PersonalList extends ConsumerWidget {
           MediaListList(mediaListList: data, media: media),
       error: (error, stackTrace) {
         Logger().e(error);
-        return const SizedBox();
+        return const ErrorOccurred();
       },
       loading: () => ShimmerEffect(
           child: SizedBox(
