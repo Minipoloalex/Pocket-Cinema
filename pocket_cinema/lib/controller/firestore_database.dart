@@ -208,10 +208,17 @@ class FirestoreDatabase {
     if (listName != 'watched' && listName != 'toWatch') {
       throw Exception('Invalid list');
     }
+
+    if(FirebaseAuth.instance.currentUser == null) {
+      throw Exception('User not logged in');
+    }
+
     mediaExists(media);
+
     final docUser = FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid);
+
 
     final userSnapshot = await docUser.get();
     final List listMedia = userSnapshot.data()?[listName] ?? [];
@@ -254,17 +261,5 @@ class FirestoreDatabase {
       );
     }));
     return medias;
-  }
-
-  static Future<bool> isMediaWatched(String mediaId) async {
-    if (FirebaseAuth.instance.currentUser == null) {
-      throw Exception('User not logged in');
-    }
-    final userSnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get();
-    final List watchedList = userSnapshot.data()?['watched'] ?? [];
-    return watchedList.contains(mediaId);
   }
 }
