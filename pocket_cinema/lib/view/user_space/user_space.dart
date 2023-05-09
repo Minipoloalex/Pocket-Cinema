@@ -2,14 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/validate.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/comment_and_list_form.dart';
-import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/personal_lists.dart';
 import 'package:pocket_cinema/view/media_list/media_list.dart';
 import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
@@ -31,10 +29,10 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
   @override
   void initState() {
     super.initState();
-    ref.refresh(watchedListProvider).value;
     ref.refresh(toWatchListProvider).value;
-    ref.refresh(listsProvider).value;
+    ref.read(watchListProvider.notifier).getWatchList();
   }
+
   void _handleSubmit(String listName) {
     if (!Validate.listName(listName)) {
       Fluttertoast.showToast(msg: "List name must be between 2 and 20 characters long");
@@ -44,11 +42,11 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
     if (currentUser != null) {
       FirestoreDatabase.createPersonalList(listName);
       Fluttertoast.showToast(msg: "Created a new list named '$listName'");
+      ref.refresh(listsProvider).value;
       toggleCreateListFormVisibility();
     }
     _controller.clear();
     _node.unfocus();
-    ref.refresh(watchedListProvider).value;
   }
 
   void toggleCreateListFormVisibility() {
@@ -59,7 +57,6 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
 
   @override
   Widget build(BuildContext context) {
-    final watchedList = ref.watch(watchedListProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -98,27 +95,16 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
             mainAxisAlignment: MainAxisAlignment.center,
 
             children: <Widget>[
-              watchedList.when(
-                  data: (data) => ListButton(
+              ListButton(
                       icon: const HeroIcon(HeroIcons.checkCircle,
                           style: HeroIconStyle.solid),
                       labelText: "Watched",
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              MediaListPage(name: "Watched", mediaList: data),
+                              MediaListPage(name: "Watched", mediaList: ref.watch(watchListProvider)),
                         ));
                       }),
-                  loading: () => ListButton(
-                        icon: const HeroIcon(HeroIcons.checkCircle,
-                            style: HeroIconStyle.solid),
-                        labelText: "Watched",
-                        onPressed: () {},
-                      ),
-                  error: (error, stackTrace) {
-                    Logger().e(error);
-                    return const ErrorOccurred();
-                  }),
                   /*
               const SizedBox(width: 20),
               ListButton(
@@ -129,7 +115,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
               ),*/
             ],
           ),
-          const PersonalList(),
+          const PersonalLists(),
 
           SizedBox(
             height: 100,

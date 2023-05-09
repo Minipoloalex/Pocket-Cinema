@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:logger/logger.dart';
-import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
@@ -34,7 +33,6 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
       }
     });
     _searchFocusNode.requestFocus();
-    ref.refresh(watchedListProvider).value;
   }
 
   @override

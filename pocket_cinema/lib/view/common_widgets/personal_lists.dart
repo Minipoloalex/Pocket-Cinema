@@ -9,9 +9,9 @@ import 'package:pocket_cinema/view/common_widgets/media_list_poster.dart';
 import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 
-class PersonalList extends ConsumerWidget {
+class PersonalLists extends ConsumerWidget {
   final Media? media;
-  const PersonalList({super.key, this.media});
+  const PersonalLists({super.key, this.media});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<List<MediaList>> personalList = ref.watch(listsProvider);

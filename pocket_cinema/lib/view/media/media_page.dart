@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:logger/logger.dart';
-import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
@@ -27,7 +26,6 @@ class MediaPageState extends ConsumerState<MediaPage> {
   @override
   void initState() {
     super.initState();
-    ref.refresh(watchedListProvider).value;
   }
 
   @override
@@ -222,10 +220,9 @@ class MediaPageState extends ConsumerState<MediaPage> {
                           const SizedBox(width: 20),
                           mediaInfo.when(
                             data: (data) => CheckButton(
-                                initialChecked: data.watched ?? false,
+                                mediaId: data.id,
                                 onPressed: () {
-                                  FirestoreDatabase.toggleMediaStatus(
-                                      data, "watched");
+                                  ref.read(watchListProvider.notifier).toggle(data);
                                 }),
                             loading: () => const SizedBox(),
                             error: (error, stack) {

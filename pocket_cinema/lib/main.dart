@@ -43,7 +43,7 @@ class MyAppState extends ConsumerState<MyApp> {
           selectedPage = 0;
         });
         // Reset the providers info
-        ref.invalidate(watchedListProvider);
+        ref.invalidate(watchListProvider);
         ref.invalidate(toWatchListProvider);
         ref.invalidate(listsProvider);
       }

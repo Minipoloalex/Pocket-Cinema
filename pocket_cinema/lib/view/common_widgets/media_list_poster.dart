@@ -1,46 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
+import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/media_list.dart';
 import 'package:pocket_cinema/view/media_list/media_list.dart';
 
-class MediaListPoster extends StatelessWidget {
+class MediaListPoster extends ConsumerStatefulWidget {
   final String name;
   final MediaList mediaList;
   final Media? media;
-
   const MediaListPoster(
       {Key? key, required this.name, required this.mediaList, this.media})
       : super(key: key);
 
+  @override
+  MediaListPosterState createState() => MediaListPosterState();
+}
+
+class MediaListPosterState extends ConsumerState<MediaListPoster> {
   _onTap(BuildContext context) {
-    if (media != null) {
-      // Add to list and show a toast 
-      FirestoreDatabase.addMediaToList(media!, mediaList.id).then((_) {
+    if (widget.media != null) {
+      // Add to list and show a toast
+      FirestoreDatabase.addMediaToList(widget.media!, widget.mediaList.id)
+          .then((_) {
         Fluttertoast.showToast(
-          msg: "${media!.name} was added to ${mediaList.name}",
+          msg: "${widget.media!.name} was added to ${widget.mediaList.name}",
           timeInSecForIosWeb: 1,
         );
+        ref.refresh(listsProvider).value;
       }).onError((error, stackTrace) {
         if (error.toString() == "Exception: Already added") {
           Fluttertoast.showToast(
-            msg: "${media!.name} has already been added to ${mediaList.name}",
+            msg:
+                "${widget.media!.name} has already been added to ${widget.mediaList.name}",
             timeInSecForIosWeb: 1,
           );
         } else {
           Fluttertoast.showToast(
-            msg: "Some error occur while adding ${media!.name} to ${mediaList.name}",
+            msg:
+                "Some error occur while adding ${widget.media!.name} to ${widget.mediaList.name}",
             timeInSecForIosWeb: 1,
           );
         }
       });
-      FirestoreDatabase.addMediaToList(media!, mediaList.id);
+      FirestoreDatabase.addMediaToList(widget.media!, widget.mediaList.id);
     } else {
       // Open list
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) =>
-            MediaListPage(name: mediaList.name, mediaList: mediaList.media),
+        builder: (context) => MediaListPage(
+            name: widget.mediaList.name, mediaList: widget.mediaList.media),
       ));
     }
   }
@@ -50,14 +60,15 @@ class MediaListPoster extends StatelessWidget {
     return GestureDetector(
         onTap: () => _onTap(context),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          if (mediaList.media.length >= 2) ...[
+          if (widget.mediaList.media.length >= 2) ...[
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Container(
                   width: 157 / 2,
                   height: 117,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage(mediaList.media[0].posterImage),
+                      image:
+                          NetworkImage(widget.mediaList.media[0].posterImage),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: const BorderRadius.only(
@@ -69,7 +80,8 @@ class MediaListPoster extends StatelessWidget {
                 height: 117,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage(mediaList.media[1].posterImage),
+                      image:
+                          NetworkImage(widget.mediaList.media[1].posterImage),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: const BorderRadius.only(
@@ -77,7 +89,7 @@ class MediaListPoster extends StatelessWidget {
                         bottomRight: Radius.circular(5))),
               )
             ]),
-          ] else if (mediaList.media.length == 1) ...[
+          ] else if (widget.mediaList.media.length == 1) ...[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -86,7 +98,8 @@ class MediaListPoster extends StatelessWidget {
                     height: 117,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(mediaList.media[0].posterImage),
+                        image:
+                            NetworkImage(widget.mediaList.media[0].posterImage),
                         fit: BoxFit.cover,
                         // alignment: Alignment.topCenter
                       ),
@@ -119,7 +132,7 @@ class MediaListPoster extends StatelessWidget {
             padding: const EdgeInsets.only(top: 12.0),
             child: SizedBox(
                 width: 157,
-                child: Text(name,
+                child: Text(widget.name,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2)),
