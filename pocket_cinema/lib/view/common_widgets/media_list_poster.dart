@@ -182,24 +182,6 @@ class MediaListList extends StatelessWidget {
         ),
       );
     }
-    if (columnChildren.isEmpty) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/no_results_found.png',
-            width: 320,
-            height: 240,
-          ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-            child: Text('Nothing here... Create a new list!',
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
-          )
-        ],
-      );
-    }
-
     return Column(
       children: columnChildren,
     );
