@@ -28,7 +28,7 @@ class NewsList extends ConsumerWidget {
                   fontSize: 42,
                 ),
               ),
-            const SizedBox(height: 10), // Espaçamento entre o Text e os itens de notícias
+            const SizedBox(height: 10),
             ...news
                 .map((news_) => NewsCard(
                     key: Key("newsCard${news.indexOf(news_)}"), news: news_))
