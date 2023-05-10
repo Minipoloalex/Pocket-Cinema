@@ -63,11 +63,9 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        title: const Padding(
-            padding: EdgeInsets.only(bottom: 15),
-            child: LogoTitleAppBar(
-              mainAxisAlignment: MainAxisAlignment.start,
-            )),
+        title: const LogoTitleAppBar(
+          mainAxisAlignment: MainAxisAlignment.start,
+        ),
         elevation: 0,
         actions: [
           Padding(
@@ -95,25 +93,26 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
             ref.refresh(listsProvider).value;
             ref.refresh(toWatchListProvider).value;
           },
-          child: ListView(
-            children: <Widget>[
-              const ToWatchList(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ListButton(
-                      icon: const HeroIcon(HeroIcons.checkCircle,
-                          style: HeroIconStyle.solid),
-                      labelText: "Watched",
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MediaListPage(
-                              name: "Watched",
-                              mediaList: ref.watch(watchListProvider)),
-                        ));
-                      }),
-
-                  /*
+          child: Stack(children: [
+            ListView(
+              children: <Widget>[
+                const ToWatchList(),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      ListButton(
+                          icon: const HeroIcon(HeroIcons.checkCircle,
+                              style: HeroIconStyle.solid),
+                          labelText: "Watched",
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => MediaListPage(
+                                  name: "Watched",
+                                  mediaList: ref.watch(watchListProvider)),
+                            ));
+                          }),
+                    ]),
+                /*
               const SizedBox(width: 20),
               ListButton(
                 icon: const HeroIcon(HeroIcons.ellipsisHorizontalCircle,
@@ -121,42 +120,50 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                 labelText: "Watching",
                 onPressed: () {},
               ),*/
-                ],
-              ),
-              const PersonalLists(),
-              SizedBox(
-                height: 100,
-                child: Visibility(
-                  visible: _isFormVisible,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: CommentAndListForm(
-                      controller: _controller,
-                      focusNode: _node,
-                      handleSubmit: _handleSubmit,
-                      maxLines: 1,
-                      prefixIcon: IconButton(
-                        color: Colors.white,
-                        icon: const HeroIcon(HeroIcons.xMark),
-                        onPressed: () {
-                          toggleCreateListFormVisibility();
-                          _controller.clear();
-                        },
-                      ),
-                      suffixIcon: IconButton(
-                        color: Colors.white,
-                        icon: const HeroIcon(HeroIcons.plus),
-                        onPressed: () {
-                          _handleSubmit(_controller.text);
-                        },
-                      ),
-                      hintText: "New list name",
+
+                const PersonalLists(),
+              ],
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Visibility(
+                visible: _isFormVisible,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: CommentAndListForm(
+                    controller: _controller,
+                    focusNode: _node,
+                    handleSubmit: _handleSubmit,
+                    maxLines: 1,
+                    onTapOutside: (_) {
+                      toggleCreateListFormVisibility();
+                      _node.unfocus();
+                      _controller.clear();
+                    },
+                    prefixIcon: IconButton(
+                      color: Colors.white,
+                      icon: const HeroIcon(HeroIcons.xMark),
+                      onPressed: () {
+                        toggleCreateListFormVisibility();
+                        _node.unfocus();
+                        _controller.clear();
+                      },
                     ),
+                    suffixIcon: IconButton(
+                      color: Colors.white,
+                      icon: const HeroIcon(HeroIcons.plus),
+                      onPressed: () {
+                        _handleSubmit(_controller.text);
+                      },
+                    ),
+                    hintText: "New list name",
                   ),
                 ),
               ),
-            ],
-          )),
+            )
+          ])),
       floatingActionButton: Visibility(
           visible: !_isFormVisible,
           child: AddButton(
@@ -164,6 +171,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
               toggleCreateListFormVisibility(),
               _node.requestFocus(),
             },
+            buttonColor: Theme.of(context).colorScheme.primary,
             tooltip: "Create a new list",
           )),
     );
