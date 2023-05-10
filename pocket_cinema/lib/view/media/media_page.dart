@@ -246,7 +246,6 @@ class MediaPageState extends ConsumerState<MediaPage> {
                               return const ErrorOccurred();
                             },
                           ),
-                          //
                         ],
                       )),
                   Positioned(
