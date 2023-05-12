@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:logger/logger.dart';
+import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list_shimmer.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
@@ -24,6 +27,7 @@ class MySearchPageState extends ConsumerState<SearchPage>
   void initState() {
     super.initState();
     _searchFocusNode.unfocus();
+    ref.read(watchListProvider.notifier).getWatchList();
   }
 
   @override
@@ -82,9 +86,8 @@ class MySearchPageState extends ConsumerState<SearchPage>
                 loading: () =>
                     const ShimmerEffect(child: HorizontalMediaListShimmer()),
                 error: (error, stack) {
-                  return const Center(
-                    child: Text('Error'),
-                  );
+                  Logger().e(error);
+                    return const ErrorOccurred();
                 },
               )
             ],
@@ -108,9 +111,8 @@ class MySearchPageState extends ConsumerState<SearchPage>
                                 media: item))
                             .toList())),
                     error: (error, stack) {
-                      return const Center(
-                        child: Text('Error'),
-                      );
+                      Logger().e(error);
+                      return const ErrorOccurred();
                     },
                     loading: () => ShimmerEffect(
                         child: Column(

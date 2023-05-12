@@ -16,7 +16,7 @@ You can find here details about the product, from a high-level vision to low-lev
     * [Product Vision](docs/ProductVision.md)
     * Elevator Pitch
 - Requirements
-    * User stories (present in GitHub issues - label user story)
+    * [User stories](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T1/issues?q=is%3Aissue+label%3A%22user+story%22)
     * [Domain model](docs/requirements.md)
 - Architecture and Design
     * [Logical architecture](docs/ArchitectureAndDesign.md)

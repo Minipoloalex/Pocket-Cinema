@@ -4,6 +4,7 @@ import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pocket_cinema/model/string_capitalize.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class NewsPage extends StatelessWidget {
   final News news;
@@ -12,7 +13,7 @@ class NewsPage extends StatelessWidget {
 
   Future<void> _launchUrl() async {
     if (!await launchUrl(Uri.parse(news.link))) {
-      //TODO: Snackbar error "Couldn't open the news page"
+      Fluttertoast.showToast(msg: "Couldn't open the news page");
     }
   }
 
