@@ -1,9 +1,9 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/navigation_item.dart';
 import 'package:pocket_cinema/view/home/home.dart';
 import 'package:pocket_cinema/view/login/login.dart';
@@ -18,17 +18,18 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  MyAppState createState() => MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class MyAppState extends ConsumerState<MyApp> {
   int selectedPage = 0;
 
   @override
@@ -40,17 +41,20 @@ class _MyAppState extends State<MyApp> {
         setState(() {
           selectedPage = 0;
         });
+        // Reset the providers info
+        ref.invalidate(watchListProvider);
+        ref.invalidate(toWatchListProvider);
+        ref.invalidate(listsProvider);
       }
     });
   }
 
   final pageController = PageController(initialPage: 0);
 
-   switchPage(int newPage) {
+  switchPage(int newPage) {
     if (newPage != selectedPage) {
       pageController.animateToPage(newPage,
-          duration: const Duration(microseconds: 300),
-          curve: Curves.easeIn);
+          duration: const Duration(microseconds: 300), curve: Curves.easeIn);
     }
   }
 
@@ -76,22 +80,23 @@ class _MyAppState extends State<MyApp> {
               children: [
                 const HomePage(),
                 const SearchPage(),
-                UserSpacePage(switchToSearch: (){
+                UserSpacePage(switchToSearch: () {
                   switchPage(1);
                 }),
-
               ],
             ),
             bottomNavigationBar: NavigationBar(
               selectedIndex: selectedPage,
               onDestinationSelected: (int index) {
+                print("Selected index: $index");
                 switchPage(index);
               },
               backgroundColor: Theme.of(context).colorScheme.tertiary,
               surfaceTintColor: Theme.of(context).colorScheme.tertiary,
               destinations: navigationItems.map((NavigationItem destination) {
                 return NavigationDestination(
-                  key: Key("${destination.label.toLowerCase()}NavigationButton"),
+                  key:
+                      Key("${destination.label.toLowerCase()}NavigationButton"),
                   label: destination.label,
                   icon: destination.icon,
                   selectedIcon: destination.selectedIcon,

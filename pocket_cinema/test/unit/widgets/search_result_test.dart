@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:pocket_cinema/model/media.dart';
@@ -20,7 +21,7 @@ void main() {
     );
 
     testWidgets('should display media information', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(SearchResult(media: media))));
+      await mockNetworkImagesFor(() => tester.pumpWidget(ProviderScope(child: testableWidget(SearchResult(media: media)))));
 
       expect(find.text(media.name), findsOneWidget);
       expect(find.text(media.description!), findsOneWidget);
@@ -37,7 +38,7 @@ void main() {
     });
 
     testWidgets('CheckButton and AddButton', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(SearchResult(media: media))));
+      await mockNetworkImagesFor(() => tester.pumpWidget(ProviderScope(child: testableWidget(SearchResult(media: media)))));
 
       expect(find.byType(CheckButton), findsOneWidget);
       expect(find.byType(AddButton), findsOneWidget);

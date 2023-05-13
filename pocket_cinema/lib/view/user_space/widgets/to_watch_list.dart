@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list_shimmer.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
@@ -17,7 +19,11 @@ class ToWatchList extends ConsumerWidget {
     return toWatchList.when(
       data: (data) {
         if (data.isEmpty) {
-          return Column(
+          return SizedBox(
+            height: 300,
+            child: 
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
                 "This list is empty.",
@@ -38,7 +44,7 @@ class ToWatchList extends ConsumerWidget {
                 child: const Text("Search"),
               ),
             ],
-          );
+          ));
         } else {
           return HorizontalMediaList(
             name: "In your pocket to Watch",
@@ -47,7 +53,10 @@ class ToWatchList extends ConsumerWidget {
         }
       },
       loading: () => const ShimmerEffect(child: HorizontalMediaListShimmer()),
-      error: (error, stack) => Text(error.toString()),
+      error: (error, stack) {
+        Logger().e(error);
+        return const ErrorOccurred();
+      },
     );
   }
 }

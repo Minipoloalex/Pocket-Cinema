@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:pocket_cinema/controller/lists_provider.dart';
+import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/search/widgets/no_results_found.dart';
 import 'package:pocket_cinema/view/search/widgets/search_result.dart';
@@ -32,7 +33,6 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
       }
     });
     _searchFocusNode.requestFocus();
-    ref.refresh(watchedListProvider).value;
   }
 
   @override
@@ -106,41 +106,47 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                     controller: _tabController,
                     children: [
                       movies.when(
-                        data: (data) => data.isNotEmpty
-                            ? ListView(
-                                key: const Key('moviesListView'),
-                                children: data
-                                    .map((e) => SearchResult(media: e))
-                                    .toList(),
-                              )
-                            : const NoResultsFoundWidget(),
-                        loading: () => ShimmerEffect(
-                          child: ListView(
-                            children: List.generate(
-                                    3, (index) => const SearchResultShimmer())
-                                .toList(),
-                          ),
-                        ),
-                        error: (error, stack) => Text(error.toString()),
-                      ),
+                          data: (data) => data.isNotEmpty
+                              ? ListView(
+                                  key: const Key('moviesListView'),
+                                  children: data
+                                      .map((e) => SearchResult(media: e))
+                                      .toList(),
+                                )
+                              : const NoResultsFoundWidget(),
+                          loading: () => ShimmerEffect(
+                                child: ListView(
+                                  children: List.generate(
+                                      3,
+                                      (index) =>
+                                          const SearchResultShimmer()).toList(),
+                                ),
+                              ),
+                          error: (error, stack) {
+                            Logger().e(error);
+                            return const ErrorOccurred();
+                          }),
                       series.when(
-                        data: (data) => data.isNotEmpty
-                            ? ListView(
-                                key: const Key('seriesListView'),
-                                children: data
-                                    .map((e) => SearchResult(media: e))
-                                    .toList(),
-                              )
-                            : const NoResultsFoundWidget(),
-                        loading: () => ShimmerEffect(
-                          child: ListView(
-                            children: List.generate(
-                                    3, (index) => const SearchResultShimmer())
-                                .toList(),
-                          ),
-                        ),
-                        error: (error, stack) => Text(error.toString()),
-                      ),
+                          data: (data) => data.isNotEmpty
+                              ? ListView(
+                                  key: const Key('seriesListView'),
+                                  children: data
+                                      .map((e) => SearchResult(media: e))
+                                      .toList(),
+                                )
+                              : const NoResultsFoundWidget(),
+                          loading: () => ShimmerEffect(
+                                child: ListView(
+                                  children: List.generate(
+                                      3,
+                                      (index) =>
+                                          const SearchResultShimmer()).toList(),
+                                ),
+                              ),
+                          error: (error, stack) {
+                            Logger().e(error);
+                            return const ErrorOccurred();
+                          }),
                     ],
                   )))
         ],

@@ -7,10 +7,45 @@ final toWatchListProvider = FutureProvider<List<Media>>((ref) async {
   return await FirestoreDatabase.getPredefinedList("ToWatch");
 });
 
-final watchedListProvider = FutureProvider<List<Media>>((ref) async {
-  return await FirestoreDatabase.getPredefinedList("watched");
-});
-
 final listsProvider = FutureProvider<List<MediaList>>((ref) async {
   return await FirestoreDatabase.getPersonalLists();
+});
+
+
+class WatchListNotifier extends StateNotifier<List<Media>> {
+  WatchListNotifier() : super([]);
+
+  void getWatchList() async {
+    state = await FirestoreDatabase.getPredefinedList("watched");
+  }
+
+  void add(Media media) {
+    state = [...state, media];
+  }
+
+  void remove(Media media) {
+    state = state.where((element) => element.id != media.id).toList();
+  }
+
+  void toggle(Media media) async {
+    if (state.contains(media)) {
+      remove(media);
+    } else {
+      add(media);
+    }
+
+    try{
+      await FirestoreDatabase.toggleMediaStatus(media, "watched");
+    }catch(e){
+      if (state.contains(media)) {
+        remove(media);
+      } else {
+        add(media);
+      }
+    }
+  }
+}
+
+final watchListProvider = StateNotifierProvider<WatchListNotifier, List<Media>>((ref) {
+  return WatchListNotifier();
 });
