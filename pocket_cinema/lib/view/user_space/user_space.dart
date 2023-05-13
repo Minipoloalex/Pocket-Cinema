@@ -12,6 +12,7 @@ import 'package:pocket_cinema/view/common_widgets/personal_lists.dart';
 import 'package:pocket_cinema/view/media_list/media_list.dart';
 import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
 import 'package:pocket_cinema/view/user_space/widgets/to_watch_list.dart';
+import 'package:pocket_cinema/view/common_widgets/logo_title_app_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class UserSpacePage extends ConsumerStatefulWidget {
@@ -61,23 +62,29 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        title: const LogoTitleAppBar(
+          mainAxisAlignment: MainAxisAlignment.start,
+        ),
         elevation: 0,
         actions: [
-          IconButton(
-            key: const Key("logoutButton"),
-            icon: const HeroIcon(HeroIcons.arrowLeftOnRectangle,
-                style: HeroIconStyle.solid),
-            iconSize: 30,
-            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-            onPressed: () {
-              User? user = FirebaseAuth.instance.currentUser;
-              if (user != null) {
-                Authentication.signOut();
-              }
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/login');
-            },
+          Padding(
+            padding: const EdgeInsets.only(right: 15, bottom: 15),
+            child: IconButton(
+              key: const Key("logoutButton"),
+              icon: const HeroIcon(HeroIcons.arrowLeftOnRectangle,
+                  style: HeroIconStyle.solid),
+              iconSize: 30,
+              padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+              onPressed: () {
+                User? user = FirebaseAuth.instance.currentUser;
+                if (user != null) {
+                  Authentication.signOut();
+                }
+                Navigator.of(context).pop();
+                Navigator.of(context).pushNamed('/login');
+              },
+            ),
           ),
         ],
       ),
@@ -87,23 +94,25 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
             ref.refresh(toWatchListProvider).value;
           },
           child: Stack(children: [
-            ListView(children: <Widget>[
-              const ToWatchList(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ListButton(
-                      icon: const HeroIcon(HeroIcons.checkCircle,
-                          style: HeroIconStyle.solid),
-                      labelText: "Watched",
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MediaListPage(
-                              name: "Watched",
-                              mediaList: ref.watch(watchListProvider)),
-                        ));
-                      })
-                  /*
+            ListView(
+              children: <Widget>[
+                const ToWatchList(),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      ListButton(
+                          icon: const HeroIcon(HeroIcons.checkCircle,
+                              style: HeroIconStyle.solid),
+                          labelText: "Watched",
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => MediaListPage(
+                                  name: "Watched",
+                                  mediaList: ref.watch(watchListProvider)),
+                            ));
+                          }),
+                    ]),
+                /*
               const SizedBox(width: 20),
               ListButton(
                 icon: const HeroIcon(HeroIcons.ellipsisHorizontalCircle,
@@ -111,10 +120,10 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                 labelText: "Watching",
                 onPressed: () {},
               ),*/
-                ],
-              ),
-              const PersonalLists(),
-            ]),
+
+                const PersonalLists(),
+              ],
+            ),
             Positioned(
               bottom: 0,
               left: 0,
@@ -163,7 +172,6 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
               _node.requestFocus(),
             },
             buttonColor: Theme.of(context).colorScheme.primary,
-            // borderColor: Theme.of(context).colorScheme.tertiary,
             tooltip: "Create a new list",
           )),
     );
