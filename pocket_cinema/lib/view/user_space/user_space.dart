@@ -68,17 +68,6 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
         ),
         elevation: 0,
         actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "MySpace",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 42,
-                  ),
-                ),
-                const SizedBox(width: 65),
                 IconButton(
                   key: const Key("logoutButton"),
                   icon: const HeroIcon(HeroIcons.arrowLeftOnRectangle,
@@ -94,8 +83,6 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                   },
                 ),
               ],
-            ),
-        ],
       ),
       body: RefreshIndicator(
           onRefresh: () async {
