@@ -36,13 +36,11 @@ class MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
-    // Listen for changes in the authentication state
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user == null) {
         setState(() {
           selectedPage = 0;
         });
-        // Reset the providers info
         ref.invalidate(watchListProvider);
         ref.invalidate(toWatchListProvider);
         ref.invalidate(listsProvider);
