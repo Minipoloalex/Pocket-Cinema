@@ -44,6 +44,17 @@ class CommentSectionState extends ConsumerState<CommentSection> {
 
     return Column(
       children: [
+        const Padding(
+          padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+        child:Text(
+          "Comments",
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontSize: 30,
+            color: Colors.white,
+          ),
+        ),
+        ),
         Expanded(
           child: comments.when(
             data: (data) {
@@ -79,21 +90,20 @@ class CommentSectionState extends ConsumerState<CommentSection> {
         Align(
             alignment: Alignment.bottomCenter,
             child: CommentAndListForm(
-            controller: _controller,
-            focusNode: _node,
-            handleSubmit: _handleSubmit,
-            onTapOutside: (_) => _node.unfocus(),
-            paddingLeft: 20,
-            maxLines: 4,
-            suffixIcon: IconButton(
-              color: Colors.white,
-              icon: const Icon(Icons.send),
-              onPressed: () {
-                _handleSubmit(_controller.text);
-              },
-            ),
-          )
-        ),
+              controller: _controller,
+              focusNode: _node,
+              handleSubmit: _handleSubmit,
+              onTapOutside: (_) => _node.unfocus(),
+              paddingLeft: 20,
+              maxLines: 4,
+              suffixIcon: IconButton(
+                color: Colors.white,
+                icon: const Icon(Icons.send),
+                onPressed: () {
+                  _handleSubmit(_controller.text);
+                },
+              ),
+            )),
       ],
     );
   }
