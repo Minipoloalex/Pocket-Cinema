@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:pocket_cinema/controller/lists_provider.dart';
+import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
+import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/search/widgets/no_results_found.dart';
 import 'package:pocket_cinema/view/search/widgets/search_result.dart';
 import 'package:pocket_cinema/view/search/widgets/search_result_shimmer.dart';
-import 'package:shimmer/shimmer.dart';
 
 class SearchResultsPage extends ConsumerStatefulWidget {
   const SearchResultsPage({super.key});
@@ -27,12 +28,11 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _searchController.addListener(() {
-        if(_searchController.text.length > 2){
-          ref.read(searchQueryProvider.notifier).state = _searchController.text;
-        }
+      if (_searchController.text.length > 2) {
+        ref.read(searchQueryProvider.notifier).state = _searchController.text;
+      }
     });
     _searchFocusNode.requestFocus();
-    ref.refresh(watchedListProvider).value;
   }
 
   @override
@@ -50,8 +50,7 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
     return Scaffold(
         body: Container(
       margin: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0),
-      child: 
-      Column(
+      child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -95,8 +94,8 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                 text: 'Movies',
               ),
               Tab(
-                  key: Key('seriesTab'),
-                  text: 'Series',
+                key: Key('seriesTab'),
+                text: 'Series',
               ),
             ],
           ),
@@ -109,45 +108,45 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                       movies.when(
                         data: (data) => data.isNotEmpty
                             ? ListView(
-                          key: const Key('moviesListView'),
-                          children: data
-                              .map((e) => SearchResult(media: e))
-                              .toList(),
-                        )
-                            : const NoResultsFoundWidget(),
-                        loading: () => Shimmer.fromColors(
-                          period: const Duration(milliseconds: 1000),
-                          baseColor: Theme.of(context).highlightColor,
-                          highlightColor: Theme.of(context).colorScheme.onPrimary,
+                                key: const Key('moviesListView'),
+                                children: data
+                                    .map((e) => SearchResult(media: e))
+                                    .toList(),
+                              )
+                            : const NoResultsFoundWidget(key: Key("noResultsMovies")),
+                        loading: () => ShimmerEffect(
                           child: ListView(
-                            children: List.generate(3, (index) => const SearchResultShimmer()).toList(),
+                            children: List.generate(
+                                    3, (index) => const SearchResultShimmer())
+                                .toList(),
                           ),
                         ),
-                        error: (error, stack) => Text(error.toString()),
-                      ),
+                        error: (error, stack)  {
+                            Logger().e(error);
+                            return const ErrorOccurred();
+                        }),
                       series.when(
                         data: (data) => data.isNotEmpty
                             ? ListView(
-                          key: const Key('seriesListView'),
-                          children: data
-                              .map((e) => SearchResult(media: e))
-                              .toList(),
-                        )
-                            : const NoResultsFoundWidget(),
-                        loading: () => Shimmer.fromColors(
-                          period: const Duration(milliseconds: 1000),
-                          baseColor: Theme.of(context).highlightColor,
-                          highlightColor: Theme.of(context).colorScheme.onPrimary,
+                                key: const Key('seriesListView'),
+                                children: data
+                                    .map((e) => SearchResult(media: e))
+                                    .toList(),
+                              )
+                            : const NoResultsFoundWidget(key: Key("noResultsSeries")),
+                        loading: () => ShimmerEffect(
                           child: ListView(
-                            children: List.generate(3, (index) => const SearchResultShimmer()).toList(),
+                            children: List.generate(
+                                    3, (index) => const SearchResultShimmer())
+                                .toList(),
                           ),
                         ),
-                        error: (error, stack) => Text(error.toString()),
-                      ),
+                        error: (error, stack)  {
+                          Logger().e(error);
+                          return const ErrorOccurred();
+                        }),
                     ],
-                  )
-              )
-          )
+                  )))
         ],
       ),
     ));

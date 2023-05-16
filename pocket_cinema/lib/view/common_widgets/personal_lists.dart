@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/media_list.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/media_list_poster.dart';
 import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 
-class PersonalList extends ConsumerWidget {
+class PersonalLists extends ConsumerWidget {
   final Media? media;
-  const PersonalList({super.key, this.media});
+  const PersonalLists({super.key, this.media});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<List<MediaList>> personalList = ref.watch(listsProvider);
-    
+
     return personalList.when(
-      data: (List<MediaList> data) => MediaListList(mediaListList: data, media: media),
-      error: (Object error, StackTrace stackTrace) => Text(error.toString()),
-      loading: () => Shimmer.fromColors(
-          period: const Duration(milliseconds: 1000),
-          baseColor: Theme.of(context).highlightColor,
-          highlightColor: Theme.of(context).colorScheme.onPrimary,
+      data: (List<MediaList> data) =>
+          MediaListList(mediaListList: data, media: media),
+      error: (error, stackTrace) {
+        Logger().e(error);
+        return const ErrorOccurred();
+      },
+      loading: () => ShimmerEffect(
           child: SizedBox(
               height: 300,
               child: ListView.separated(
@@ -35,9 +38,7 @@ class PersonalList extends ConsumerWidget {
                   padding: EdgeInsets.all(8.0),
                   child: PosterShimmer(),
                 ),
-              )
-          )
-      ),
+              ))),
     );
   }
 }

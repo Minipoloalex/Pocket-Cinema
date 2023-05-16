@@ -5,19 +5,20 @@ class NoResultsFoundWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return ListView(
       children: [
         Image.asset(
           'assets/images/no_results_found.png',
         ),
-        const Text(
+        const Padding(padding: EdgeInsets.only(bottom: 20),
+        child: Center(
+            child: Text(
           'No results found',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
-        ),
+        ))),
       ],
     );
   }

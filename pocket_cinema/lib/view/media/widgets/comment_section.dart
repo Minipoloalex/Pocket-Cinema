@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/comment_and_list_form.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_widget.dart';
 
 class CommentSection extends ConsumerStatefulWidget {
@@ -68,15 +70,20 @@ class CommentSectionState extends ConsumerState<CommentSection> {
               );
             },
             loading: () => Container(),
-            error: (error, stack) => Text(error.toString()),
+            error: (error, stack) {
+              Logger().e(error);
+              return const ErrorOccurred();
+            },
           ),
         ),
         Align(
-          alignment: Alignment.bottomCenter,
+            alignment: Alignment.bottomCenter,
             child: CommentAndListForm(
             controller: _controller,
             focusNode: _node,
             handleSubmit: _handleSubmit,
+            onTapOutside: (_) => _node.unfocus(),
+            paddingLeft: 20,
             maxLines: 4,
             suffixIcon: IconButton(
               color: Colors.white,

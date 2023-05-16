@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
+import 'package:logger/logger.dart';
+import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/horizontal_media_list.dart';
+import 'package:pocket_cinema/view/common_widgets/horizontal_media_list_shimmer.dart';
+import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/search/search_results_page.dart';
 import 'package:pocket_cinema/view/search/widgets/trailer_card.dart';
+import 'package:pocket_cinema/view/search/widgets/trailer_card_shimmer.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
@@ -21,6 +27,7 @@ class MySearchPageState extends ConsumerState<SearchPage>
   void initState() {
     super.initState();
     _searchFocusNode.unfocus();
+    ref.read(watchListProvider.notifier).getWatchList();
   }
 
   @override
@@ -71,14 +78,16 @@ class MySearchPageState extends ConsumerState<SearchPage>
           Column(
             children: [
               inTheatersMedia.when(
-                data: (data) =>
-                    HorizontalMediaList(name: 'In Theaters', media: data),
-                //TODO: Add a shimmer effect
-                loading: () => const Center(child: CircularProgressIndicator()),
+                data: (data) => HorizontalMediaList(
+                  key: const Key("InTheaters"),
+                  name: 'In Theaters',
+                  media: data,
+                ),
+                loading: () =>
+                    const ShimmerEffect(child: HorizontalMediaListShimmer()),
                 error: (error, stack) {
-                  return const Center(
-                    child: Text('Error'),
-                  );
+                  Logger().e(error);
+                    return const ErrorOccurred();
                 },
               )
             ],
@@ -97,15 +106,19 @@ class MySearchPageState extends ConsumerState<SearchPage>
                   trendingTrailersMedia.when(
                     data: (data) => (Column(
                         children: data
-                            .map((item) => TrailerCard(media: item))
+                            .map((item) => TrailerCard(
+                                key: Key("TrailerCard${data.indexOf(item)}"),
+                                media: item))
                             .toList())),
                     error: (error, stack) {
-                      return const Center(
-                        child: Text('Error'),
-                      );
+                      Logger().e(error);
+                      return const ErrorOccurred();
                     },
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
+                    loading: () => ShimmerEffect(
+                        child: Column(
+                      children: List.generate(
+                          4, (index) => const TrailerCardShimmer()),
+                    )),
                   )
                 ],
               )),

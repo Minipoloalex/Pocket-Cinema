@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pocket_cinema/controller/firestore_database.dart';
+import 'package:heroicons/heroicons.dart';
+import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/bottom_modal.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
+import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_section.dart';
 import 'package:pocket_cinema/view/media/widgets/description_shimmer.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:pocket_cinema/model/number_extension.dart';
 
 class MediaPage extends ConsumerStatefulWidget {
   final String id;
@@ -23,7 +26,6 @@ class MediaPageState extends ConsumerState<MediaPage> {
   @override
   void initState() {
     super.initState();
-    ref.refresh(watchedListProvider).value;
   }
 
   @override
@@ -95,7 +97,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                         ),
                       ],
                     ),
-                    error: (error, stack) => Text(error.toString()),
+                    error: (error, stack) {
+                      Logger().e(error);
+                      return const ErrorOccurred();
+                    },
                     loading: () => const Image(
                       height: 200,
                       fit: BoxFit.cover,
@@ -118,17 +123,16 @@ class MediaPageState extends ConsumerState<MediaPage> {
                           ),
                         ),
                       ),
-                      error: (error, stack) => Text(error.toString()),
-                      loading: () => Shimmer.fromColors(
-                          period: const Duration(milliseconds: 1000),
-                          baseColor: Theme.of(context).highlightColor,
-                          highlightColor:
-                              Theme.of(context).colorScheme.onPrimary,
+                      error: (error, stack) {
+                        Logger().e(error);
+                        return const ErrorOccurred();
+                      },
+                      loading: () => ShimmerEffect(
                           child: Container(
-                            height: 188,
-                            width: 108,
-                            color: Colors.black,
-                          )),
+                        height: 188,
+                        width: 108,
+                        color: Colors.black,
+                      )),
                     ),
                   ),
                   Positioned(
@@ -141,17 +145,16 @@ class MediaPageState extends ConsumerState<MediaPage> {
                           fontSize: 28,
                         ),
                       ),
-                      error: (error, stack) => Text(error.toString()),
-                      loading: () => Shimmer.fromColors(
-                          period: const Duration(milliseconds: 1000),
-                          baseColor: Theme.of(context).highlightColor,
-                          highlightColor:
-                              Theme.of(context).colorScheme.onPrimary,
+                      error: (error, stack) {
+                        Logger().e(error);
+                        return const ErrorOccurred();
+                      },
+                      loading: () => ShimmerEffect(
                           child: Container(
-                            height: 10,
-                            width: 50,
-                            color: Colors.black,
-                          )),
+                        height: 10,
+                        width: 50,
+                        color: Colors.black,
+                      )),
                     ),
                   ),
                   Positioned(
@@ -159,11 +162,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                       left: 160,
                       child: Row(
                         children: [
-                          const Image(
-                            height: 16,
-                            width: 16,
-                            image: AssetImage('assets/images/star.png'),
-                          ),
+                          const HeroIcon(HeroIcons.star,
+                              style: HeroIconStyle.solid,
+                              size: 17,
+                              color: Color(0xFFD3A70B)),
                           const SizedBox(width: 6),
                           mediaInfo.when(
                             data: (data) => Text(
@@ -173,48 +175,60 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                 fontSize: 16,
                               ),
                             ),
-                            error: (error, stack) => Text(error.toString()),
-                            loading: () => Shimmer.fromColors(
-                                period: const Duration(milliseconds: 1000),
-                                baseColor: Theme.of(context).highlightColor,
-                                highlightColor:
-                                    Theme.of(context).colorScheme.onPrimary,
+                            error: (error, stack) {
+                              Logger().e(error);
+                              return const ErrorOccurred();
+                            },
+                            loading: () => ShimmerEffect(
                                 child: Container(
-                                  height: 10,
-                                  width: 100,
-                                  color: Colors.black,
-                                )),
+                              height: 10,
+                              width: 100,
+                              color: Colors.black,
+                            )),
                           ),
                           const SizedBox(width: 6),
                           mediaInfo.when(
-                            data: (data) => Text(
-                              data.nRatings ?? '',
-                              style: const TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                            error: (error, stack) => Text(error.toString()),
-                            loading: () => Shimmer.fromColors(
-                                period: const Duration(milliseconds: 1000),
-                                baseColor: Theme.of(context).highlightColor,
-                                highlightColor:
-                                    Theme.of(context).colorScheme.onPrimary,
-                                child: Container(
-                                  height: 10,
-                                  width: 100,
-                                  color: Colors.black,
+                            data: (data) => Tooltip(
+                                message: 'Number of ratings',
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      data.nRatings?.format() ?? '',
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 1),
+                                    const HeroIcon(HeroIcons.users,
+                                        style: HeroIconStyle.solid,
+                                        size: 15,
+                                        color: Colors.grey)
+                                  ],
                                 )),
+                            error: (error, stack) {
+                              Logger().e(error);
+                              return const ErrorOccurred();
+                            },
+                            loading: () => ShimmerEffect(
+                                child: Container(
+                              height: 10,
+                              width: 100,
+                              color: Colors.black,
+                            )),
                           ),
                           const SizedBox(width: 20),
                           mediaInfo.when(
                             data: (data) => CheckButton(
-                                initialChecked: data.watched ?? false,
+                                mediaId: data.id,
                                 onPressed: () {
-                                  FirestoreDatabase.toggleMediaStatus(
-                                      data, "watched");
+                                  ref.read(watchListProvider.notifier).toggle(data);
                                 }),
                             loading: () => const SizedBox(),
-                            error: (error, stack) => Text(error.toString()),
+                            error: (error, stack) {
+                              Logger().e(error);
+                              return const ErrorOccurred();
+                            },
                           ),
                           mediaInfo.when(
                             data: (data) => AddButton(onPressed: () {
@@ -227,9 +241,11 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                   });
                             }),
                             loading: () => const SizedBox(),
-                            error: (error, stack) => Text(error.toString()),
+                            error: (error, stack) {
+                              Logger().e(error);
+                              return const ErrorOccurred();
+                            },
                           ),
-                          //
                         ],
                       )),
                   Positioned(
@@ -246,13 +262,12 @@ class MediaPageState extends ConsumerState<MediaPage> {
                             fontSize: 12,
                           ),
                         ),
-                        error: (error, stack) => Text(error.toString()),
-                        loading: () => Shimmer.fromColors(
-                            period: const Duration(milliseconds: 1000),
-                            baseColor: Theme.of(context).highlightColor,
-                            highlightColor:
-                                Theme.of(context).colorScheme.onPrimary,
-                            child: const DescriptionShimmer()),
+                        error: (error, stack) {
+                          Logger().e(error);
+                          return const ErrorOccurred();
+                        },
+                        loading: () =>
+                            const ShimmerEffect(child: DescriptionShimmer()),
                       ),
                     ),
                   ),

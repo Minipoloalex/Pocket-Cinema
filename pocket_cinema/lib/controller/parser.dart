@@ -44,7 +44,7 @@ class Parser {
             .toString(),
         nRatings: map["props"]["pageProps"]["aboveTheFoldData"]["ratingsSummary"]
                 ["voteCount"]
-            .toString(),
+            ,
         description: map["props"]["pageProps"]["aboveTheFoldData"]["plot"]["plotText"]
             ["plainText"],
         type: map["props"]["pageProps"]["aboveTheFoldData"]["titleType"]["id"] ==
