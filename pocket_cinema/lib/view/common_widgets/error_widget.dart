@@ -14,7 +14,6 @@ class ErrorOccurred extends StatelessWidget {
           children: const [
             HeroIcon(HeroIcons.exclamationCircle),
             SizedBox(height: 8),
-            //maxim
             Text("Some error occurred", style: TextStyle(fontSize: 18)),
           ],
         ),

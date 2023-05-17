@@ -35,27 +35,16 @@ class MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
-    // Listen for changes in the authentication state
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user == null) {
         setState(() {
           selectedPage = 0;
         });
-        // Reset the providers info
         ref.invalidate(watchListProvider);
         ref.invalidate(toWatchListProvider);
         ref.invalidate(listsProvider);
       }
     });
-  }
-
-  final pageController = PageController(initialPage: 0);
-
-  switchPage(int newPage) {
-    if (newPage != selectedPage) {
-      pageController.animateToPage(newPage,
-          duration: const Duration(microseconds: 300), curve: Curves.easeIn);
-    }
   }
 
   @override
@@ -68,6 +57,16 @@ class MyAppState extends ConsumerState<MyApp> {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/': (context) {
+          final pageController = PageController(initialPage: 0);
+
+          switchPage(int newPage) {
+            if (newPage != selectedPage) {
+              pageController.animateToPage(newPage,
+                  duration: const Duration(microseconds: 300),
+                  curve: Curves.easeIn);
+            }
+          }
+
           return Scaffold(
             body: PageView(
               controller: pageController,
@@ -88,7 +87,6 @@ class MyAppState extends ConsumerState<MyApp> {
             bottomNavigationBar: NavigationBar(
               selectedIndex: selectedPage,
               onDestinationSelected: (int index) {
-                print("Selected index: $index");
                 switchPage(index);
               },
               backgroundColor: Theme.of(context).colorScheme.tertiary,

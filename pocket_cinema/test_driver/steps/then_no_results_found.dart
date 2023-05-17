@@ -9,7 +9,7 @@ class ThenNoResultsFound extends Then1WithWorld<String, FlutterWorld> {
   Future<void> executeStep(String input) async {
     FlutterDriverUtils.waitForFlutter(world.driver);
     if (input == "movies") {
-      final movies = find.byValueKey("moviesListView");
+      final movies = find.byValueKey("noResultsMovies");
       expect(
         await FlutterDriverUtils.isPresent(
             world.driver,
@@ -20,7 +20,7 @@ class ThenNoResultsFound extends Then1WithWorld<String, FlutterWorld> {
       );
 
     } else if (input == "series") {
-      final series = find.byValueKey("seriesListView");
+      final series = find.byValueKey("noResultsSeries");
       expect(
         await FlutterDriverUtils.isPresent(
             world.driver,

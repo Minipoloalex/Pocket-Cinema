@@ -106,47 +106,45 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                     controller: _tabController,
                     children: [
                       movies.when(
-                          data: (data) => data.isNotEmpty
-                              ? ListView(
-                                  key: const Key('moviesListView'),
-                                  children: data
-                                      .map((e) => SearchResult(media: e))
-                                      .toList(),
-                                )
-                              : const NoResultsFoundWidget(),
-                          loading: () => ShimmerEffect(
-                                child: ListView(
-                                  children: List.generate(
-                                      3,
-                                      (index) =>
-                                          const SearchResultShimmer()).toList(),
-                                ),
-                              ),
-                          error: (error, stack) {
+                        data: (data) => data.isNotEmpty
+                            ? ListView(
+                                key: const Key('moviesListView'),
+                                children: data
+                                    .map((e) => SearchResult(media: e))
+                                    .toList(),
+                              )
+                            : const NoResultsFoundWidget(key: Key("noResultsMovies")),
+                        loading: () => ShimmerEffect(
+                          child: ListView(
+                            children: List.generate(
+                                    3, (index) => const SearchResultShimmer())
+                                .toList(),
+                          ),
+                        ),
+                        error: (error, stack)  {
                             Logger().e(error);
                             return const ErrorOccurred();
-                          }),
+                        }),
                       series.when(
-                          data: (data) => data.isNotEmpty
-                              ? ListView(
-                                  key: const Key('seriesListView'),
-                                  children: data
-                                      .map((e) => SearchResult(media: e))
-                                      .toList(),
-                                )
-                              : const NoResultsFoundWidget(),
-                          loading: () => ShimmerEffect(
-                                child: ListView(
-                                  children: List.generate(
-                                      3,
-                                      (index) =>
-                                          const SearchResultShimmer()).toList(),
-                                ),
-                              ),
-                          error: (error, stack) {
-                            Logger().e(error);
-                            return const ErrorOccurred();
-                          }),
+                        data: (data) => data.isNotEmpty
+                            ? ListView(
+                                key: const Key('seriesListView'),
+                                children: data
+                                    .map((e) => SearchResult(media: e))
+                                    .toList(),
+                              )
+                            : const NoResultsFoundWidget(key: Key("noResultsSeries")),
+                        loading: () => ShimmerEffect(
+                          child: ListView(
+                            children: List.generate(
+                                    3, (index) => const SearchResultShimmer())
+                                .toList(),
+                          ),
+                        ),
+                        error: (error, stack)  {
+                          Logger().e(error);
+                          return const ErrorOccurred();
+                        }),
                     ],
                   )))
         ],
