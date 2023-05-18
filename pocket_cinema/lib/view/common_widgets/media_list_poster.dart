@@ -192,7 +192,6 @@ class MediaListList extends StatelessWidget {
         ),
       );
     }
-
     return Column(
       children: columnChildren,
     );

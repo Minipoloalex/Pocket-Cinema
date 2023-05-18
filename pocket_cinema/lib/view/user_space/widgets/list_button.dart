@@ -18,7 +18,7 @@ class ListButton extends StatelessWidget {
     return ElevatedButton.icon(
       onPressed: onPressed,
       icon: icon,
-      label: Text(labelText, 
+      label: Text(labelText,
         style: const TextStyle(fontSize: 20),
       ),
       style: ElevatedButton.styleFrom(
@@ -32,4 +32,3 @@ class ListButton extends StatelessWidget {
       ),
     );}
 }
-              
