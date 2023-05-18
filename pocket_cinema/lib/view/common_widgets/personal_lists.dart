@@ -38,7 +38,9 @@ class PersonalLists extends ConsumerWidget {
                   padding: EdgeInsets.all(8.0),
                   child: PosterShimmer(),
                 ),
-              ))),
+              )
+          )
+      ),
     );
   }
 }

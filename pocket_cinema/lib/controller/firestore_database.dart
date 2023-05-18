@@ -164,6 +164,27 @@ class FirestoreDatabase {
       'personalLists': FieldValue.arrayRemove([listId])
     });
   }
+
+  static Future<bool> mediaIsInList(Media media, String listId) async {
+    final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
+    final docSnapshot = await docList.get();
+    if (!docSnapshot.exists) {
+      throw Exception('List does not exist');
+    }
+    final mediaIds = docSnapshot.get('mediaIds') as List<dynamic>;
+    return mediaIds.contains(media.id);
+  }
+
+  static Future<String> toggleMediaInList(Media media, String listId) async {
+    print(await mediaIsInList(media, listId));
+    if (await mediaIsInList(media, listId)) {
+      await removeMediaFromList(media.id, listId);
+      return 'removed from';
+    }
+    await addMediaToList(media, listId);
+    return 'added to';
+  }
+
   static Future<void> addMediaToList(Media media, String listId) async {
     final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
     await docList.update({
@@ -188,7 +209,7 @@ class FirestoreDatabase {
   static Future<void> removeMediaFromList(String mediaId, String listId) async {
     final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
     await docList.update({
-      'mediaId': FieldValue.arrayRemove([mediaId]),
+      'mediaIds': FieldValue.arrayRemove([mediaId]),
       'lastUpdatedAt': Timestamp.now(),
     });
   }
