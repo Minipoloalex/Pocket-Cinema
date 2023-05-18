@@ -20,31 +20,30 @@ class ToWatchList extends ConsumerWidget {
       data: (data) {
         if (data.isEmpty) {
           return SizedBox(
-            height: 300,
-            child: 
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "This list is empty.",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Text(
-                "Start searching content.",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+              height: 300,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Your pocket list is empty. Find the movies you would like to see next in here.",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ElevatedButton(
-                onPressed: switchToSearch,
-                child: const Text("Search"),
-              ),
-            ],
-          ));
+                  const Text(
+                    "Find the movies you would like to see next in here.",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: switchToSearch,
+                    child: const Text("Search"),
+                  ),
+                ],
+              ));
         } else {
           return HorizontalMediaList(
             name: "In your pocket to Watch",
