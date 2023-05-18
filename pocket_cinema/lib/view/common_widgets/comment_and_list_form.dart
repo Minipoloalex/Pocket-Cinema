@@ -6,17 +6,21 @@ class CommentAndListForm extends StatelessWidget {
       required this.focusNode,
       required this.controller,
       required this.handleSubmit,
+      required this.onTapOutside,
       this.suffixIcon,
       this.prefixIcon,
       this.maxLines = 1,
-      this.hintText});
+      this.hintText,
+      this.paddingLeft = 0});
   final FocusNode focusNode;
   final TextEditingController controller;
   final void Function(String) handleSubmit;
+  final void Function(PointerDownEvent) onTapOutside;
   final IconButton? suffixIcon;
   final IconButton? prefixIcon;
   final int maxLines;
   final String? hintText;
+  final double paddingLeft;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,9 +31,7 @@ class CommentAndListForm extends StatelessWidget {
         focusNode: focusNode,
         controller: controller,
         onSubmitted: handleSubmit,
-        onTapOutside: (_) {
-          focusNode.unfocus();
-        },
+        onTapOutside: onTapOutside,
         decoration: InputDecoration(
           filled: true,
           fillColor: Theme.of(context).cardColor,
@@ -45,7 +47,7 @@ class CommentAndListForm extends StatelessWidget {
             borderSide: const BorderSide(color: Colors.transparent),
             borderRadius: BorderRadius.circular(20),
           ),
-          contentPadding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+          contentPadding: EdgeInsets.fromLTRB(paddingLeft, 5, 0, 5),
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
           hintText: hintText,

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:pocket_cinema/controller/firestore_database.dart';
+import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/bottom_modal.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_section.dart';
@@ -15,7 +16,6 @@ import 'package:pocket_cinema/model/number_extension.dart';
 
 class MediaPage extends ConsumerStatefulWidget {
   final String id;
-
   const MediaPage({super.key, required this.id});
 
   @override
@@ -26,7 +26,6 @@ class MediaPageState extends ConsumerState<MediaPage> {
   @override
   void initState() {
     super.initState();
-    ref.refresh(watchedListProvider).value;
   }
 
   @override
@@ -98,7 +97,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                         ),
                       ],
                     ),
-                    error: (error, stack) => Text(error.toString()),
+                    error: (error, stack) {
+                      Logger().e(error);
+                      return const ErrorOccurred();
+                    },
                     loading: () => const Image(
                       height: 200,
                       fit: BoxFit.cover,
@@ -121,7 +123,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                           ),
                         ),
                       ),
-                      error: (error, stack) => Text(error.toString()),
+                      error: (error, stack) {
+                        Logger().e(error);
+                        return const ErrorOccurred();
+                      },
                       loading: () => ShimmerEffect(
                           child: Container(
                         height: 188,
@@ -140,7 +145,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                           fontSize: 28,
                         ),
                       ),
-                      error: (error, stack) => Text(error.toString()),
+                      error: (error, stack) {
+                        Logger().e(error);
+                        return const ErrorOccurred();
+                      },
                       loading: () => ShimmerEffect(
                           child: Container(
                         height: 10,
@@ -239,13 +247,15 @@ class MediaPageState extends ConsumerState<MediaPage> {
                           const SizedBox(width: 20),
                           mediaInfo.when(
                             data: (data) => CheckButton(
-                                initialChecked: data.watched ?? false,
+                                mediaId: data.id,
                                 onPressed: () {
-                                  FirestoreDatabase.toggleMediaStatus(
-                                      data, "watched");
+                                  ref.read(watchListProvider.notifier).toggle(data);
                                 }),
                             loading: () => const SizedBox(),
-                            error: (error, stack) => Text(error.toString()),
+                            error: (error, stack) {
+                              Logger().e(error);
+                              return const ErrorOccurred();
+                            },
                           ),
                           mediaInfo.when(
                             data: (data) => AddButton(onPressed: () {
@@ -258,9 +268,11 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                   });
                             }),
                             loading: () => const SizedBox(),
-                            error: (error, stack) => Text(error.toString()),
+                            error: (error, stack) {
+                              Logger().e(error);
+                              return const ErrorOccurred();
+                            },
                           ),
-                          //
                         ],
                       )),
                   Positioned(
@@ -277,7 +289,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                             fontSize: 12,
                           ),
                         ),
-                        error: (error, stack) => Text(error.toString()),
+                        error: (error, stack) {
+                          Logger().e(error);
+                          return const ErrorOccurred();
+                        },
                         loading: () =>
                             const ShimmerEffect(child: DescriptionShimmer()),
                       ),
