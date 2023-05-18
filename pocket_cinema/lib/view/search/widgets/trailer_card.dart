@@ -3,8 +3,8 @@ import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/fetcher.dart';
 import 'package:pocket_cinema/controller/parser.dart';
 import 'package:pocket_cinema/model/media.dart';
-import 'package:pocket_cinema/view/common_widgets/trailer_player.dart';
 import 'package:pocket_cinema/view/media/media_page.dart';
+import 'package:pocket_cinema/view/search/trailer_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class TrailerCard extends StatelessWidget {
@@ -90,7 +90,8 @@ class TrailerCard extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => TrailerPlayer(
+                                builder: (context) => TrailerPage(
+                                    media: media,
                                     videoUrl: playbacks[0]['url'])));
                       });
                     },

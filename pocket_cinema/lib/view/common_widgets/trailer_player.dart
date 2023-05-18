@@ -12,9 +12,12 @@ class TrailerPlayer extends StatefulWidget {
   State<TrailerPlayer> createState() => _TrailerPlayerState();
 }
 
-class _TrailerPlayerState extends State<TrailerPlayer> {
+class _TrailerPlayerState extends State<TrailerPlayer> with AutomaticKeepAliveClientMixin{
   late VideoPlayerController _controller;
   late ChewieController _chewieController;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -34,6 +37,15 @@ class _TrailerPlayerState extends State<TrailerPlayer> {
             DeviceOrientation.landscapeRight,
           ]),
     });
+
+    _chewieController.addListener(() {
+      if (!_chewieController.isFullScreen) {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown,
+        ]);
+      }
+    });
   }
 
   @override
@@ -45,13 +57,13 @@ class _TrailerPlayerState extends State<TrailerPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(
+    super.build(context);
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AspectRatio(
             aspectRatio: 16 / 9, child: Chewie(controller: _chewieController)),
       ],
-    ));
+    );
   }
 }
