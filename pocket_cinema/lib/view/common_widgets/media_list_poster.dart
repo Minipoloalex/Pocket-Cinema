@@ -97,18 +97,14 @@ class MediaListPoster extends StatelessWidget {
                           bottomLeft: Radius.circular(5)),
                     )),
                 Container(
-                    // Add a border to the container of the placeholder so it doesn't get mixed with the background.!
                     width: 157 / 2,
                     height: 117,
                     decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(5),
-                            bottomRight: Radius.circular(5)),
-                        border: Border.all(
-                          // color is tertiaryColor from theme
-                          color: Theme.of(context).colorScheme.tertiary,
-                          width: 1,
-                        )),
+                      color: Theme.of(context).cardColor,
+                      borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(5),
+                          bottomRight: Radius.circular(5)),
+                    ),
                     child: const Center(
                       child:
                           HeroIcon(HeroIcons.film, style: HeroIconStyle.solid),
@@ -119,8 +115,9 @@ class MediaListPoster extends StatelessWidget {
             Container(
                 width: 157,
                 height: 117,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(5),
                     bottomRight: Radius.circular(5),
                   ),
