@@ -31,7 +31,7 @@ class PersonalLists extends ConsumerWidget {
           const Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
             child: Text(
-              'Nothing here... Create a new list!',
+              'Nothing here... Create a list!',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
