@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
+import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/poster.dart';
 import 'package:pocket_cinema/view/media/media_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class MediaListPage extends StatelessWidget {
+class MediaListPage extends ConsumerWidget {
   final String name;
   final List<Media> mediaList;
   final String? listId;
@@ -34,6 +37,7 @@ class MediaListPage extends StatelessWidget {
                   onPressed: () {
                     FirestoreDatabase.deletePersonalList(listId);
                     deleted = true;
+                    Fluttertoast.showToast(msg: "List $name deleted");
                     Navigator.of(context).pop();
                   },
                   child: const Text("Delete"),
@@ -44,7 +48,7 @@ class MediaListPage extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -59,7 +63,10 @@ class MediaListPage extends StatelessWidget {
                   onPressed: () async {
                     if (listId != null) {
                       deleteList(context, listId!).then((value) => {
-                        if (value) Navigator.of(context).pop()
+                        if (value) {
+                          ref.refresh(listsProvider).value,
+                          Navigator.of(context).pop(),
+                        },
                       });
                     }
                   },
