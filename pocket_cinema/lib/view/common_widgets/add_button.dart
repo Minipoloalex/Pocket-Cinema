@@ -6,7 +6,12 @@ class AddButton extends StatelessWidget {
   final String? tooltip;
   final Color? buttonColor;
   final Color? borderColor;
-  const AddButton({super.key, required this.onPressed, this.tooltip, this.buttonColor, this.borderColor});
+  const AddButton(
+      {super.key,
+      required this.onPressed,
+      this.tooltip,
+      this.buttonColor,
+      this.borderColor});
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +21,14 @@ class AddButton extends StatelessWidget {
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(buttonColor),
         padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
-        side: MaterialStateProperty.all(
-            BorderSide(
-                color: borderColor ?? const Color.fromARGB(255, 221, 221, 221),
-                width: 2
-            ),
-        ),
+        side: borderColor != null
+            ? MaterialStateProperty.all(
+                BorderSide(
+                    color:
+                        borderColor ?? const Color.fromARGB(255, 221, 221, 221),
+                    width: 2),
+              )
+            : null,
       ),
       tooltip: tooltip,
     );

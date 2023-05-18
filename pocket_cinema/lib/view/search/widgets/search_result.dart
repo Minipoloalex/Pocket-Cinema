@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:pocket_cinema/controller/firestore_database.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/bottom_modal.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
 import 'package:pocket_cinema/view/media/media_page.dart';
 
-class SearchResult extends StatelessWidget {
+class SearchResult extends ConsumerWidget {
   final Media media;
 
   const SearchResult({super.key, required this.media});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
         margin: const EdgeInsets.only(bottom: 10),
         child: GestureDetector(
@@ -57,9 +58,9 @@ class SearchResult extends StatelessWidget {
               Row(
                 children: [
                   CheckButton(
-                      initialChecked: media.watched ?? false,
+                      mediaId: media.id,
                       onPressed: () {
-                        FirestoreDatabase.toggleMediaStatus(media, "watched");
+                        ref.read(watchListProvider.notifier).toggle(media);
                       }),
                   AddButton(
                     onPressed: () {

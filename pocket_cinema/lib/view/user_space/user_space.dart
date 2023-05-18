@@ -12,6 +12,7 @@ import 'package:pocket_cinema/view/common_widgets/personal_lists.dart';
 import 'package:pocket_cinema/view/media_list/media_list.dart';
 import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
 import 'package:pocket_cinema/view/user_space/widgets/to_watch_list.dart';
+import 'package:pocket_cinema/view/common_widgets/logo_title_app_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class UserSpacePage extends ConsumerStatefulWidget {
@@ -29,24 +30,25 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
   @override
   void initState() {
     super.initState();
-    ref.refresh(watchedListProvider).value;
     ref.refresh(toWatchListProvider).value;
+    ref.read(watchListProvider.notifier).getWatchList();
   }
 
   void _handleSubmit(String listName) {
     if (!Validate.listName(listName)) {
-      Fluttertoast.showToast(msg: "List name must be between 2 and 20 characters long");
+      Fluttertoast.showToast(
+          msg: "List name must be between 2 and 20 characters long");
       return;
     }
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       FirestoreDatabase.createPersonalList(listName);
       Fluttertoast.showToast(msg: "Created a new list named '$listName'");
+      ref.refresh(listsProvider).value;
       toggleCreateListFormVisibility();
     }
     _controller.clear();
     _node.unfocus();
-    ref.refresh(watchedListProvider).value;
   }
 
   void toggleCreateListFormVisibility() {
@@ -57,29 +59,30 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
 
   @override
   Widget build(BuildContext context) {
-    final watchedList = ref.watch(watchedListProvider);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        title: const LogoTitleAppBar(
+          mainAxisAlignment: MainAxisAlignment.start,
+        ),
         elevation: 0,
         actions: [
-          IconButton(
-            key: const Key("logoutButton"),
-            icon: const HeroIcon(HeroIcons.arrowLeftOnRectangle,
-                style: HeroIconStyle.solid),
-            iconSize: 30,
-            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-            onPressed: () {
-              User? user = FirebaseAuth.instance.currentUser;
-              if (user != null) {
-                Authentication.signOut();
-              }
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/login');
-            },
-          ),
-        ],
+                IconButton(
+                  key: const Key("logoutButton"),
+                  icon: const HeroIcon(HeroIcons.arrowLeftOnRectangle,
+                      style: HeroIconStyle.solid),
+                  iconSize: 30,
+                  onPressed: () {
+                    User? user = FirebaseAuth.instance.currentUser;
+                    if (user != null) {
+                      Authentication.signOut();
+                    }
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed('/login');
+                  },
+                ),
+              ],
       ),
       body: RefreshIndicator(
           onRefresh: () async {
@@ -87,13 +90,13 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
             ref.refresh(toWatchListProvider).value;
           },
           child: Stack(children: [
-            ListView(children: <Widget>[
-              const ToWatchList(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  watchedList.when(
-                      data: (data) => ListButton(
+            ListView(
+              children: <Widget>[
+                const ToWatchList(),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      ListButton(
                           key: const Key("watchedListButton"),
                           icon: const HeroIcon(HeroIcons.checkCircle,
                               style: HeroIconStyle.solid),
@@ -101,20 +104,12 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => MediaListPage(
-                                  name: "Watched", mediaList: data),
+                                  name: "Watched",
+                                  mediaList: ref.watch(watchListProvider)),
                             ));
                           }),
-                      loading: () => ListButton(
-                            icon: const HeroIcon(HeroIcons.checkCircle,
-                                style: HeroIconStyle.solid),
-                            labelText: "Watched",
-                            onPressed: () {},
-                          ),
-                      error: (error, stackTrace) {
-                        return Center(
-                            child: Text("Error: ${error.toString()}"));
-                      }),
-                  /*
+                    ]),
+                /*
               const SizedBox(width: 20),
               ListButton(
                 icon: const HeroIcon(HeroIcons.ellipsisHorizontalCircle,
@@ -122,10 +117,10 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                 labelText: "Watching",
                 onPressed: () {},
               ),*/
-                ],
-              ),
-              const PersonalList(),
-            ]),
+
+                const PersonalLists(),
+              ],
+            ),
             Positioned(
               bottom: 0,
               left: 0,
@@ -176,9 +171,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
               toggleCreateListFormVisibility(),
               _node.requestFocus(),
             },
-            buttonColor: Theme.of(context).colorScheme.secondary,
-            borderColor: const Color.fromARGB(255, 221, 221, 221),
-            // borderColor: Theme.of(context).colorScheme.tertiary,
+            buttonColor: Theme.of(context).colorScheme.primary,
             tooltip: "Create a new list",
           )),
     );

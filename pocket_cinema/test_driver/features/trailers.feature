@@ -30,8 +30,12 @@ So that I can decide which media to watch
     When I tap the "backButton" button
     Then I am on the "SearchPage" page
 
-  #Scenario: Watching a trending trailer
-  #  Given I am on the "SearchPage" page
-  #  When I tap the "playTrailer1" label
-  #  Then I am on the "TrailerPage" page
-
+#  Scenario: Watching a trending trailer
+#    Given I am on the "SearchPage" page
+#    When I pause for 5 seconds
+#    When I tap the "playTrailer1" button without scrolling it into view
+#    When I pause for 5 seconds
+#    Then I am on the "TrailerPage" page
+#    When I tap the back button
+#    And I tap the "backButton" button
+#    Then I am on the "SearchPage" page
