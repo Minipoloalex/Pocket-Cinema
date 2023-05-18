@@ -47,7 +47,7 @@ class Parser {
                 ["voteCount"],
         description: map["props"]["pageProps"]["aboveTheFoldData"]["plot"]["plotText"]
             ["plainText"],
-        releaseDate: '${date["year"]}-${date["month"].toString().padLeft(2, '0')}-${date["day"].toString().padLeft(2, '0')}',
+        releaseDate: date == null ? null : '${date["year"]}-${date["month"].toString().padLeft(2, '0')}-${date["day"].toString().padLeft(2, '0')}',
         type: map["props"]["pageProps"]["aboveTheFoldData"]["titleType"]["id"] ==
                 "movie"
             ? MediaType.movie

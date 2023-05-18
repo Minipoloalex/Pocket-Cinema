@@ -156,7 +156,16 @@ class MediaPageState extends ConsumerState<MediaPage> {
                         children: [
                           mediaInfo.when(
                             data: (data) {
-                              if (DateTime.parse(data.releaseDate!)
+                              print(data.releaseDate);
+                              if (data.releaseDate == null) {
+                                return const Text(
+                                  'To be announced',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                );
+                              } else if (DateTime.parse(data.releaseDate!)
                                       .compareTo(DateTime.now()) <
                                   0) {
                                 return Row(children: [
