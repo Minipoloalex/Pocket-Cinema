@@ -17,8 +17,8 @@ class CheckButton extends ConsumerWidget {
 
     List<Media> watchedList = ref.watch(watchListProvider);
     bool checked = watchedList.any((element) => element.id == mediaId);
-    
     return IconButton(
+      key: Key('checkButton ${checked ? 'checked' : 'unchecked'}'),
       icon: const HeroIcon(HeroIcons.check),
       onPressed: () {
         onPressed();

@@ -220,9 +220,12 @@ class MediaPageState extends ConsumerState<MediaPage> {
                           const SizedBox(width: 20),
                           mediaInfo.when(
                             data: (data) => CheckButton(
+                                key: Key('${data.name} CheckButton'),
                                 mediaId: data.id,
                                 onPressed: () {
-                                  ref.read(watchListProvider.notifier).toggle(data);
+                                  ref
+                                      .read(watchListProvider.notifier)
+                                      .toggle(data);
                                 }),
                             loading: () => const SizedBox(),
                             error: (error, stack) {
@@ -231,15 +234,17 @@ class MediaPageState extends ConsumerState<MediaPage> {
                             },
                           ),
                           mediaInfo.when(
-                            data: (data) => AddButton(onPressed: () {
-                              showModalBottomSheet<void>(
-                                  context: context,
-                                  builder: (_) {
-                                    return BottomModal(
-                                      media: data,
-                                    );
-                                  });
-                            }),
+                            data: (data) => AddButton(
+                                key: Key('${data.name} AddButton'),
+                                onPressed: () {
+                                  showModalBottomSheet<void>(
+                                      context: context,
+                                      builder: (_) {
+                                        return BottomModal(
+                                          media: data,
+                                        );
+                                      });
+                                }),
                             loading: () => const SizedBox(),
                             error: (error, stack) {
                               Logger().e(error);

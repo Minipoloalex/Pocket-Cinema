@@ -14,7 +14,7 @@ import 'steps/then_expect_present.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
-  ..features = [Glob(r"test_driver/features/user_space.feature")]
+  ..features = [Glob(r"test_driver/features/lists.feature")]
   ..reporters = [
     ProgressReporter(),
     TestRunSummaryReporter(),

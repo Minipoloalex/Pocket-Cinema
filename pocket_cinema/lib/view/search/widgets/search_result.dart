@@ -58,11 +58,13 @@ class SearchResult extends ConsumerWidget {
               Row(
                 children: [
                   CheckButton(
+                      key: Key('${media.name} CheckButton'),
                       mediaId: media.id,
                       onPressed: () {
                         ref.read(watchListProvider.notifier).toggle(media);
                       }),
                   AddButton(
+                    key: Key('${media.name} AddButton'),
                     onPressed: () {
                       showModalBottomSheet<void>(
                           context: context,
