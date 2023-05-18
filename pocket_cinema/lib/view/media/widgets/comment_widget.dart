@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pocket_cinema/model/comment.dart';
-import 'package:timeago/timeago.dart' as timeago;
 import 'package:pocket_cinema/model/string_capitalize.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class CommentWidget extends StatelessWidget {
   final Comment comment;

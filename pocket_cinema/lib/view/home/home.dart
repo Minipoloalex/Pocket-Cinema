@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/news_provider.dart';
 import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
-import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/common_widgets/logo_title_app_bar.dart';
+import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/home/widgets/news_widget.dart';
 import 'package:pocket_cinema/view/home/widgets/news_widget_shimmer.dart';
 
