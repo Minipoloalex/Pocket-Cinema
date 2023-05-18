@@ -12,8 +12,6 @@ class Media {
   final String? trailer;
   final String? trailerDuration;
   final String? releaseDate;
-  bool? watched;
-
   Media(
       {required this.id,
       required this.name,
@@ -25,8 +23,7 @@ class Media {
       this.type,
       this.trailer,
       this.trailerDuration,
-      this.releaseDate,
-      this.watched});
+      this.releaseDate});
 
   Map<String, dynamic> toJson() => {
     'name': name,
