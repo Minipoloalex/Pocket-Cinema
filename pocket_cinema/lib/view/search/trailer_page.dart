@@ -29,18 +29,25 @@ class MyTrailerPageState extends ConsumerState<TrailerPage>
     });
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: Transform.translate(
           offset: const Offset(10, 0),
-          child: const GoBackButton(key: Key('backButton')),
+          child: const Padding(
+              padding: EdgeInsets.all(5),
+              child: GoBackButton(key: Key('backButton'))),
+        ),
+        title: const Text(
+          "Watch trailer page",
+          style: TextStyle(
+            fontSize: 25,
+          ),
         ),
       ),
       body: ListView(
         addAutomaticKeepAlives: true,
-        padding: EdgeInsets.zero,
+        padding: const EdgeInsets.only(top: 10),
         children: [
           TrailerPlayer(videoUrl: widget.videoUrl),
           Padding(
