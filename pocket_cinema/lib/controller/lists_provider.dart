@@ -3,7 +3,6 @@ import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/media_list.dart';
 
-
 final toWatchListProvider = FutureProvider<List<Media>>((ref) async {
   return await FirestoreDatabase.getPredefinedList("ToWatch");
 });
