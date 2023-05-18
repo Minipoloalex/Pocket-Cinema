@@ -21,24 +21,34 @@ class NewsList extends ConsumerWidget {
     return RefreshIndicator(
       onRefresh: () => _refreshNews(context, ref),
       child: news.when(
-          data: (news) => ListView(
-                children: news
-                    .map((news_) => NewsCard(
-                        key: Key("newsCard${news.indexOf(news_)}"),
-                        news: news_))
-                    .toList(),
-              ),
-          loading: () => ShimmerEffect(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return const NewsCardShimmer();
-                  },
+        data: (news) => ListView(
+          children: [
+              const Text(
+                "News",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 42,
                 ),
               ),
-          error: (error, stack) {
-            Logger().e(error);
-            return const ErrorOccurred();
-          }),
+            const SizedBox(height: 10),
+            ...news
+                .map((news_) => NewsCard(
+                    key: Key("newsCard${news.indexOf(news_)}"), news: news_))
+                .toList(),
+          ],
+        ),
+        loading: () => ShimmerEffect(
+                child: ListView.builder(
+                itemBuilder: (context, index) {
+                return const NewsCardShimmer();
+            },
+          ),
+        ),
+        error: (error, stack) {
+          Logger().e(error);
+          return const ErrorOccurred();}
+      ),
     );
   }
 }
