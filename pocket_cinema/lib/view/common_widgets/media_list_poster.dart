@@ -17,7 +17,7 @@ class MediaListPoster extends StatelessWidget {
 
   _onTap(BuildContext context) {
     if (media != null) {
-      // Add to list and show a toast 
+      // Add to list and show a toast
       FirestoreDatabase.addMediaToList(media!, mediaList.id).then((_) {
         Fluttertoast.showToast(
           msg: "${media!.name} was added to ${mediaList.name}",
@@ -31,7 +31,8 @@ class MediaListPoster extends StatelessWidget {
           );
         } else {
           Fluttertoast.showToast(
-            msg: "Some error occur while adding ${media!.name} to ${mediaList.name}",
+            msg:
+                "Some error occur while adding ${media!.name} to ${mediaList.name}",
             timeInSecForIosWeb: 1,
           );
         }
@@ -96,15 +97,21 @@ class MediaListPoster extends StatelessWidget {
                           bottomLeft: Radius.circular(5)),
                     )),
                 Container(
+                    // Add a border to the container of the placeholder so it doesn't get mixed with the background.!
                     width: 157 / 2,
                     height: 117,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(5),
-                          bottomRight: Radius.circular(5)),
-                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(5),
+                            bottomRight: Radius.circular(5)),
+                        border: Border.all(
+                          // color is tertiaryColor from theme
+                          color: Theme.of(context).colorScheme.tertiary,
+                          width: 1,
+                        )),
                     child: const Center(
-                      child: HeroIcon(HeroIcons.film, style : HeroIconStyle.solid),
+                      child:
+                          HeroIcon(HeroIcons.film, style: HeroIconStyle.solid),
                     )),
               ],
             ),
@@ -119,7 +126,7 @@ class MediaListPoster extends StatelessWidget {
                   ),
                 ),
                 child: const Center(
-                  child: HeroIcon(HeroIcons.film, style : HeroIconStyle.solid),
+                  child: HeroIcon(HeroIcons.film, style: HeroIconStyle.solid),
                 )),
           ],
           Padding(
