@@ -44,6 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () async {
                       Validate.login(_userIdTextController.text, _passwordTextController.text).then((value) {
                         Authentication.signIn(_userIdTextController.text, _passwordTextController.text).then((value){
+                          Navigator.of(context).pop();
                           Navigator.pushNamed(context, '/');
                         }).catchError((error) {
                           Fluttertoast.showToast(msg: error);
@@ -63,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                           Authentication.createUserGoogleSignIn(
                             MyUser(username: user.displayName!, email: user.email!),
                           );
-
+                          Navigator.of(context).pop();
                           Navigator.pushNamed(context, '/');
                         });
                       },

@@ -49,7 +49,7 @@ class NewsCard extends StatelessWidget {
                             Text(
                                 news.title,
                                 maxLines: 3,
-                                overflow: TextOverflow.fade,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             Text(timeago.format(news.date).capitalize()),
                           ],

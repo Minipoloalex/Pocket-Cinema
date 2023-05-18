@@ -56,6 +56,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     onPressed: () async {
                       Validate.register(_usernameTextController.text, _emailTextController.text, _passwordTextController.text, _confirmPasswordTextController.text).then((value) {
                         Authentication.registerUser(_usernameTextController.text, _emailTextController.text, _passwordTextController.text).then((value){
+                          Navigator.of(context).pop();
                           Navigator.pushNamed(context, '/');
                         }).catchError((error) {
                           Fluttertoast.showToast(msg: error);
