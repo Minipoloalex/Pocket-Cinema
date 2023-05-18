@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
@@ -11,6 +13,8 @@ import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/search/search_results_page.dart';
 import 'package:pocket_cinema/view/search/widgets/trailer_card.dart';
 import 'package:pocket_cinema/view/search/widgets/trailer_card_shimmer.dart';
+
+import '../common_widgets/network_error_widget.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
@@ -86,8 +90,20 @@ class MySearchPageState extends ConsumerState<SearchPage>
                 loading: () =>
                     const ShimmerEffect(child: HorizontalMediaListShimmer()),
                 error: (error, stack) {
-                  Logger().e(error);
+                  if (error is SocketException) {
+                    return Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                        ),
+                        const SizedBox(height: 10),
+                        const NetworkErrorOccurred(),
+                      ],
+                    );
+                  } else {
+                    Logger().e(error);
                     return const ErrorOccurred();
+                  }
                 },
               )
             ],
@@ -111,8 +127,20 @@ class MySearchPageState extends ConsumerState<SearchPage>
                                 media: item))
                             .toList())),
                     error: (error, stack) {
-                      Logger().e(error);
-                      return const ErrorOccurred();
+                      if (error is SocketException) {
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                            ),
+                            const SizedBox(height: 10),
+                            const NetworkErrorOccurred(),
+                          ],
+                        );
+                      } else {
+                        Logger().e(error);
+                        return const ErrorOccurred();
+                      }
                     },
                     loading: () => ShimmerEffect(
                         child: Column(

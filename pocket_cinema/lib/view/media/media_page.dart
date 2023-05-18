@@ -222,7 +222,9 @@ class MediaPageState extends ConsumerState<MediaPage> {
                             data: (data) => CheckButton(
                                 mediaId: data.id,
                                 onPressed: () {
-                                  ref.read(watchListProvider.notifier).toggle(data);
+                                  ref
+                                      .read(watchListProvider.notifier)
+                                      .toggle(data);
                                 }),
                             loading: () => const SizedBox(),
                             error: (error, stack) {
