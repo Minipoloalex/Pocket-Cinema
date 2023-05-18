@@ -70,6 +70,7 @@ class TrailerCard extends StatelessWidget {
               Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15),
                   child: IconButton(
+                    key: Key("playTrailer${key.toString()[key.toString().length - 1]}"),
                     icon: const HeroIcon(HeroIcons.play,
                         style: HeroIconStyle.solid),
                     onPressed: () {
