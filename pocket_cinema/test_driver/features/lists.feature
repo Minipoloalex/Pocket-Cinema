@@ -41,16 +41,16 @@ Feature: Adding media to lists
     Then I am on the "MediaListPage" page
     And I expect the text "Watched" to be present
     And I expect the text "Titanic" to be present
-
-    When I tap the "Titanic" text
+    And I pause for 10 seconds
+    When I tap the element that contains the text "Titanic"
     Then I am on the "MediaPage" page
-    When I tap the "Titanic CheckButton"
+    When I tap the "Titanic CheckButton" button
     Then I wait until the "checkButton unchecked" is present
 
     When I tap the "backButton" button
     Then I am on the "MediaListPage" page
     And I expect the text "Watched" to be present
-    And I expect the text "Titanic" to not be present
+    And I expect the text "Titanic" to be absent
 
 #  Scenario: Adding a media to "To Watch List"
 #    Given I am on the "searchPage" page
