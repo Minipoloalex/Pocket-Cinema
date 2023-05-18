@@ -151,11 +151,18 @@ class FirestoreDatabase {
     return mediaLists;
   }
 
-
-
   static Future<void> deletePersonalList(String listId) async {
+    if (FirebaseAuth.instance.currentUser == null) {
+      throw Exception('User not logged in');
+    }
     final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
     await docList.delete();
+    final docUser = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid);
+    await docUser.update({
+      'personalLists': FieldValue.arrayRemove([listId])
+    });
   }
   static Future<void> addMediaToList(Media media, String listId) async {
     final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
