@@ -33,10 +33,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
   Widget build(BuildContext context) {
     final mediaInfo = ref.watch(mediaProvider(widget.id));
 
-    mediaInfo.when(
-        data: (data) {},
-        error: (error, stack) {},
-        loading: () {});
+    mediaInfo.when(data: (data) {}, error: (error, stack) {}, loading: () {});
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -201,16 +198,19 @@ class MediaPageState extends ConsumerState<MediaPage> {
                               const SizedBox(width: 20),
                               mediaInfo.when(
                                 data: (data) => CheckButton(
-                                    initialChecked: data.watched ?? false,
+                                    mediaId: data.id,
                                     onPressed: () {
-                                      FirestoreDatabase.toggleMediaStatus(
-                                          data, "watched");
+                                      ref
+                                          .read(watchListProvider.notifier)
+                                          .toggle(data);
                                     }),
                                 loading: () => const SizedBox(),
                                 error: (error, stack) => Text(error.toString()),
                               ),
                               mediaInfo.when(
-                                data: (data) => AddButton(onPressed: () {
+                                data: (data) => AddButton(
+                                    borderColor: Theme.of(context).colorScheme.onPrimary,
+                                    onPressed: () {
                                   showModalBottomSheet<void>(
                                       context: context,
                                       builder: (_) {
