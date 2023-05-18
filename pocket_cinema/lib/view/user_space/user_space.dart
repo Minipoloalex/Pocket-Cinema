@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
@@ -12,7 +13,6 @@ import 'package:pocket_cinema/view/common_widgets/personal_lists.dart';
 import 'package:pocket_cinema/view/media_list/media_list.dart';
 import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
 import 'package:pocket_cinema/view/user_space/widgets/to_watch_list.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class UserSpacePage extends ConsumerStatefulWidget {
   const UserSpacePage({super.key});

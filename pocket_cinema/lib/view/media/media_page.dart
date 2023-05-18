@@ -1,14 +1,10 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
+import 'package:pocket_cinema/model/number_extension.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/bottom_modal.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
@@ -16,7 +12,6 @@ import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_section.dart';
 import 'package:pocket_cinema/view/media/widgets/description_shimmer.dart';
-import 'package:pocket_cinema/model/number_extension.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 class MediaPage extends ConsumerStatefulWidget {
@@ -40,7 +35,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
     final mediaInfo = ref.watch(mediaProvider(widget.id));
 
     mediaInfo.when(
-        data: (data) => print(data.rating.runtimeType),
+        data: (data) {},
         error: (error, stack) {},
         loading: () {});
 
@@ -122,7 +117,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                     selectable: true,
                                     pauseBetween: const Duration(seconds: 1),
                                     fadedBorder: true,
-                                    fadeBorderSide: FadeBorderSide.both,
+                                    fadeBorderSide: FadeBorderSide.right,
                                     style: const TextStyle(
                                       fontSize: 28,
                                     ),
