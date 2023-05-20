@@ -24,7 +24,7 @@ class MediaListPosterState extends ConsumerState<MediaListPoster> {
   _onTap(BuildContext context) {
     if (widget.media != null) {
       // Add to list and show a toast
-      FirestoreDatabase.addMediaToList(widget.media!, widget.mediaList.id)
+      FirestoreDatabase().addMediaToList(widget.media!, widget.mediaList.id)
           .then((_) {
         Fluttertoast.showToast(
           msg: "${widget.media!.name} was added to ${widget.mediaList.name}",
@@ -46,7 +46,7 @@ class MediaListPosterState extends ConsumerState<MediaListPoster> {
           );
         }
       });
-      FirestoreDatabase.addMediaToList(widget.media!, widget.mediaList.id);
+      FirestoreDatabase().addMediaToList(widget.media!, widget.mediaList.id);
     } else {
       // Open list
       Navigator.of(context).push(MaterialPageRoute(

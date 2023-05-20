@@ -56,7 +56,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
     }
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
-      FirestoreDatabase.createPersonalList(listName);
+      FirestoreDatabase().createPersonalList(listName);
       Fluttertoast.showToast(msg: "Created a new list named '$listName'");
       ref.refresh(listsProvider).value;
       toggleCreateListFormVisibility();

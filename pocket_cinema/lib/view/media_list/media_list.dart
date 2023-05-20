@@ -35,7 +35,7 @@ class MediaListPage extends ConsumerWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    FirestoreDatabase.deletePersonalList(listId);
+                    FirestoreDatabase().deletePersonalList(listId);
                     deleted = true;
                     Fluttertoast.showToast(msg: "Deleted list '$name'");
                     Navigator.of(context).pop();

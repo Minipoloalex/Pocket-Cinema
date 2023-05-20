@@ -47,7 +47,7 @@ class BottomModal extends StatelessWidget {
 }
 
 void addToWatchList(BuildContext context, Media media) {
-  FirestoreDatabase.addMediaToWatch(media).then((_) {
+  FirestoreDatabase().addMediaToWatch(media).then((_) {
     Fluttertoast.showToast(
       msg: "${media.name} was added to the to watch list",
       timeInSecForIosWeb: 1,

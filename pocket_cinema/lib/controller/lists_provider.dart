@@ -4,11 +4,11 @@ import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/media_list.dart';
 
 final toWatchListProvider = FutureProvider<List<Media>>((ref) async {
-  return await FirestoreDatabase.getPredefinedList("ToWatch");
+  return await FirestoreDatabase().getPredefinedList("ToWatch");
 });
 
 final listsProvider = FutureProvider<List<MediaList>>((ref) async {
-  return await FirestoreDatabase.getPersonalLists();
+  return await FirestoreDatabase().getPersonalLists();
 });
 
 
@@ -16,7 +16,7 @@ class WatchListNotifier extends StateNotifier<List<Media>> {
   WatchListNotifier() : super([]);
 
   void getWatchList() async {
-    state = await FirestoreDatabase.getPredefinedList("watched");
+    state = await FirestoreDatabase().getPredefinedList("watched");
   }
 
   void add(Media media) {
@@ -35,7 +35,7 @@ class WatchListNotifier extends StateNotifier<List<Media>> {
     }
 
     try{
-      await FirestoreDatabase.toggleMediaStatus(media, "watched");
+      await FirestoreDatabase().toggleMediaStatus(media, "watched");
     }catch(e){
       if (state.contains(media)) {
         remove(media);

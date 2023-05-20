@@ -8,9 +8,11 @@ import 'package:pocket_cinema/model/media_list.dart';
 import 'package:pocket_cinema/model/my_user.dart';
 
 class FirestoreDatabase {
-  static Future<String> getUsernameById(String id) async {
-    final DocumentReference docRef =
-        FirebaseFirestore.instance.collection('users').doc(id);
+  FirestoreDatabase({FirebaseFirestore? firestore}) : firestore = firestore ?? FirebaseFirestore.instance;
+  final FirebaseFirestore firestore;
+
+  Future<String> getUsernameById(String id) async {
+    final DocumentReference docRef = firestore.collection('users').doc(id);
     final DocumentSnapshot snapshot = await docRef.get();
 
     if (snapshot.exists) {
@@ -19,8 +21,8 @@ class FirestoreDatabase {
     return "Anonymous";
   }
 
-  static Future<String> getEmail(String username) async {
-    final usersRef = FirebaseFirestore.instance.collection('users');
+  Future<String> getEmail(String username) async {
+    final usersRef = firestore.collection('users');
     QuerySnapshot snapshot =
         await usersRef.where("username", isEqualTo: username).get();
     if (snapshot.docs.isNotEmpty) {
@@ -36,18 +38,18 @@ class FirestoreDatabase {
         .hasMatch(str);
   }
 
-  static void addComment(String mediaId, String text) {
-    final commentsRef = FirebaseFirestore.instance.collection('comments');
+  void addComment(String mediaId, String text) {
+    final commentsRef = firestore.collection('comments');
     commentsRef.add({
       "media_id": mediaId,
       "text": text,
-      "user_id": FirebaseAuth.instance.currentUser!.uid,
+      "user_id": FirebaseAuth.instance.currentUser!.uid,  // TODO
       "time_posted": Timestamp.now()
     });
   }
 
-  static Future<List<Comment>> getComments(String mediaId) async {
-    final commentsRef = FirebaseFirestore.instance.collection('comments');
+  Future<List<Comment>> getComments(String mediaId) async {
+    final commentsRef = firestore.collection('comments');
     final querySnapshot = await commentsRef
         .where("media_id", isEqualTo: mediaId)
         .orderBy('time_posted', descending: true)
@@ -80,40 +82,37 @@ class FirestoreDatabase {
     return snapshot.docs.isNotEmpty;
   }
 
-  static Future<bool> emailExists(String email) async {
-    final QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('users')
+  Future<bool> emailExists(String email) async {
+    final QuerySnapshot snapshot = await firestore.collection('users')
         .where("email", isEqualTo: email)
         .get();
     return snapshot.docs.isNotEmpty;
   }
 
-  static Future<bool> usernameExists(String username) async {
-    final QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('users')
+  Future<bool> usernameExists(String username) async {
+    final QuerySnapshot snapshot = await firestore.collection('users')
         .where("username", isEqualTo: username)
         .get();
     return snapshot.docs.isNotEmpty;
   }
 
-  static Future<void> createUser(MyUser user, String userId) async {
-    final docUser = FirebaseFirestore.instance.collection('users').doc(userId);
+  Future<void> createUser(MyUser user, String userId) async {
+    final docUser = firestore.collection('users').doc(userId);
     await docUser.set(user.toJson());
   }
 
 
-  static Future<void> createPersonalList(String name) async {
-    final docList = FirebaseFirestore.instance.collection('lists').doc();
+  Future<void> createPersonalList(String name) async {
+    final docList = firestore.collection('lists').doc();
     await docList.set({
       'name': name,
       'mediaIds': [],
       'createdAt': Timestamp.now(),
       'lastUpdatedAt': Timestamp.now(),
-      'ownerId': FirebaseAuth.instance.currentUser!.uid,
+      'ownerId': FirebaseAuth.instance.currentUser!.uid,  // TODO
     });
 
-    final docUser = FirebaseFirestore.instance
-        .collection('users')
+    final docUser = firestore.collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid);
 
     await docUser.update({
@@ -121,11 +120,11 @@ class FirestoreDatabase {
     });
   }
 
-  static Future<List<MediaList>> getPersonalLists() async {
+  Future<List<MediaList>> getPersonalLists() async {
     if (FirebaseAuth.instance.currentUser == null) {
       return [];
     }
-    final personalListRef = FirebaseFirestore.instance.collection('lists');
+    final personalListRef = firestore.collection('lists');
     final querySnapshot = await personalListRef
         .where("ownerId", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .orderBy('lastUpdatedAt', descending: true)
@@ -138,7 +137,7 @@ class FirestoreDatabase {
       final createdAt = doc.data()['createdAt'] as Timestamp;
       final lastUpdatedAt = doc.data()['lastUpdatedAt'] as Timestamp;
       final List<Media> media = await Future.wait(mediaIds.map((mediaId) async {
-        final mediaSnapshot = await FirebaseFirestore.instance.collection('medias')
+        final mediaSnapshot = await firestore.collection('medias')
             .doc(mediaId).get();
         return Media(
           id: mediaSnapshot.id,
@@ -151,21 +150,20 @@ class FirestoreDatabase {
     return mediaLists;
   }
 
-  static Future<void> deletePersonalList(String listId) async {
+  Future<void> deletePersonalList(String listId) async {
     if (FirebaseAuth.instance.currentUser == null) {
       throw Exception('User not logged in');
     }
-    final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
+    final docList = firestore.collection('lists').doc(listId);
     await docList.delete();
-    final docUser = FirebaseFirestore.instance
-        .collection('users')
+    final docUser = firestore.collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid);
     await docUser.update({
       'personalLists': FieldValue.arrayRemove([listId])
     });
   }
-  static Future<void> addMediaToList(Media media, String listId) async {
-    final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
+  Future<void> addMediaToList(Media media, String listId) async {
+    final docList = firestore.collection('lists').doc(listId);
     await docList.update({
       'mediaIds': FieldValue.arrayUnion([media.id]),
       'lastUpdatedAt': Timestamp.now(),
@@ -173,9 +171,8 @@ class FirestoreDatabase {
     mediaExists(media);
   }
 
-  static Future<String> mediaExists(Media media) async {
-    final docMedia =
-        FirebaseFirestore.instance.collection('medias').doc(media.id);
+  Future<String> mediaExists(Media media) async {
+    final docMedia = firestore.collection('medias').doc(media.id);
 
     if (!(await docMedia.get()).exists) {
       final Map<String, dynamic> mediaJson = media.toJson();
@@ -185,21 +182,20 @@ class FirestoreDatabase {
     return docMedia.id;
   }
 
-  static Future<void> removeMediaFromList(String mediaId, String listId) async {
-    final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
+  Future<void> removeMediaFromList(String mediaId, String listId) async {
+    final docList = firestore.collection('lists').doc(listId);
     await docList.update({
       'mediaId': FieldValue.arrayRemove([mediaId]),
       'lastUpdatedAt': Timestamp.now(),
     });
   }
 
-  static Future<void> addMediaToWatch(Media media) async {
+  Future<void> addMediaToWatch(Media media) async {
     if (FirebaseAuth.instance.currentUser == null){
       throw Exception('User not logged in');
     }
     mediaExists(media);
-    final docUser = FirebaseFirestore.instance
-        .collection('users')
+    final docUser = firestore.collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid);
 
     final userSnapshot = await docUser.get();
@@ -211,7 +207,7 @@ class FirestoreDatabase {
     return;
   }
 
-  static Future<void> toggleMediaStatus(Media media, String listName) async {
+  Future<void> toggleMediaStatus(Media media, String listName) async {
     if (listName != 'watched' && listName != 'toWatch') {
       throw Exception('Invalid list');
     }
@@ -222,8 +218,7 @@ class FirestoreDatabase {
 
     mediaExists(media);
 
-    final docUser = FirebaseFirestore.instance
-        .collection('users')
+    final docUser = firestore.collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid);
 
 
@@ -241,15 +236,14 @@ class FirestoreDatabase {
     }
   }
 
-  static Future<List<Media>> getPredefinedList(String listName) async {
+  Future<List<Media>> getPredefinedList(String listName) async {
     if (listName != "watched" && listName != "ToWatch") {
       throw Exception("List name given incorrect");
     }
     if (FirebaseAuth.instance.currentUser == null) {
       return [];
     }
-    final userSnapshot = await FirebaseFirestore.instance
-        .collection('users')
+    final userSnapshot = await firestore.collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
 
@@ -257,8 +251,7 @@ class FirestoreDatabase {
 
     final List<Media> medias =
         await Future.wait(list.map((mediaId) async {
-      final mediaSnapshot = await FirebaseFirestore.instance
-          .collection('medias')
+      final mediaSnapshot = await firestore.collection('medias')
           .doc(mediaId)
           .get();
       return Media(

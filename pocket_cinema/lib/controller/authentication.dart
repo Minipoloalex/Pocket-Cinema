@@ -13,7 +13,7 @@ class Authentication {
   }
   static Future signIn(String user, String password) async {
     try {
-      final email = Validate.isEmail(user) ? user : await FirestoreDatabase.getEmail(user);
+      final email = Validate.isEmail(user) ? user : await FirestoreDatabase().getEmail(user);
 
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
@@ -61,7 +61,7 @@ class Authentication {
     if (currentUser == null) {
       throw Exception("User not logged in");
     }
-    await FirestoreDatabase.createUser(user, currentUser.uid);
+    await FirestoreDatabase().createUser(user, currentUser.uid);
   }
 
   static Future<void> registerUser(username, email, password) async {

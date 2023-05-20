@@ -14,11 +14,11 @@ class Validate {
       return Future.error("Please enter your password");
     } 
     if(!isEmail(userId)){
-      if(!await FirestoreDatabase.usernameExists(userId)){
+      if(!await FirestoreDatabase().usernameExists(userId)){
         return Future.error("The username does not exist");
       }
     }else{
-      if(!await FirestoreDatabase.emailExists(userId)){
+      if(!await FirestoreDatabase().emailExists(userId)){
         return Future.error("The email does not exist");
       }
     }
@@ -38,10 +38,10 @@ class Validate {
     if(password != confirmPassword) {
       return Future.error("Passwords do not match");
     }
-    if(await FirestoreDatabase.emailExists(email)){
+    if(await FirestoreDatabase().emailExists(email)){
       return Future.error("The email already exists");
     }
-    if(await FirestoreDatabase.usernameExists(username)){
+    if(await FirestoreDatabase().usernameExists(username)){
       return Future.error("The username already exists");
     }
 
