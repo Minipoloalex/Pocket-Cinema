@@ -22,7 +22,6 @@ class Authentication {
       
       return Future.value();
     } on FirebaseAuthException catch (e) {
-      //print('Sign in failed with error code: ${e.code}');
       return Future.error(e.message ?? "Something went wrong");
     } on Exception catch (e) {
       return Future.error(e);
@@ -59,16 +58,18 @@ class Authentication {
   }
   static Future<void> createUser(MyUser user) async {
     final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser == null) return;
-
-    FirestoreDatabase.createUser(user, currentUser.uid);
+    if (currentUser == null) {
+      throw Exception("User not logged in");
+    }
+    await FirestoreDatabase.createUser(user, currentUser.uid);
   }
 
-  static Future<void> registerUser(username, email, password) async{
+  static Future<void> registerUser(username, email, password) async {
     FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((value) async {
       await value.user?.updateDisplayName(username);
       final user = MyUser(email: email, username: username, watched:[], toWatch:[], personalLists: []);
-      createUser(user);
+      await createUser(user);
+      await Authentication.signIn(email, password);
     }).onError((error, stackTrace) => Future.error("Something went wrong"));
   }
 }
