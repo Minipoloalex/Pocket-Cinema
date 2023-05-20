@@ -9,8 +9,6 @@ import 'package:pocket_cinema/view/common_widgets/logo_title_app_bar.dart';
 import 'package:pocket_cinema/view/home/widgets/news_widget.dart';
 import 'package:pocket_cinema/view/home/widgets/news_widget_shimmer.dart';
 
-import '../common_widgets/network_error_widget.dart';
-
 class NewsList extends ConsumerWidget {
   const NewsList({Key? key}) : super(key: key);
 

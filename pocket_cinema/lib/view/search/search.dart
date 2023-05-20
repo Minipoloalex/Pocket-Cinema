@@ -14,8 +14,6 @@ import 'package:pocket_cinema/view/search/search_results_page.dart';
 import 'package:pocket_cinema/view/search/widgets/trailer_card.dart';
 import 'package:pocket_cinema/view/search/widgets/trailer_card_shimmer.dart';
 
-import '../common_widgets/network_error_widget.dart';
-
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({super.key});
 
