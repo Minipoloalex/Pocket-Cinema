@@ -54,7 +54,7 @@ class Authentication {
     }
   }
   static Future<bool> userExists(MyUser user) async {
-    return FirestoreDatabase.userExists(user);
+    return FirestoreDatabase().userExists(user);
   }
   static Future<void> createUser(MyUser user) async {
     final currentUser = FirebaseAuth.instance.currentUser;

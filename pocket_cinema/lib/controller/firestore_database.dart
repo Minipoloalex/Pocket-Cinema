@@ -38,12 +38,12 @@ class FirestoreDatabase {
         .hasMatch(str);
   }
 
-  void addComment(String mediaId, String text) {
+  void addComment(String mediaId, String text, String userId) {
     final commentsRef = firestore.collection('comments');
     commentsRef.add({
       "media_id": mediaId,
       "text": text,
-      "user_id": FirebaseAuth.instance.currentUser!.uid,  // TODO
+      "user_id": userId,  // TODO
       "time_posted": Timestamp.now()
     });
   }
@@ -73,9 +73,8 @@ class FirestoreDatabase {
     return comments;
   }
 
-  static Future<bool> userExists(MyUser user) async {
-    final QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('users')
+  Future<bool> userExists(MyUser user) async {
+    final QuerySnapshot snapshot = await firestore.collection('users')
         .where("username", isEqualTo: user.username)
         .where("email", isEqualTo: user.email)
         .get();
@@ -102,31 +101,30 @@ class FirestoreDatabase {
   }
 
 
-  Future<void> createPersonalList(String name) async {
+  Future<void> createPersonalList(String name, String userId) async {
     final docList = firestore.collection('lists').doc();
     await docList.set({
       'name': name,
       'mediaIds': [],
       'createdAt': Timestamp.now(),
       'lastUpdatedAt': Timestamp.now(),
-      'ownerId': FirebaseAuth.instance.currentUser!.uid,  // TODO
+      'ownerId': userId,
     });
 
-    final docUser = firestore.collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid);
+    final docUser = firestore.collection('users').doc(userId);
 
     await docUser.update({
       'personalLists': FieldValue.arrayUnion([docList.id])
     });
   }
 
-  Future<List<MediaList>> getPersonalLists() async {
-    if (FirebaseAuth.instance.currentUser == null) {
+  Future<List<MediaList>> getPersonalLists(String? userId) async {
+    if (userId == null) {
       return [];
     }
     final personalListRef = firestore.collection('lists');
     final querySnapshot = await personalListRef
-        .where("ownerId", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where("ownerId", isEqualTo: userId)
         .orderBy('lastUpdatedAt', descending: true)
         .get();
     final List<MediaList> mediaLists = [];

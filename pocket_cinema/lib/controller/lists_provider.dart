@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/model/media.dart';
@@ -8,7 +9,7 @@ final toWatchListProvider = FutureProvider<List<Media>>((ref) async {
 });
 
 final listsProvider = FutureProvider<List<MediaList>>((ref) async {
-  return await FirestoreDatabase().getPersonalLists();
+  return await FirestoreDatabase().getPersonalLists(FirebaseAuth.instance.currentUser?.uid);
 });
 
 
