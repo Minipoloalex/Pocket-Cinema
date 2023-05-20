@@ -20,7 +20,6 @@ Future<String> createDefaultList(FirestoreDatabase database, String listName, St
 Future<void> createDefaultUser(FirestoreDatabase database, String username, String email, String id) async {
   await database.createUser(MyUser(username: username, email: email), id);
 }
-
 void main() {
   group('FirestoreDatabase', () {
     FakeFirebaseFirestore? firebaseFirestore;
@@ -30,6 +29,8 @@ void main() {
     const mediaId = '456';
     const text = 'Great movie!';
     const listName = 'My list';
+    const posterPath = 'posterPath';
+    const title = 'title';
     setUp(() {
       firebaseFirestore = FakeFirebaseFirestore();
     });
@@ -46,10 +47,6 @@ void main() {
       final database = FirestoreDatabase(firestore: firebaseFirestore);
       createDefaultUser(database, username, email, id);
       expect(database.getEmail(username), completion(email));
-    });
-    test('isEmail', () {
-      expect(FirestoreDatabase.isEmail(email), true, reason: '$email is a valid email');
-      expect(FirestoreDatabase.isEmail('john@gmail'), false, reason: 'john@gmail is not a valid email');
     });
     test('addComment and getComments', () async {
       final database = FirestoreDatabase(firestore: firebaseFirestore);
@@ -70,22 +67,46 @@ void main() {
       await createDefaultUser(database, username, email, id);
       await createDefaultList(database, listName, id);
     });
-    test('adding media to personal list and checking if it is there', () async {
+    test('adding media to personal list and removing it from that list', () async {
       final database = FirestoreDatabase(firestore: firebaseFirestore);
-      const posterPath = 'posterPath';
-      const title = 'title';
-
       await createDefaultUser(database, username, email, id);
+
       final listId = await createDefaultList(database, listName, id);
 
-      Media media = Media(id: mediaId, name: title, posterImage: posterPath);
+      final media = Media(id: mediaId, name: title, posterImage: posterPath);
       await database.addMediaToList(media, listId);
 
-      final List<MediaList> lists = await database.getPersonalLists(id);
+      List<MediaList> lists = await database.getPersonalLists(id);
       expect(lists[0].media, isNotEmpty);
       expect(lists[0].media[0].id, mediaId);
       expect(lists[0].media[0].name, title);
       expect(lists[0].media[0].posterImage, posterPath);
+
+      await database.removeMediaFromList(mediaId, listId);
+      lists = await database.getPersonalLists(id);
+      expect(lists[0].media, isEmpty, reason: "Media should have been removed from the list");
+    });
+    test('adding a list and deleting it', () async {
+      final database = FirestoreDatabase(firestore: firebaseFirestore);
+      await createDefaultUser(database, username, email, id);
+      String listId = await createDefaultList(database, listName, id);
+
+      await database.deletePersonalList(listId, id);
+      expect(database.getPersonalLists(id), completion(isEmpty));
+    });
+    test('adding media to Pocket to watch list', () async  {
+      final database = FirestoreDatabase(firestore: firebaseFirestore);
+      final media = Media(id: mediaId, name: title, posterImage: posterPath);
+      createDefaultUser(database, username, email, id);
+      await database.addMediaToWatch(media, id);
+
+      final List<Media> toWatchList = await database.getPredefinedList('ToWatch', id);
+      expect(toWatchList.length, 1);
+      expect(toWatchList[0].id, mediaId);
+      expect(toWatchList[0].name, title);
+      expect(toWatchList[0].posterImage, posterPath);
+
+      expect(() => database.addMediaToWatch(media, id), throwsException);
     });
   });
 }

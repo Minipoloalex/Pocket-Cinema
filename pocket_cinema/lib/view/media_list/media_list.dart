@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
@@ -35,7 +36,7 @@ class MediaListPage extends ConsumerWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    FirestoreDatabase().deletePersonalList(listId);
+                    FirestoreDatabase().deletePersonalList(listId, FirebaseAuth.instance.currentUser?.uid);
                     deleted = true;
                     Fluttertoast.showToast(msg: "Deleted list '$name'");
                     Navigator.of(context).pop();

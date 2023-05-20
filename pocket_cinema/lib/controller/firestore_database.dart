@@ -32,12 +32,6 @@ class FirestoreDatabase {
     return Future.error("User not found");
   }
 
-  static bool isEmail(String str) {
-    return RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(str);
-  }
-
   void addComment(String mediaId, String text, String userId) {
     final commentsRef = firestore.collection('comments');
     commentsRef.add({
@@ -148,14 +142,13 @@ class FirestoreDatabase {
     return mediaLists;
   }
 
-  Future<void> deletePersonalList(String listId) async {
-    if (FirebaseAuth.instance.currentUser == null) {
+  Future<void> deletePersonalList(String listId, String? userId) async {
+    if (userId == null) {
       throw Exception('User not logged in');
     }
     final docList = firestore.collection('lists').doc(listId);
     await docList.delete();
-    final docUser = firestore.collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid);
+    final docUser = firestore.collection('users').doc(userId);
     await docUser.update({
       'personalLists': FieldValue.arrayRemove([listId])
     });
@@ -183,42 +176,39 @@ class FirestoreDatabase {
   Future<void> removeMediaFromList(String mediaId, String listId) async {
     final docList = firestore.collection('lists').doc(listId);
     await docList.update({
-      'mediaId': FieldValue.arrayRemove([mediaId]),
+      'mediaIds': FieldValue.arrayRemove([mediaId]),
       'lastUpdatedAt': Timestamp.now(),
     });
   }
 
-  Future<void> addMediaToWatch(Media media) async {
-    if (FirebaseAuth.instance.currentUser == null){
+  Future<void> addMediaToWatch(Media media, String? userId) async {
+    if (userId == null) {
       throw Exception('User not logged in');
     }
     mediaExists(media);
-    final docUser = firestore.collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid);
+    final docUser = firestore.collection('users').doc(userId);
 
     final userSnapshot = await docUser.get();
     final List listMedia = userSnapshot.data()?["ToWatch"] ?? [];
-    if (listMedia.contains(media.id)) throw Exception("Already added");
+    if (listMedia.contains(media.id)) {
+      throw Exception("Already added");
+    }
     await docUser.update({
       "ToWatch": FieldValue.arrayUnion([media.id])
     });
     return;
   }
 
-  Future<void> toggleMediaStatus(Media media, String listName) async {
+  Future<void> toggleMediaStatus(Media media, String listName, String? userId) async {
     if (listName != 'watched' && listName != 'toWatch') {
       throw Exception('Invalid list');
     }
 
-    if(FirebaseAuth.instance.currentUser == null) {
+    if(userId == null) {
       throw Exception('User not logged in');
     }
-
     mediaExists(media);
-
-    final docUser = firestore.collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid);
-
+    final docUser = firestore.collection('users').doc(userId);
 
     final userSnapshot = await docUser.get();
     final List listMedia = userSnapshot.data()?[listName] ?? [];
@@ -234,16 +224,14 @@ class FirestoreDatabase {
     }
   }
 
-  Future<List<Media>> getPredefinedList(String listName) async {
+  Future<List<Media>> getPredefinedList(String listName, String? userId) async {
     if (listName != "watched" && listName != "ToWatch") {
       throw Exception("List name given incorrect");
     }
-    if (FirebaseAuth.instance.currentUser == null) {
+    if (userId == null) {
       return [];
     }
-    final userSnapshot = await firestore.collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get();
+    final userSnapshot = await firestore.collection('users').doc(userId).get();
 
     final List list = userSnapshot.data()?[listName] ?? [];
 
