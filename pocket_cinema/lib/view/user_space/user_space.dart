@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,12 +29,23 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _node = FocusNode();
   bool _isFormVisible = false;
-
+  final auth = FirebaseAuth.instance;
+  late StreamSubscription<User?> authSubscription;
   @override
   void initState() {
     super.initState();
-    ref.refresh(toWatchListProvider).value;
-    ref.read(watchListProvider.notifier).getWatchList();
+    authSubscription = auth.authStateChanges().listen((User? user) {
+      ref.read(watchListProvider.notifier).getWatchList();
+      ref.read(toWatchListProvider).value;
+      ref.read(listsProvider).value;
+    });
+  }
+  @override
+  void dispose() {
+    _controller.dispose();
+    _node.dispose();
+    authSubscription.cancel();
+    super.dispose();
   }
 
   void _handleSubmit(String listName) {
@@ -109,15 +122,6 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                             ));
                           }),
                     ]),
-                /*
-              const SizedBox(width: 20),
-              ListButton(
-                icon: const HeroIcon(HeroIcons.ellipsisHorizontalCircle,
-                    style: HeroIconStyle.solid),
-                labelText: "Watching",
-                onPressed: () {},
-              ),*/
-
                 const PersonalLists(),
               ],
             ),

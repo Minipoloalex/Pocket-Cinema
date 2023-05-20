@@ -65,11 +65,10 @@ class Authentication {
   }
 
   static Future<void> registerUser(username, email, password) async {
-    FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((value) async {
-      await value.user?.updateDisplayName(username);
-      final user = MyUser(email: email, username: username, watched:[], toWatch:[], personalLists: []);
-      await createUser(user);
-      await Authentication.signIn(email, password);
-    }).onError((error, stackTrace) => Future.error("Something went wrong"));
+    final UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+    await userCredential.user?.updateDisplayName(username);
+    final user = MyUser(email: email, username: username, watched:[], toWatch:[], personalLists: []);
+    await createUser(user);
+    return Future.value();
   }
 }
