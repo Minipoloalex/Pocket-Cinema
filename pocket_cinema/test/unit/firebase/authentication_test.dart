@@ -41,7 +41,6 @@ void main() {
   const userId = '12345';
   const userEmail = 'email@gmail.com';
   const username = 'username';
-  const userPassword = 'password';
   group('Authentication - user signed in', () {
     setUp(() {
       auth = MockFirebaseAuth(mockUser: MockUser(
