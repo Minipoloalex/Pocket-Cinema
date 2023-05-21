@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:collection/collection.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
 
@@ -46,9 +45,15 @@ class CheckButton extends ConsumerWidget {
   }
 
   void showWatchedToast(bool checked, WidgetRef ref) {
-    String mediaName = '';
+    String mediaName = ''; // Variable to store the media name
     List<Media> watchedList = ref.watch(watchListProvider);
-    Media? media = watchedList.firstWhereOrNull((element) => element.id == mediaId);
+    Media? media;
+    for (var element in watchedList) {
+      if (element.id == mediaId) {
+        media = element;
+        break;
+      }
+    }
     if (media != null) {
       mediaName = media.name;
     }
