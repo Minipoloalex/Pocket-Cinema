@@ -50,10 +50,6 @@ void main() {
         mockFirestoreDatabase = MockFirestoreDatabase();
     });
 
-
-
-
-
     /*
     test('empty fields', () async {
       expect(() => Validate.login('', '', mockFirestoreDatabase), throwsException);

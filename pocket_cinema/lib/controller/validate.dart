@@ -6,7 +6,7 @@ class Validate {
       .hasMatch(email);
   }
 
-  static Future<String> login(String userId, String password, FirestoreDatabase? database) async {
+  static Future<String> login(String userId, String password, [FirestoreDatabase? database]) async {
     database ??= FirestoreDatabase();
     if (userId.isEmpty) {
       return Future.error("Please enter your email or username");
@@ -26,7 +26,7 @@ class Validate {
     return "";
   }
 
-  static Future<String> register(String username, String email, String password, String confirmPassword, FirestoreDatabase? database) async{
+  static Future<String> register(String username, String email, String password, String confirmPassword, [FirestoreDatabase? database]) async{
     database ??= FirestoreDatabase();
     if(username.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       return Future.error("There are empty fields");

@@ -6,20 +6,23 @@ import 'package:pocket_cinema/model/my_user.dart';
 import 'firestore_database.dart';
 
 class Authentication {
-  static Future<void> signOut() async {
-    final googleSignIn = GoogleSignIn();
-    await googleSignIn.signOut();
-    await FirebaseAuth.instance.signOut();
-  }
-  static Future signIn(String user, String password) async {
-    try {
-      final email = Validate.isEmail(user) ? user : await FirestoreDatabase().getEmail(user);
+  Authentication({FirebaseAuth? auth}) :  auth = auth ?? FirebaseAuth.instance;
+  final FirebaseAuth auth;
 
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+  Future<void> signOut([GoogleSignIn? googleSignIn]) async {
+    googleSignIn ??= GoogleSignIn();
+    await googleSignIn.signOut();
+    await auth.signOut();
+  }
+  Future signIn(String user, String password, [FirestoreDatabase? database]) async {
+    database ??= FirestoreDatabase();
+    try {
+      final email = Validate.isEmail(user) ? user : await database.getEmail(user);
+
+      await auth.signInWithEmailAndPassword(
         email: email,
         password: password
       );
-      
       return Future.value();
     } on FirebaseAuthException catch (e) {
       return Future.error(e.message ?? "Something went wrong");
@@ -28,7 +31,7 @@ class Authentication {
     }
   }
 
-  static Future<User?> signInWithGoogle() async {
+  Future<User?> signInWithGoogle() async {
     final googleSignIn = GoogleSignIn();
     final googleUser = await googleSignIn.signIn();
     if (googleUser == null) {
@@ -37,7 +40,7 @@ class Authentication {
 
     final googleAuth = await googleUser.authentication;
     if (googleAuth.idToken != null) {
-      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+      final userCredential = await auth.signInWithCredential(
         GoogleAuthProvider.credential(
           idToken: googleAuth.idToken,
           accessToken: googleAuth.accessToken,
@@ -48,27 +51,27 @@ class Authentication {
     return null;
   }
 
-  static Future createUserGoogleSignIn(MyUser user) async {
-    if (! await userExists(user)) {
-      createUser(user);
+  Future createUserGoogleSignIn(MyUser user, [FirestoreDatabase? database]) async {
+    database ??= FirestoreDatabase();
+    if (! await database.userExists(user)) {
+      await _createUser(user, database);
     }
   }
-  static Future<bool> userExists(MyUser user) async {
-    return FirestoreDatabase().userExists(user);
-  }
-  static Future<void> createUser(MyUser user) async {
-    final currentUser = FirebaseAuth.instance.currentUser;
+  Future<void> _createUser(MyUser user, [FirestoreDatabase? database]) async {
+    database ??= FirestoreDatabase();
+    final currentUser = auth.currentUser;
     if (currentUser == null) {
       throw Exception("User not logged in");
     }
-    await FirestoreDatabase().createUser(user, currentUser.uid);
+    await database.createUser(user, currentUser.uid);
   }
 
-  static Future<void> registerUser(username, email, password) async {
-    final UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+  Future<void> registerUser(username, email, password, [FirestoreDatabase? database]) async {
+    database ??= FirestoreDatabase();
+    final UserCredential userCredential = await auth.createUserWithEmailAndPassword(email: email, password: password);
     await userCredential.user?.updateDisplayName(username);
     final user = MyUser(email: email, username: username, watched:[], toWatch:[], personalLists: []);
-    await createUser(user);
+    await _createUser(user);
     return Future.value();
   }
 }

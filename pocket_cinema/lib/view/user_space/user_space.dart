@@ -90,7 +90,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
             onPressed: () {
               User? user = FirebaseAuth.instance.currentUser;
               if (user != null) {
-                Authentication.signOut();
+                Authentication().signOut();
               }
               Navigator.of(context).pop();
               Navigator.of(context).pushNamed('/login');

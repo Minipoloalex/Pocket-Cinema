@@ -1,4 +1,3 @@
-//TODO: save the user id
 class MyUser {
   final String username;
   final String email;

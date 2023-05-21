@@ -55,7 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     key: const Key("registerButton"),
                     onPressed: () async {
                       Validate.register(_usernameTextController.text, _emailTextController.text, _passwordTextController.text, _confirmPasswordTextController.text).then((value) {
-                        Authentication.registerUser(_usernameTextController.text, _emailTextController.text, _passwordTextController.text).then((value){
+                        Authentication().registerUser(_usernameTextController.text, _emailTextController.text, _passwordTextController.text).then((value){
                           Navigator.of(context).pop();
                           Navigator.pushNamed(context, '/');
                         }).catchError((error) {

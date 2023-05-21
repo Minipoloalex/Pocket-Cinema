@@ -38,7 +38,7 @@ dependencies:
   heroicons: ^0.7.0
   firebase_core: ^2.9.0
   firebase_auth: ^4.3.0
-  google_sign_in: ^6.1.0
+  google_sign_in: ^5.0.2
   cloud_firestore: ^4.4.5
   flutter_riverpod: ^2.3.2
   intl: ^0.17.0
@@ -60,6 +60,8 @@ dev_dependencies:
   glob: ^2.0.0
   test:
   fake_cloud_firestore: ^2.4.1+1
+  firebase_auth_mocks: ^0.11.0
+  google_sign_in_mocks: ^0.2.2
   flutter_driver:
     sdk: flutter
   flutter_test:
