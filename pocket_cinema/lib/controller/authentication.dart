@@ -71,7 +71,6 @@ class Authentication {
     final UserCredential userCredential = await auth.createUserWithEmailAndPassword(email: email, password: password);
     await userCredential.user?.updateDisplayName(username);
     final user = MyUser(email: email, username: username, watched:[], toWatch:[], personalLists: []);
-    await _createUser(user);
-    return Future.value();
+    return await _createUser(user, database);
   }
 }

@@ -29,12 +29,19 @@ class MyMockGoogleSignIn extends Mock implements GoogleSignIn {
     return null;
   }
 }
+MockFirestoreDatabase setupDatabase(MyUser user, String userId) {
+  MockFirestoreDatabase database = MockFirestoreDatabase();
+  when(database.userExists(user)).thenAnswer((_) => Future.value(false));
+  when(database.createUser(user, userId)).thenAnswer((_) => Future.value());
+  return database;
+}
 
 void main() {
   FirebaseAuth? auth;
   const userId = '12345';
   const userEmail = 'email@gmail.com';
   const username = 'username';
+  const userPassword = 'password';
   group('Authentication - user signed in', () {
     setUp(() {
       auth = MockFirebaseAuth(mockUser: MockUser(
@@ -45,14 +52,11 @@ void main() {
     });
     test('createUserGoogleSignIn', () async {
       Authentication authentication = Authentication(auth: auth);
-      MockFirestoreDatabase database = MockFirestoreDatabase();
-
       MyUser user = MyUser(
-        username: username,
-        email: userEmail
+          username: username,
+          email: userEmail
       );
-      when(database.userExists(user)).thenAnswer((_) => Future.value(false));
-      when(database.createUser(user, userId)).thenAnswer((_) => Future.value());
+      MockFirestoreDatabase database = setupDatabase(user, userId);
 
       await authentication.createUserGoogleSignIn(user, database);
       verify(database.createUser(user, userId));
