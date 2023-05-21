@@ -44,34 +44,38 @@ void main() {
     const invalidEmail = 'invalid email';
     const validUsername = 'username';
     const invalidUsername = 'invalid username';
+    const password = 'password';
     FirestoreDatabase mockFirestoreDatabase = MockFirestoreDatabase();
 
     setUp(() {
         mockFirestoreDatabase = MockFirestoreDatabase();
     });
 
-    /*
-    test('empty fields', () async {
-      expect(() => Validate.login('', '', mockFirestoreDatabase), throwsException);
-      expect(() => Validate.login('', 'password', mockFirestoreDatabase), throwsException);
-      expect(() => Validate.login('username', '', mockFirestoreDatabase), throwsException);
+    test('login empty fields', () async {
+      expect(() => Validate.login('', '', mockFirestoreDatabase), throwsA(isA<String>()));
+      expect(() => Validate.login('', 'password', mockFirestoreDatabase), throwsA(isA<String>()));
+      expect(() => Validate.login('username', '', mockFirestoreDatabase), throwsA(isA<String>()));
     });
-     */
-    test('valid fields - exist in mock DB', () async {
+    test('valid login fields - exist in mock DB', () async {
       when(mockFirestoreDatabase.emailExists(validEmail)).thenAnswer((_) async => true);
       when(mockFirestoreDatabase.usernameExists(validUsername)).thenAnswer((_) async => true);
       expect(Validate.login(validEmail, 'password', mockFirestoreDatabase), completion(equals('')));
       expect(Validate.login(validUsername, 'password', mockFirestoreDatabase), completion(equals('')));
     });
-    /*
+    test('register fields - do not exist in mock DB', () async {
+      when(mockFirestoreDatabase.emailExists(validEmail)).thenAnswer((_) async => false);
+      when(mockFirestoreDatabase.usernameExists(validUsername)).thenAnswer((_) async => false);
+
+      expect(Validate.register(validUsername, validEmail, password, password, mockFirestoreDatabase), completion(equals('')));
+
+      expect(Validate.register(validUsername, validEmail, password, '', mockFirestoreDatabase), throwsA(isA<String>()));
+      expect(Validate.register(validUsername, validEmail, '', '', mockFirestoreDatabase), throwsA(isA<String>()));
+    });
     test('invalid fields - do not exist in mock DB', () async {
       when(mockFirestoreDatabase.emailExists(invalidEmail)).thenAnswer((_) async => false);
       when(mockFirestoreDatabase.usernameExists(invalidUsername)).thenAnswer((_) async => false);
-      final a = await Validate.login(invalidEmail, 'password', mockFirestoreDatabase);
-      expect(a, throwsA(isA<String>()));
-      final b = await Validate.login(invalidUsername, 'password', mockFirestoreDatabase);
-      expect(b, throwsA(isA<String>()));
+
+      expect(() => Validate.login(invalidUsername, 'password', mockFirestoreDatabase), throwsA(isA<String>()));
     });
-     */
   });
 }
