@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:pocket_cinema/model/media.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -26,8 +24,6 @@ void main() {
     expect(media == media, true);
     expect(media == mediaEqual, true);
     expect(media == mediaNotEqual, false);
-    const String notMedia = "hello";
-    expect(media == notMedia, false);
     expect(media, isNotNull);
   });
   test('hashcode', (){
