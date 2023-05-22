@@ -23,13 +23,12 @@ class Poster extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
         ),
       ),
-      Padding(
-          padding: const EdgeInsets.all(5),
-          child: SizedBox(
-              width: 125,
+      Flexible(
+          child: Padding(
+              padding: const EdgeInsets.all(5),
               child: Text(name,
                   textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
+                  overflow: TextOverflow.visible,
                   maxLines: 2)))
     ]);
   }
