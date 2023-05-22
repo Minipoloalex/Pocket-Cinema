@@ -31,8 +31,8 @@ class Authentication {
     }
   }
 
-  Future<User?> signInWithGoogle() async {
-    final googleSignIn = GoogleSignIn();
+  Future<User?> signInWithGoogle([GoogleSignIn? googleSignIn]) async {
+    googleSignIn ??= GoogleSignIn();
     final googleUser = await googleSignIn.signIn();
     if (googleUser == null) {
       return Future.error("Sign in aborted by user");
