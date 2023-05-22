@@ -11,6 +11,7 @@ import 'package:pocket_cinema/view/register/register.dart';
 import 'package:pocket_cinema/view/search/search.dart';
 import 'package:pocket_cinema/view/theme.dart';
 import 'package:pocket_cinema/view/user_space/user_space.dart';
+
 import 'firebase_options.dart';
 
 void main() async {
@@ -43,6 +44,14 @@ class MyAppState extends ConsumerState<MyApp> {
         ref.invalidate(watchListProvider);
         ref.invalidate(toWatchListProvider);
         ref.invalidate(listsProvider);
+      }
+      if (user != null) {
+        setState(() {
+          selectedPage = 0;
+        });
+        ref.read(listsProvider).value;
+        ref.read(watchListProvider.notifier);
+        ref.read(toWatchListProvider).value;
       }
     });
   }

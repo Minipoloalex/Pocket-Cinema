@@ -123,7 +123,7 @@ class FirestoreDatabase {
 
   static Future<List<MediaList>> getPersonalLists() async {
     if (FirebaseAuth.instance.currentUser == null) {
-      throw Exception('User not logged in');
+      return [];
     }
     final personalListRef = FirebaseFirestore.instance.collection('lists');
     final querySnapshot = await personalListRef
@@ -176,7 +176,6 @@ class FirestoreDatabase {
   }
 
   static Future<String> toggleMediaInList(Media media, String listId) async {
-    print(await mediaIsInList(media, listId));
     if (await mediaIsInList(media, listId)) {
       await removeMediaFromList(media.id, listId);
       return 'removed from';
@@ -267,7 +266,7 @@ class FirestoreDatabase {
       throw Exception("List name given incorrect");
     }
     if (FirebaseAuth.instance.currentUser == null) {
-      throw Exception('User not logged in');
+      return [];
     }
     final userSnapshot = await FirebaseFirestore.instance
         .collection('users')
