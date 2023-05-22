@@ -20,7 +20,7 @@ void main() {
   testWidgets('CommentWidget displays comment information', (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(CommentWidget(comment: comment)));
 
-    final usernameTextFinder = find.text(comment.username);
+    final usernameTextFinder = find.text(comment.username!);
     final contentTextFinder = find.text(comment.content);
     final dateTextFinder = find.text(timeago.format(comment.createdAt.toDate()).capitalize());
 
