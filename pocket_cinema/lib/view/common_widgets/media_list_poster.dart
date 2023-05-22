@@ -148,7 +148,7 @@ class MediaListPosterState extends ConsumerState<MediaListPoster> {
               )
             ]),
             Visibility(
-                visible: widget.media != null,
+                visible: widget.media != null && isChecked,
                 child: Positioned(
                     top: 0,
                     right: 0,
