@@ -75,6 +75,7 @@ class CommentSectionState extends ConsumerState<CommentSection> {
               }
 
               return ListView(
+                padding: const EdgeInsets.only(top: 5, bottom: 10),
                 children: data
                     .map((comment) => CommentWidget(comment: comment))
                     .toList(),
