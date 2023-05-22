@@ -9,7 +9,6 @@ import 'package:pocket_cinema/view/media/media_page.dart';
 
 class SearchResult extends ConsumerWidget {
   final Media media;
-
   const SearchResult({super.key, required this.media});
 
   @override
@@ -18,8 +17,10 @@ class SearchResult extends ConsumerWidget {
         margin: const EdgeInsets.only(bottom: 10),
         child: GestureDetector(
           key: Key(media.name),
-          onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => MediaPage(id: media.id))),
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MediaPage(id: media.id))),
           child: Row(
             children: [
               Container(

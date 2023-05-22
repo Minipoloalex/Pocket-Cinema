@@ -16,7 +16,8 @@ import 'package:pocket_cinema/view/common_widgets/logo_title_app_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class UserSpacePage extends ConsumerStatefulWidget {
-  const UserSpacePage({super.key});
+  final Function() switchToSearch;
+  const UserSpacePage({super.key, required this.switchToSearch});
 
   @override
   MyUserSpacePageState createState() => MyUserSpacePageState();
@@ -68,21 +69,21 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
         ),
         elevation: 0,
         actions: [
-                IconButton(
-                  key: const Key("logoutButton"),
-                  icon: const HeroIcon(HeroIcons.arrowLeftOnRectangle,
-                      style: HeroIconStyle.solid),
-                  iconSize: 30,
-                  onPressed: () {
-                    User? user = FirebaseAuth.instance.currentUser;
-                    if (user != null) {
-                      Authentication.signOut();
-                    }
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed('/login');
-                  },
-                ),
-              ],
+          IconButton(
+            key: const Key("logoutButton"),
+            icon: const HeroIcon(HeroIcons.arrowLeftOnRectangle,
+                style: HeroIconStyle.solid),
+            iconSize: 30,
+            onPressed: () {
+              User? user = FirebaseAuth.instance.currentUser;
+              if (user != null) {
+                Authentication.signOut();
+              }
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed('/login');
+            },
+          ),
+        ],
       ),
       body: RefreshIndicator(
           onRefresh: () async {
@@ -92,7 +93,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
           child: Stack(children: [
             ListView(
               children: <Widget>[
-                const ToWatchList(),
+                ToWatchList(switchToSearch: widget.switchToSearch),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[

@@ -1,4 +1,3 @@
-
 import 'package:heroicons/heroicons.dart';
 
 class NavigationItem {
