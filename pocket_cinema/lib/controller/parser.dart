@@ -34,7 +34,9 @@ class Parser {
     final thumbnails = map["props"]["pageProps"]["aboveTheFoldData"]["primaryVideos"]["edges"];
     final thumbnail = thumbnails.isNotEmpty ? thumbnails[0]["node"]["thumbnail"]["url"] : "";
     final date = map["props"]["pageProps"]["aboveTheFoldData"]["releaseDate"];
-
+    final releaseDate = (date == null || date['year'] == null || date['month'] == null || date['day'] == null)
+        ? null
+        : '${date["year"]}-${date["month"].toString().padLeft(2, '0')}-${date["day"].toString().padLeft(2, '0')}';
     return Media(
         id: map["props"]["pageProps"]["tconst"],
         name: map["props"]["pageProps"]["aboveTheFoldData"]["titleText"]["text"],
@@ -47,7 +49,7 @@ class Parser {
                 ["voteCount"],
         description: map["props"]["pageProps"]["aboveTheFoldData"]["plot"]["plotText"]
             ["plainText"],
-        releaseDate: date == null ? null : '${date["year"]}-${date["month"].toString().padLeft(2, '0')}-${date["day"].toString().padLeft(2, '0')}',
+        releaseDate: releaseDate,
         type: map["props"]["pageProps"]["aboveTheFoldData"]["titleType"]["id"] ==
                 "movie"
             ? MediaType.movie

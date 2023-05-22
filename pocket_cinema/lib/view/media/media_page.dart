@@ -166,7 +166,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                             data: (data) {
                               if (data.releaseDate == null) {
                                 return const Text(
-                                  'To be announced',
+                                  'Release date:\nTo be announced',
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey,
@@ -203,13 +203,6 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                       message: 'Number of ratings',
                                       child: Row(
                                         children: [
-                                          // Text(
-                                          //   DateTime.parse(data.releaseDate!).compareTo(DateTime.now()) > 0 ? data.releaseDate.toString() : data.nRatings!.format(),
-                                          //   style: const TextStyle(
-                                          //     fontSize: 15,
-                                          //     color: Colors.grey,
-                                          //   ),
-                                          // ),
                                           Text(
                                             data.nRatings?.format() ?? '',
                                             style: const TextStyle(
