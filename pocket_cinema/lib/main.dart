@@ -11,6 +11,7 @@ import 'package:pocket_cinema/view/register/register.dart';
 import 'package:pocket_cinema/view/search/search.dart';
 import 'package:pocket_cinema/view/theme.dart';
 import 'package:pocket_cinema/view/user_space/user_space.dart';
+
 import 'firebase_options.dart';
 
 void main() async {

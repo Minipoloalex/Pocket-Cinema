@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/common_widgets/poster.dart';
 import 'package:pocket_cinema/view/media/media_page.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class MediaListPage extends ConsumerWidget {
   final String name;

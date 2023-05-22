@@ -152,6 +152,25 @@ class FirestoreDatabase {
       'personalLists': FieldValue.arrayRemove([listId])
     });
   }
+  Future<bool> mediaIsInList(Media media, String listId) async {
+    final docList = firestore.collection('lists').doc(listId);
+    final docSnapshot = await docList.get();
+    if (!docSnapshot.exists) {
+      throw Exception('List does not exist');
+    }
+    final mediaIds = docSnapshot.get('mediaIds') as List<dynamic>;
+    return mediaIds.contains(media.id);
+  }
+
+  Future<String> toggleMediaInList(Media media, String listId) async {
+    if (await mediaIsInList(media, listId)) {
+      await removeMediaFromList(media.id, listId);
+      return 'removed from';
+    }
+    await addMediaToList(media, listId);
+    return 'added to';
+  }
+
   Future<void> addMediaToList(Media media, String listId) async {
     final docList = firestore.collection('lists').doc(listId);
     await docList.update({

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/controller/firestore_database.dart';
@@ -10,12 +11,11 @@ import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/validate.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/comment_and_list_form.dart';
+import 'package:pocket_cinema/view/common_widgets/logo_title_app_bar.dart';
 import 'package:pocket_cinema/view/common_widgets/personal_lists.dart';
 import 'package:pocket_cinema/view/media_list/media_list.dart';
 import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
 import 'package:pocket_cinema/view/user_space/widgets/to_watch_list.dart';
-import 'package:pocket_cinema/view/common_widgets/logo_title_app_bar.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class UserSpacePage extends ConsumerStatefulWidget {
   final Function() switchToSearch;
