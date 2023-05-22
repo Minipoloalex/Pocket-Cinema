@@ -13,7 +13,6 @@ import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_section.dart';
 import 'package:pocket_cinema/view/media/widgets/description_shimmer.dart';
 import 'package:text_scroll/text_scroll.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class MediaPage extends ConsumerStatefulWidget {
   final String id;
