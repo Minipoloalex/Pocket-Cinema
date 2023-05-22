@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +18,8 @@ import 'package:pocket_cinema/view/user_space/widgets/list_button.dart';
 import 'package:pocket_cinema/view/user_space/widgets/to_watch_list.dart';
 
 class UserSpacePage extends ConsumerStatefulWidget {
-  const UserSpacePage({super.key});
+  final Function() switchToSearch;
+  const UserSpacePage({super.key, required this.switchToSearch});
 
   @override
   MyUserSpacePageState createState() => MyUserSpacePageState();
@@ -26,12 +29,23 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _node = FocusNode();
   bool _isFormVisible = false;
-
+  final auth = FirebaseAuth.instance;
+  late StreamSubscription<User?> authSubscription;
   @override
   void initState() {
     super.initState();
-    ref.refresh(toWatchListProvider).value;
-    ref.read(watchListProvider.notifier).getWatchList();
+    authSubscription = auth.authStateChanges().listen((User? user) {
+      ref.read(watchListProvider.notifier).getWatchList();
+      ref.read(toWatchListProvider).value;
+      ref.read(listsProvider).value;
+    });
+  }
+  @override
+  void dispose() {
+    _controller.dispose();
+    _node.dispose();
+    authSubscription.cancel();
+    super.dispose();
   }
 
   void _handleSubmit(String listName) {
@@ -68,21 +82,21 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
         ),
         elevation: 0,
         actions: [
-                IconButton(
-                  key: const Key("logoutButton"),
-                  icon: const HeroIcon(HeroIcons.arrowLeftOnRectangle,
-                      style: HeroIconStyle.solid),
-                  iconSize: 30,
-                  onPressed: () {
-                    User? user = FirebaseAuth.instance.currentUser;
-                    if (user != null) {
-                      Authentication.signOut();
-                    }
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed('/login');
-                  },
-                ),
-              ],
+          IconButton(
+            key: const Key("logoutButton"),
+            icon: const HeroIcon(HeroIcons.arrowLeftOnRectangle,
+                style: HeroIconStyle.solid),
+            iconSize: 30,
+            onPressed: () {
+              User? user = FirebaseAuth.instance.currentUser;
+              if (user != null) {
+                Authentication.signOut();
+              }
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed('/login');
+            },
+          ),
+        ],
       ),
       body: RefreshIndicator(
           onRefresh: () async {
@@ -92,7 +106,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
           child: Stack(children: [
             ListView(
               children: <Widget>[
-                const ToWatchList(),
+                ToWatchList(switchToSearch: widget.switchToSearch),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -108,15 +122,6 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                             ));
                           }),
                     ]),
-                /*
-              const SizedBox(width: 20),
-              ListButton(
-                icon: const HeroIcon(HeroIcons.ellipsisHorizontalCircle,
-                    style: HeroIconStyle.solid),
-                labelText: "Watching",
-                onPressed: () {},
-              ),*/
-
                 const PersonalLists(),
               ],
             ),

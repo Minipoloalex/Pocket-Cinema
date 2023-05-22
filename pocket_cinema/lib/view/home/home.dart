@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -23,31 +25,46 @@ class NewsList extends ConsumerWidget {
       child: news.when(
         data: (news) => ListView(
           children: [
-              const Text(
-                "News",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 42,
-                ),
+            const Text(
+              "News",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 42,
               ),
+            ),
             const SizedBox(height: 10),
             ...news
                 .map((news_) => NewsCard(
-                    key: Key("newsCard${news.indexOf(news_)}"), news: news_))
+                      key: Key("newsCard${news.indexOf(news_)}"),
+                      news: news_,
+                    ))
                 .toList(),
           ],
         ),
         loading: () => ShimmerEffect(
-                child: ListView.builder(
-                itemBuilder: (context, index) {
-                return const NewsCardShimmer();
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              return const NewsCardShimmer();
             },
           ),
         ),
         error: (error, stack) {
-          Logger().e(error);
-          return const ErrorOccurred();}
+          if (error is SocketException) {
+            return Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                ),
+                const SizedBox(height: 10),
+                const NetworkErrorOccurred(),
+              ],
+            );
+          } else {
+            Logger().e(error);
+            return const ErrorOccurred();
+          }
+        },
       ),
     );
   }
