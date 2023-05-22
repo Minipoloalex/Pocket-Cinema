@@ -6,7 +6,8 @@ class Validate {
       .hasMatch(email);
   }
 
-  static Future<String> login(String userId, String password) async{
+  static Future<String> login(String userId, String password, [FirestoreDatabase? database]) async {
+    database ??= FirestoreDatabase();
     if (userId.isEmpty) {
       return Future.error("Please enter your email or username");
     }
@@ -14,18 +15,19 @@ class Validate {
       return Future.error("Please enter your password");
     } 
     if(!isEmail(userId)){
-      if(!await FirestoreDatabase.usernameExists(userId)){
+      if(!await database.usernameExists(userId)){
         return Future.error("The username does not exist");
       }
     }else{
-      if(!await FirestoreDatabase.emailExists(userId)){
+      if(!await database.emailExists(userId)){
         return Future.error("The email does not exist");
       }
     }
     return "";
   }
 
-  static Future<String> register(String username, String email, String password, String confirmPassword) async{
+  static Future<String> register(String username, String email, String password, String confirmPassword, [FirestoreDatabase? database]) async{
+    database ??= FirestoreDatabase();
     if(username.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       return Future.error("There are empty fields");
     }
@@ -38,10 +40,10 @@ class Validate {
     if(password != confirmPassword) {
       return Future.error("Passwords do not match");
     }
-    if(await FirestoreDatabase.emailExists(email)){
+    if(await database.emailExists(email)){
       return Future.error("The email already exists");
     }
-    if(await FirestoreDatabase.usernameExists(username)){
+    if(await database.usernameExists(username)){
       return Future.error("The username already exists");
     }
 

@@ -22,9 +22,10 @@ class MediaListPoster extends ConsumerStatefulWidget {
 }
 
 class MediaListPosterState extends ConsumerState<MediaListPoster> {
+  final database = FirestoreDatabase();
   _onTap(BuildContext context) {
     if (widget.media != null) {
-      FirestoreDatabase.toggleMediaInList(widget.media!, widget.mediaList.id)
+      database.toggleMediaInList(widget.media!, widget.mediaList.id)
           .then((value) {
         Fluttertoast.showToast(
           msg: "${widget.media!.name} was $value ${widget.mediaList.name}",
@@ -39,7 +40,6 @@ class MediaListPosterState extends ConsumerState<MediaListPoster> {
         );
       });
     } else {
-      // Open list
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => MediaListPage(
             name: widget.mediaList.name,
