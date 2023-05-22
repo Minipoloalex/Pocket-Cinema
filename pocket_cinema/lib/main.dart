@@ -44,6 +44,14 @@ class MyAppState extends ConsumerState<MyApp> {
         ref.invalidate(toWatchListProvider);
         ref.invalidate(listsProvider);
       }
+      if (user != null) {
+        setState(() {
+          selectedPage = 0;
+        });
+        ref.read(listsProvider).value;
+        ref.read(watchListProvider.notifier);
+        ref.read(toWatchListProvider).value;
+      }
     });
   }
 

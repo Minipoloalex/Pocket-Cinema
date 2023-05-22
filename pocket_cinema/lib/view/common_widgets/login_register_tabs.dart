@@ -22,6 +22,7 @@ class LoginRegisterSegmentedButton extends StatelessWidget {
       selected: <LoginRegister>{ selectedPage },
       onSelectionChanged: (Set<LoginRegister> newSelection) => {
         if(newSelection.first != selectedPage) {
+          Navigator.of(context).pop(),
           Navigator.pushNamed(context, selectedPage == LoginRegister.login ? "/register" : "/login")
         }
       },

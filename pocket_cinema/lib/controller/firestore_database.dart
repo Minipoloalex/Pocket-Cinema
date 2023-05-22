@@ -123,7 +123,7 @@ class FirestoreDatabase {
 
   static Future<List<MediaList>> getPersonalLists() async {
     if (FirebaseAuth.instance.currentUser == null) {
-      throw Exception('User not logged in');
+      return [];
     }
     final personalListRef = FirebaseFirestore.instance.collection('lists');
     final querySnapshot = await personalListRef
@@ -246,7 +246,7 @@ class FirestoreDatabase {
       throw Exception("List name given incorrect");
     }
     if (FirebaseAuth.instance.currentUser == null) {
-      throw Exception('User not logged in');
+      return [];
     }
     final userSnapshot = await FirebaseFirestore.instance
         .collection('users')
