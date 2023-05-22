@@ -32,8 +32,6 @@ class MediaPageState extends ConsumerState<MediaPage> {
   Widget build(BuildContext context) {
     final mediaInfo = ref.watch(mediaProvider(widget.id));
 
-    mediaInfo.when(data: (data) {}, error: (error, stack) {}, loading: () {});
-
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -132,7 +130,17 @@ class MediaPageState extends ConsumerState<MediaPage> {
                             children: [
                               mediaInfo.when(
                                 data: (data) {
-                                  if (data.rating != "null") {
+                                  if (data.releaseDate == null) {
+                                    return const Text(
+                                      'Release date:\nTo be announced',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                    );
+                                  } else if (DateTime.parse(data.releaseDate!)
+                                      .compareTo(DateTime.now()) <
+                                      0) {
                                     return Row(children: [
                                       const HeroIcon(HeroIcons.star,
                                           style: HeroIconStyle.solid,
@@ -151,10 +159,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                             Text(error.toString()),
                                         loading: () => ShimmerEffect(
                                             child: Container(
-                                          height: 10,
-                                          width: 100,
-                                          color: Colors.black,
-                                        )),
+                                              height: 10,
+                                              width: 100,
+                                              color: Colors.black,
+                                            )),
                                       ),
                                       const SizedBox(width: 6),
                                       Tooltip(
