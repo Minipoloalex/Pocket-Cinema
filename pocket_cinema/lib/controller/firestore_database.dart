@@ -33,12 +33,13 @@ class FirestoreDatabase {
 
   void addComment(String mediaId, String text, String userId) {
     final commentsRef = firestore.collection('comments');
-    commentsRef.add({
-      "media_id": mediaId,
-      "text": text,
-      "user_id": userId,  // TODO
-      "time_posted": Timestamp.now()
-    });
+    final comment = Comment(
+      mediaID: mediaId,
+      userId: userId,
+      content: text,
+      createdAt: Timestamp.now(),
+    );
+    commentsRef.add(comment.toJson());
   }
 
   Future<List<Comment>> getComments(String mediaId) async {
@@ -92,7 +93,6 @@ class FirestoreDatabase {
     final docUser = firestore.collection('users').doc(userId);
     await docUser.set(user.toJson());
   }
-
 
   Future<void> createPersonalList(String name, String userId) async {
     final docList = firestore.collection('lists').doc();

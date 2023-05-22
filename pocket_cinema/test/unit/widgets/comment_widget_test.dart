@@ -11,7 +11,7 @@ import '../../testable_widget.dart';
 void main() {
   final comment = Comment(
     mediaID: '123',
-    userId: '123',
+    userId: '456',
     username: 'John',
     content: 'Great movie!',
     createdAt: Timestamp.now(),
