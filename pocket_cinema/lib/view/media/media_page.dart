@@ -162,54 +162,73 @@ class MediaPageState extends ConsumerState<MediaPage> {
                       left: 160,
                       child: Row(
                         children: [
-                          const HeroIcon(HeroIcons.star,
-                              style: HeroIconStyle.solid,
-                              size: 17,
-                              color: Color(0xFFD3A70B)),
-                          const SizedBox(width: 6),
                           mediaInfo.when(
-                            data: (data) => Text(
-                              data.rating ?? '',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                            error: (error, stack) {
-                              Logger().e(error);
-                              return const ErrorOccurred();
-                            },
-                            loading: () => ShimmerEffect(
-                                child: Container(
-                              height: 10,
-                              width: 100,
-                              color: Colors.black,
-                            )),
-                          ),
-                          const SizedBox(width: 6),
-                          mediaInfo.when(
-                            data: (data) => Tooltip(
-                                message: 'Number of ratings',
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      data.nRatings?.format() ?? '',
+                            data: (data) {
+                              if (data.releaseDate == null) {
+                                return const Text(
+                                  'Release date:\nTo be announced',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                  ),
+                                );
+                              } else if (DateTime.parse(data.releaseDate!)
+                                      .compareTo(DateTime.now()) <
+                                  0) {
+                                return Row(children: [
+                                  const HeroIcon(HeroIcons.star,
+                                      style: HeroIconStyle.solid,
+                                      size: 17,
+                                      color: Color(0xFFD3A70B)),
+                                  const SizedBox(width: 6),
+                                  mediaInfo.when(
+                                    data: (data) => Text(
+                                      data.rating ?? '',
                                       style: const TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
                                       ),
                                     ),
-                                    const SizedBox(width: 1),
-                                    const HeroIcon(HeroIcons.users,
-                                        style: HeroIconStyle.solid,
-                                        size: 15,
-                                        color: Colors.grey)
-                                  ],
-                                )),
-                            error: (error, stack) {
-                              Logger().e(error);
-                              return const ErrorOccurred();
+                                    error: (error, stack) =>
+                                        Text(error.toString()),
+                                    loading: () => ShimmerEffect(
+                                        child: Container(
+                                      height: 10,
+                                      width: 100,
+                                      color: Colors.black,
+                                    )),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Tooltip(
+                                      message: 'Number of ratings',
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            data.nRatings?.format() ?? '',
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 1),
+                                          const HeroIcon(HeroIcons.users,
+                                              style: HeroIconStyle.solid,
+                                              size: 15,
+                                              color: Colors.grey)
+                                        ],
+                                      ))
+                                ]);
+                              } else {
+                                return Text(
+                                  'Release date:\n${data.releaseDate}',
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey,
+                                  ),
+                                );
+                              }
                             },
+                            error: (error, stack) => Text(error.toString()),
                             loading: () => ShimmerEffect(
                                 child: Container(
                               height: 10,
