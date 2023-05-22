@@ -135,7 +135,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                       'Release date:\nTo be announced',
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: Colors.grey,
+                                        color: Colors.white70,
                                       ),
                                     );
                                   } else if (DateTime.parse(data.releaseDate!)
@@ -189,7 +189,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                       'Release date:\n${data.releaseDate}',
                                       style: const TextStyle(
                                         fontSize: 15,
-                                        color: Colors.grey,
+                                        color: Colors.white70,
                                       ),
                                     );
                                   }
