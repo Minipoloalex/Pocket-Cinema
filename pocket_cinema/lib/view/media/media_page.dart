@@ -235,7 +235,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                 data.description ?? '',
                 textAlign: TextAlign.left,
                 style: const TextStyle(
-                  fontSize: 12,
+                  fontSize: 16,
                 ),
               ),
               error: (error, stack) => Text(error.toString()),
