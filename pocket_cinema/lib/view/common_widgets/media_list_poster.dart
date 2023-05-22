@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,6 +8,7 @@ import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/media_list.dart';
 import 'package:pocket_cinema/view/media_list/media_list.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class MediaListPoster extends ConsumerStatefulWidget {
   final String name;
@@ -77,8 +79,13 @@ class MediaListPosterState extends ConsumerState<MediaListPoster> {
                       height: 117,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(
-                              widget.mediaList.media[0].posterImage),
+                          image: FadeInImage(
+                            placeholder: MemoryImage(kTransparentImage),
+                            image: CachedNetworkImageProvider(widget.mediaList.media[0].posterImage),
+                            fadeInDuration: const Duration(milliseconds: 500),
+                            fadeOutDuration: const Duration(milliseconds: 500),
+                            imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                          ).image,
                           fit: BoxFit.cover,
                         ),
                         borderRadius: const BorderRadius.only(
@@ -90,8 +97,13 @@ class MediaListPosterState extends ConsumerState<MediaListPoster> {
                     height: 117,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(
-                              widget.mediaList.media[1].posterImage),
+                          image: FadeInImage(
+                            placeholder: MemoryImage(kTransparentImage),
+                            image: CachedNetworkImageProvider(widget.mediaList.media[1].posterImage),
+                            fadeInDuration: const Duration(milliseconds: 500),
+                            fadeOutDuration: const Duration(milliseconds: 500),
+                            imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                          ).image,
                           fit: BoxFit.cover,
                         ),
                         borderRadius: const BorderRadius.only(
@@ -108,8 +120,13 @@ class MediaListPosterState extends ConsumerState<MediaListPoster> {
                         height: 117,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: NetworkImage(
-                                widget.mediaList.media[0].posterImage),
+                            image: FadeInImage(
+                              placeholder: MemoryImage(kTransparentImage),
+                              image: CachedNetworkImageProvider(widget.mediaList.media[0].posterImage),
+                              fadeInDuration: const Duration(milliseconds: 500),
+                              fadeOutDuration: const Duration(milliseconds: 500),
+                              imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                            ).image,
                             fit: BoxFit.cover,
                             // alignment: Alignment.topCenter
                           ),

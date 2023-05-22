@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -17,9 +18,13 @@ class Poster extends StatelessWidget {
           height: 187.5,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: FadeInImage.memoryNetwork(
-                  image: url, placeholder: kTransparentImage)
-                  .image,
+              image: FadeInImage(
+                placeholder: MemoryImage(kTransparentImage),
+                image: CachedNetworkImageProvider(url),
+                fadeInDuration: const Duration(milliseconds: 500),
+                fadeOutDuration: const Duration(milliseconds: 500),
+                imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+              ).image,
               fit: BoxFit.cover,
             ),
             borderRadius: BorderRadius.circular(5),

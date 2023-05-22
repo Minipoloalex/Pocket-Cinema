@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
@@ -12,6 +13,7 @@ import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_section.dart';
 import 'package:pocket_cinema/view/media/widgets/description_shimmer.dart';
 import 'package:text_scroll/text_scroll.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class MediaPage extends ConsumerStatefulWidget {
   final String id;
@@ -50,7 +52,14 @@ class MediaPageState extends ConsumerState<MediaPage> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: mediaInfo.when(
-                    data: (data) => NetworkImage(data.backgroundImage!),
+                    data: (data) => FadeInImage(
+                      placeholder: const AssetImage('assets/images/placeholder.png'),
+                      image: CachedNetworkImageProvider(data.backgroundImage!),
+                      fit: BoxFit.cover,
+                      fadeInDuration: const Duration(milliseconds: 500),
+                      fadeOutDuration: const Duration(milliseconds: 500),
+                      imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                    ).image,
                     error: (error, stack) =>
                         const AssetImage('assets/images/placeholder.png'),
                     loading: () =>
@@ -69,7 +78,14 @@ class MediaPageState extends ConsumerState<MediaPage> {
                     width: 100,
                     height: 150,
                     child: mediaInfo.when(
-                      data: (data) => Image.network(data.posterImage),
+                      data: (data) => FadeInImage(
+                        placeholder: const AssetImage('assets/images/placeholder.png'),
+                        fit: BoxFit.cover,
+                        image: CachedNetworkImageProvider(data.posterImage),
+                        fadeInDuration: const Duration(milliseconds: 500),
+                        fadeOutDuration: const Duration(milliseconds: 500),
+                        imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                      ),
                       error: (error, stack) =>
                           Image.asset('assets/images/placeholder.png'),
                       loading: () => ShimmerEffect(
