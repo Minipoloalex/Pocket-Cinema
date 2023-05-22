@@ -9,7 +9,7 @@ class Poster extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 130,
       child: Column(children: [
         Container(
