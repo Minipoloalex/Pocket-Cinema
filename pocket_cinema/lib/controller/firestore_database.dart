@@ -123,7 +123,7 @@ class FirestoreDatabase {
 
   static Future<List<MediaList>> getPersonalLists() async {
     if (FirebaseAuth.instance.currentUser == null) {
-      throw Exception('User not logged in');
+      return [];
     }
     final personalListRef = FirebaseFirestore.instance.collection('lists');
     final querySnapshot = await personalListRef
@@ -151,12 +151,39 @@ class FirestoreDatabase {
     return mediaLists;
   }
 
-
-
   static Future<void> deletePersonalList(String listId) async {
+    if (FirebaseAuth.instance.currentUser == null) {
+      throw Exception('User not logged in');
+    }
     final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
     await docList.delete();
+    final docUser = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid);
+    await docUser.update({
+      'personalLists': FieldValue.arrayRemove([listId])
+    });
   }
+
+  static Future<bool> mediaIsInList(Media media, String listId) async {
+    final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
+    final docSnapshot = await docList.get();
+    if (!docSnapshot.exists) {
+      throw Exception('List does not exist');
+    }
+    final mediaIds = docSnapshot.get('mediaIds') as List<dynamic>;
+    return mediaIds.contains(media.id);
+  }
+
+  static Future<String> toggleMediaInList(Media media, String listId) async {
+    if (await mediaIsInList(media, listId)) {
+      await removeMediaFromList(media.id, listId);
+      return 'removed from';
+    }
+    await addMediaToList(media, listId);
+    return 'added to';
+  }
+
   static Future<void> addMediaToList(Media media, String listId) async {
     final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
     await docList.update({
@@ -181,7 +208,7 @@ class FirestoreDatabase {
   static Future<void> removeMediaFromList(String mediaId, String listId) async {
     final docList = FirebaseFirestore.instance.collection('lists').doc(listId);
     await docList.update({
-      'mediaId': FieldValue.arrayRemove([mediaId]),
+      'mediaIds': FieldValue.arrayRemove([mediaId]),
       'lastUpdatedAt': Timestamp.now(),
     });
   }
@@ -239,7 +266,7 @@ class FirestoreDatabase {
       throw Exception("List name given incorrect");
     }
     if (FirebaseAuth.instance.currentUser == null) {
-      throw Exception('User not logged in');
+      return [];
     }
     final userSnapshot = await FirebaseFirestore.instance
         .collection('users')

@@ -249,7 +249,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                 mediaId: data.id,
                                 onPressed: () {
                                   ref.read(watchListProvider.notifier).toggle(data);
-                                }),
+                                },),
                             loading: () => const SizedBox(),
                             error: (error, stack) {
                               Logger().e(error);
