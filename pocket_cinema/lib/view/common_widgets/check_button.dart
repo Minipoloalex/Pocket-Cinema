@@ -31,7 +31,7 @@ class CheckButton extends ConsumerWidget {
         icon: const HeroIcon(HeroIcons.check),
         onPressed: () {
           onPressed();
-          showWatchedToast(checked, ref);
+          showWatchedToast(checked);
         },
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(checked ? checkedColor : null),
@@ -44,30 +44,11 @@ class CheckButton extends ConsumerWidget {
     );
   }
 
-  void showWatchedToast(bool checked, WidgetRef ref) {
-    String mediaName = ''; // Variable to store the media name
-    List<Media> watchedList = ref.watch(watchListProvider);
-    Media? media;
-    for (var element in watchedList) {
-      if (element.id == mediaId) {
-        media = element;
-        break;
-      }
-    }
-    if (media != null) {
-      mediaName = media.name;
-    }
-
+  void showWatchedToast(bool checked) {
     if (checked) {
-      Fluttertoast.showToast(
-        msg: '$mediaName was removed from the watched list',
-        timeInSecForIosWeb: 1,
-      );
+      Fluttertoast.showToast(msg: 'Removed from the watched list');
     } else {
-      Fluttertoast.showToast(
-        msg: '$mediaName was added to the watched list',
-        timeInSecForIosWeb: 1,
-      );
+      Fluttertoast.showToast(msg: 'Added to the watched list');
     }
   }
 }
