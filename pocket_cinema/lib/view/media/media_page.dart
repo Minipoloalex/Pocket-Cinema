@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
-import 'package:logger/logger.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/controller/search_provider.dart';
 import 'package:pocket_cinema/model/number_extension.dart';
 import 'package:pocket_cinema/view/common_widgets/add_button.dart';
 import 'package:pocket_cinema/view/common_widgets/bottom_modal.dart';
 import 'package:pocket_cinema/view/common_widgets/check_button.dart';
-import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/common_widgets/go_back_button.dart';
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_section.dart';
 import 'package:pocket_cinema/view/media/widgets/description_shimmer.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 class MediaPage extends ConsumerStatefulWidget {
   final String id;
+
   const MediaPage({super.key, required this.id});
 
   @override
@@ -44,261 +44,217 @@ class MediaPageState extends ConsumerState<MediaPage> {
             child: const GoBackButton(key: Key('backButton')),
           ),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              height: 310,
-              color: Theme.of(context).cardColor,
-              child: Stack(
+        body: Column(children: [
+          Container(
+              height: 230,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: mediaInfo.when(
+                    data: (data) => NetworkImage(data.backgroundImage!),
+                    error: (error, stack) =>
+                        const AssetImage('assets/images/placeholder.png'),
+                    loading: () =>
+                        const AssetImage('assets/images/placeholder.png'),
+                  ),
+                  fit: BoxFit.cover,
+                ),
+                color: Theme.of(context).cardColor,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  mediaInfo.when(
-                    data: (data) => Stack(
-                      children: [
-                        data.backgroundImage != ""
-                            ? FadeInImage(
-                                height: 210,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                  data.backgroundImage!,
-                                ),
-                                fadeInDuration:
-                                    const Duration(milliseconds: 100),
-                                placeholder: const AssetImage(
-                                    'assets/images/placeholder.png'),
-                              )
-                            : const Image(
-                                image:
-                                    AssetImage('assets/images/placeholder.png'),
-                                height: 210,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
-                        ClipRect(
-                          child: Align(
-                            heightFactor: 1,
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 210,
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.9),
-                                    blurRadius: 30,
-                                    spreadRadius: 10,
-                                    offset: const Offset(0, 200),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    error: (error, stack) {
-                      Logger().e(error);
-                      return const ErrorOccurred();
-                    },
-                    loading: () => const Image(
-                      height: 200,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      image: AssetImage('assets/images/placeholder.png'),
-                    ),
-                  ),
-                  Positioned(
-                    top: 60,
-                    left: 40,
+                  Container(width: 40),
+                  SizedBox(
+                    width: 100,
+                    height: 150,
                     child: mediaInfo.when(
-                      data: (data) => Container(
-                        width: 108,
-                        height: 188,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: NetworkImage(data.posterImage),
-                          ),
+                      data: (data) => Image.network(data.posterImage),
+                      error: (error, stack) =>
+                          Image.asset('assets/images/placeholder.png'),
+                      loading: () => ShimmerEffect(
+                        child: Container(
+                          width: 100,
+                          height: 170,
+                          color: Colors.black,
                         ),
                       ),
-                      error: (error, stack) {
-                        Logger().e(error);
-                        return const ErrorOccurred();
-                      },
-                      loading: () => ShimmerEffect(
-                          child: Container(
-                        height: 188,
-                        width: 108,
-                        color: Colors.black,
-                      )),
                     ),
                   ),
-                  Positioned(
-                    top: 172,
-                    left: 160,
-                    child: mediaInfo.when(
-                      data: (data) => Text(
-                        data.name,
-                        style: const TextStyle(
-                          fontSize: 28,
-                        ),
+                  Container(
+                      height: 100,
+                      width: MediaQuery.of(context).size.width - 150,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.7),
+                            blurRadius: 30,
+                            spreadRadius: 10,
+                            // offset: const Offset(0, 200),
+                          ),
+                        ],
                       ),
-                      error: (error, stack) {
-                        Logger().e(error);
-                        return const ErrorOccurred();
-                      },
-                      loading: () => ShimmerEffect(
-                          child: Container(
-                        height: 10,
-                        width: 50,
-                        color: Colors.black,
-                      )),
-                    ),
-                  ),
-                  Positioned(
-                      top: 212,
-                      left: 160,
-                      child: Row(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           mediaInfo.when(
-                            data: (data) {
-                              if (data.releaseDate == null) {
-                                return const Text(
-                                  'Release date:\nTo be announced',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey,
-                                  ),
-                                );
-                              } else if (DateTime.parse(data.releaseDate!)
-                                      .compareTo(DateTime.now()) <
-                                  0) {
-                                return Row(children: [
-                                  const HeroIcon(HeroIcons.star,
-                                      style: HeroIconStyle.solid,
-                                      size: 17,
-                                      color: Color(0xFFD3A70B)),
-                                  const SizedBox(width: 6),
-                                  mediaInfo.when(
-                                    data: (data) => Text(
-                                      data.rating ?? '',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
+                            data: (data) => Row(
+                              children: [
+                                Flexible(
+                                  child: TextScroll(
+                                    data.name,
+                                    mode: TextScrollMode.endless,
+                                    velocity: const Velocity(
+                                        pixelsPerSecond: Offset(50, 0)),
+                                    selectable: true,
+                                    pauseBetween: const Duration(seconds: 1),
+                                    fadedBorder: true,
+                                    fadeBorderSide: FadeBorderSide.right,
+                                    style: const TextStyle(
+                                      fontSize: 28,
                                     ),
-                                    error: (error, stack) =>
-                                        Text(error.toString()),
-                                    loading: () => ShimmerEffect(
-                                        child: Container(
-                                      height: 10,
-                                      width: 100,
-                                      color: Colors.black,
-                                    )),
                                   ),
-                                  const SizedBox(width: 6),
-                                  Tooltip(
-                                      message: 'Number of ratings',
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            data.nRatings?.format() ?? '',
-                                            style: const TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 1),
-                                          const HeroIcon(HeroIcons.users,
-                                              style: HeroIconStyle.solid,
-                                              size: 15,
-                                              color: Colors.grey)
-                                        ],
-                                      ))
-                                ]);
-                              } else {
-                                return Text(
-                                  'Release date:\n${data.releaseDate}',
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.grey,
-                                  ),
-                                );
-                              }
-                            },
+                                )
+                              ],
+                            ),
                             error: (error, stack) => Text(error.toString()),
                             loading: () => ShimmerEffect(
                                 child: Container(
                               height: 10,
-                              width: 100,
+                              width: 50,
                               color: Colors.black,
                             )),
                           ),
-                          const SizedBox(width: 20),
-                          mediaInfo.when(
-                            data: (data) => CheckButton(
-                                mediaId: data.id,
-                                onPressed: () {
-                                  ref.read(watchListProvider.notifier).toggle(data);
-                                },),
-                            loading: () => const SizedBox(),
-                            error: (error, stack) {
-                              Logger().e(error);
-                              return const ErrorOccurred();
-                            },
-                          ),
-                          mediaInfo.when(
-                            data: (data) => AddButton(onPressed: () {
-                              showModalBottomSheet<void>(
-                                  context: context,
-                                  builder: (_) {
-                                    return BottomModal(
-                                      media: data,
+                          Row(
+                            children: [
+                              mediaInfo.when(
+                                data: (data) {
+                                  if (data.releaseDate == null) {
+                                    return const Text(
+                                      'Release date:\nTo be announced',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white70,
+                                      ),
                                     );
-                                  });
-                            }),
-                            loading: () => const SizedBox(),
-                            error: (error, stack) {
-                              Logger().e(error);
-                              return const ErrorOccurred();
-                            },
-                          ),
+                                  } else if (DateTime.parse(data.releaseDate!)
+                                      .compareTo(DateTime.now()) <
+                                      0) {
+                                    return Row(children: [
+                                      const HeroIcon(HeroIcons.star,
+                                          style: HeroIconStyle.solid,
+                                          size: 17,
+                                          color: Color(0xFFD3A70B)),
+                                      const SizedBox(width: 6),
+                                      mediaInfo.when(
+                                        data: (data) => Text(
+                                          data.rating ?? '',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        error: (error, stack) =>
+                                            Text(error.toString()),
+                                        loading: () => ShimmerEffect(
+                                            child: Container(
+                                              height: 10,
+                                              width: 100,
+                                              color: Colors.black,
+                                            )),
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Tooltip(
+                                          message: 'Number of ratings',
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                data.nRatings?.format() ?? '',
+                                                style: const TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 1),
+                                              const HeroIcon(HeroIcons.users,
+                                                  style: HeroIconStyle.solid,
+                                                  size: 15,
+                                                  color: Colors.grey)
+                                            ],
+                                          ))
+                                    ]);
+                                  } else {
+                                    return Text(
+                                      'Release date:\n${data.releaseDate}',
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.white70,
+                                      ),
+                                    );
+                                  }
+                                },
+                                error: (error, stack) => Text(error.toString()),
+                                loading: () => ShimmerEffect(
+                                    child: Container(
+                                  height: 10,
+                                  width: 100,
+                                  color: Colors.black,
+                                )),
+                              ),
+                              const SizedBox(width: 20),
+                              mediaInfo.when(
+                                data: (data) => CheckButton(
+                                    mediaId: data.id,
+                                    onPressed: () {
+                                      ref
+                                          .read(watchListProvider.notifier)
+                                          .toggle(data);
+                                    }),
+                                loading: () => const SizedBox(),
+                                error: (error, stack) => Text(error.toString()),
+                              ),
+                              mediaInfo.when(
+                                data: (data) => AddButton(
+                                    borderColor: Theme.of(context).colorScheme.onPrimary,
+                                    onPressed: () {
+                                  showModalBottomSheet<void>(
+                                      context: context,
+                                      builder: (_) {
+                                        return BottomModal(
+                                          media: data,
+                                        );
+                                      });
+                                }),
+                                loading: () => const SizedBox(),
+                                error: (error, stack) => Text(error.toString()),
+                              ),
+                            ],
+                          )
                         ],
                       )),
-                  Positioned(
-                    top: 262,
-                    left: 40,
-                    child: SizedBox(
-                      width: 350,
-                      height: 40,
-                      child: mediaInfo.when(
-                        data: (data) => Text(
-                          data.description ?? '',
-                          textAlign: TextAlign.left,
-                          style: const TextStyle(
-                            fontSize: 12,
-                          ),
-                        ),
-                        error: (error, stack) {
-                          Logger().e(error);
-                          return const ErrorOccurred();
-                        },
-                        loading: () =>
-                            const ShimmerEffect(child: DescriptionShimmer()),
-                      ),
-                    ),
-                  ),
                 ],
+              )),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            color: Theme.of(context).cardColor,
+            child: mediaInfo.when(
+              data: (data) => Text(
+                data.description ?? '',
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
               ),
+              error: (error, stack) => Text(error.toString()),
+              loading: () => const ShimmerEffect(child: DescriptionShimmer()),
             ),
-            Flexible(
-              fit: FlexFit.tight,
-              child: CommentSection(mediaID: widget.id),
-            ),
-          ],
-        ),
+          ),
+          Flexible(
+            fit: FlexFit.tight,
+            child: CommentSection(mediaID: widget.id),
+          ),
+        ]),
       ),
     );
   }
