@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class Poster extends StatelessWidget {
   final String name;
@@ -19,7 +18,7 @@ class Poster extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: FadeInImage(
-                placeholder: MemoryImage(kTransparentImage),
+                placeholder: const AssetImage('assets/images/placeholder.png'),
                 image: CachedNetworkImageProvider(url),
                 fadeInDuration: const Duration(milliseconds: 500),
                 fadeOutDuration: const Duration(milliseconds: 500),

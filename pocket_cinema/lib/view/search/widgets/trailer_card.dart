@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:heroicons/heroicons.dart';
@@ -28,7 +29,13 @@ class TrailerCard extends StatelessWidget {
                 height: 100,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(media.posterImage),
+                    image: FadeInImage(
+                      placeholder: const AssetImage('assets/images/placeholder.png'),
+                      image: CachedNetworkImageProvider(media.posterImage),
+                      fadeInDuration: const Duration(milliseconds: 500),
+                      fadeOutDuration: const Duration(milliseconds: 500),
+                      imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                    ).image,
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(5),
