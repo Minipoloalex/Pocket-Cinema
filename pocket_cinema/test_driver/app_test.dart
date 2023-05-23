@@ -11,6 +11,8 @@ import 'steps/then_no_results_found.dart';
 import 'steps/when_fill_field_no_scroll.dart';
 import 'steps/when_tap_name_media.dart';
 import 'steps/then_expect_present.dart';
+import 'steps/then_expect_comment.dart';
+
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
@@ -29,10 +31,11 @@ Future<void> main() {
     whenFillFieldNoScroll(),
     WhenTapNameMedia(),
     ThenExpectPresent(),
+    ThenExpectComment(),
   ]
   ..customStepParameterDefinitions = []
   ..restartAppBetweenScenarios = false
-  ..flutterBuildTimeout = const Duration(minutes: 2)
+  ..flutterBuildTimeout = const Duration(minutes: 4)
   ..targetAppPath = "test_driver/app.dart";
   return GherkinRunner().execute(config);
 }

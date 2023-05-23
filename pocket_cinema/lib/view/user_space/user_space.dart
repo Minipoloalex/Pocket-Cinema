@@ -117,9 +117,9 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                           labelText: "Watched",
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => MediaListPage(
-                                  name: "Watched",
-                                  mediaList: ref.watch(watchListProvider)),
+                              builder: (context) => const MediaListPage(
+                                    name: "Watched"
+                                  ),
                             ));
                           }),
                     ]),

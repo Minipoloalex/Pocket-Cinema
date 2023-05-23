@@ -45,7 +45,6 @@ class MediaListPosterState extends ConsumerState<MediaListPoster> {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => MediaListPage(
             name: widget.mediaList.name,
-            mediaList: widget.mediaList.media,
             listId: widget.mediaList.id),
       ));
     }
@@ -128,7 +127,6 @@ class MediaListPosterState extends ConsumerState<MediaListPoster> {
                               imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
                             ).image,
                             fit: BoxFit.cover,
-                            // alignment: Alignment.topCenter
                           ),
                           borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(5),

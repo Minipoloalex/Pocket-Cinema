@@ -43,7 +43,7 @@ class PersonalLists extends ConsumerWidget {
           : MediaListList(mediaListList: data, media: media),
       error: (error, stackTrace) {
         Logger().e(error);
-        return const ErrorOccurred();
+        return ErrorOccurred(error: error);
       },
       loading: () => ShimmerEffect(
         child: SizedBox(

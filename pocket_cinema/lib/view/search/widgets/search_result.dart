@@ -18,10 +18,8 @@ class SearchResult extends ConsumerWidget {
         margin: const EdgeInsets.only(bottom: 10),
         child: GestureDetector(
           key: Key(media.name),
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => MediaPage(id: media.id))),
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MediaPage(id: media.id))),
           child: Row(
             children: [
               Container(
@@ -30,11 +28,13 @@ class SearchResult extends ConsumerWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: FadeInImage(
-                      placeholder: const AssetImage('assets/images/placeholder.png'),
+                      placeholder:
+                          const AssetImage('assets/images/placeholder.png'),
                       image: CachedNetworkImageProvider(media.posterImage),
                       fadeInDuration: const Duration(milliseconds: 500),
                       fadeOutDuration: const Duration(milliseconds: 500),
-                      imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                      imageErrorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.error),
                     ).image,
                     fit: BoxFit.cover,
                   ),
@@ -73,6 +73,7 @@ class SearchResult extends ConsumerWidget {
                       }),
                   AddButton(
                     key: Key('${media.name} AddButton'),
+                    borderColor: Theme.of(context).colorScheme.onPrimary,
                     onPressed: () {
                       showModalBottomSheet<void>(
                           context: context,

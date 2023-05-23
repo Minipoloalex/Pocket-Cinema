@@ -31,7 +31,8 @@ class CommentSectionState extends ConsumerState<CommentSection> {
   void _handleSubmit(String text) {
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
-      FirestoreDatabase().addComment(widget.mediaID, text, FirebaseAuth.instance.currentUser!.uid);
+      FirestoreDatabase().addComment(
+          widget.mediaID, text, FirebaseAuth.instance.currentUser!.uid);
     }
     _controller.clear();
     _node.unfocus();
@@ -46,14 +47,14 @@ class CommentSectionState extends ConsumerState<CommentSection> {
       children: [
         const Padding(
           padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-        child:Text(
-          "Comments",
-          textAlign: TextAlign.left,
-          style: TextStyle(
-            fontSize: 30,
-            color: Colors.white,
+          child: Text(
+            "Comments",
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: 30,
+              color: Colors.white,
+            ),
           ),
-        ),
         ),
         Expanded(
           child: comments.when(
@@ -84,13 +85,14 @@ class CommentSectionState extends ConsumerState<CommentSection> {
             loading: () => Container(),
             error: (error, stack) {
               Logger().e(error);
-              return const ErrorOccurred();
+              return ErrorOccurred(error: error);
             },
           ),
         ),
         Align(
             alignment: Alignment.bottomCenter,
             child: CommentAndListForm(
+              key: const Key("addCommentField"),
               controller: _controller,
               focusNode: _node,
               handleSubmit: _handleSubmit,
@@ -98,6 +100,7 @@ class CommentSectionState extends ConsumerState<CommentSection> {
               paddingLeft: 20,
               maxLines: 4,
               suffixIcon: IconButton(
+                key: const Key("addCommentButton"),
                 color: Colors.white,
                 icon: const Icon(Icons.send),
                 onPressed: () {
