@@ -102,7 +102,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                     ),
                   ),
                   Container(
-                      height: 200,
+                      height: 150,
                       width: MediaQuery.of(context).size.width - 150,
                       decoration: BoxDecoration(
                         boxShadow: [
