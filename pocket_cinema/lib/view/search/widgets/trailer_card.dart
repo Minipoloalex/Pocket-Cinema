@@ -77,6 +77,7 @@ class TrailerCard extends StatelessWidget {
                 child: PlayTrailerButton(
                     key: Key(
                         "playTrailer${key.toString()[key.toString().length - 1]}"),
+                    backgroundColor: Theme.of(context).primaryColor,
                     media: media),
               ),
             ],

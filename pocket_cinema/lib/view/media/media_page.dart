@@ -123,7 +123,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                 visible: data.trailer != null,
                                 child: Container(
                                   margin: const EdgeInsets.only(left: 40),
-                                  child: PlayTrailerButton(media: data),
+                                  child: PlayTrailerButton(
+                                      borderColor: const Color.fromARGB(255, 221, 221, 221),
+                                      media: data,
+                                  ),
                                 )),
                             error: (error, stack) => const SizedBox.shrink(),
                             loading: () => const SizedBox.shrink(),
