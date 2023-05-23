@@ -8,7 +8,6 @@ class Parser {
     Map<String, dynamic> map = jsonDecode(body);
     List searchResults = map["d"];
 
-    // Only keep movies and series
     searchResults = searchResults
         .where(
             (result) => result["qid"] == "tvSeries" || result["qid"] == "movie")

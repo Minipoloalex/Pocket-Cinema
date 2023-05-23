@@ -110,7 +110,6 @@ class MediaPageState extends ConsumerState<MediaPage> {
                             color: Colors.black.withOpacity(0.7),
                             blurRadius: 30,
                             spreadRadius: 10,
-                            // offset: const Offset(0, 200),
                           ),
                         ],
                       ),
