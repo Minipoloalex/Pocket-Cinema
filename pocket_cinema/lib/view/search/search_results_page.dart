@@ -123,7 +123,7 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                         ),
                         error: (error, stack)  {
                             Logger().e(error);
-                            return const ErrorOccurred();
+                            return ErrorOccurred(error: error);
                         }),
                       series.when(
                         data: (data) => data.isNotEmpty
@@ -143,7 +143,7 @@ class SearchPageResultsState extends ConsumerState<SearchResultsPage>
                         ),
                         error: (error, stack)  {
                           Logger().e(error);
-                          return const ErrorOccurred();
+                          return ErrorOccurred(error: error);
                         }),
                     ],
                   )))

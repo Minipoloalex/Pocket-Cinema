@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:heroicons/heroicons.dart';
@@ -88,20 +86,8 @@ class MySearchPageState extends ConsumerState<SearchPage>
                 loading: () =>
                     const ShimmerEffect(child: HorizontalMediaListShimmer()),
                 error: (error, stack) {
-                  if (error is SocketException) {
-                    return Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                        ),
-                        const SizedBox(height: 10),
-                        const NetworkErrorOccurred(),
-                      ],
-                    );
-                  } else {
-                    Logger().e(error);
-                    return const ErrorOccurred();
-                  }
+                  Logger().e(error);
+                  return ErrorOccurred(error: error);
                 },
               )
             ],
@@ -125,20 +111,8 @@ class MySearchPageState extends ConsumerState<SearchPage>
                                 media: item))
                             .toList())),
                     error: (error, stack) {
-                      if (error is SocketException) {
-                        return Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                            ),
-                            const SizedBox(height: 10),
-                            const NetworkErrorOccurred(),
-                          ],
-                        );
-                      } else {
-                        Logger().e(error);
-                        return const ErrorOccurred();
-                      }
+                      Logger().e(error);
+                      return ErrorOccurred(error: error);
                     },
                     loading: () => ShimmerEffect(
                         child: Column(

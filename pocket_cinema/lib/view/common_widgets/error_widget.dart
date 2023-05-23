@@ -1,48 +1,31 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:heroicons/heroicons.dart';
 
 class ErrorOccurred extends StatelessWidget {
-  const ErrorOccurred({super.key});
+  final Object error;
+  final StackTrace? stackTrace;
+  const ErrorOccurred({super.key, required this.error, this.stackTrace});
 
   @override
   Widget build(BuildContext context) {
+    final internetError = error is SocketException;
+    final icon = internetError ? HeroIcons.exclamationCircle : HeroIcons.exclamationCircle;
+    final text = internetError ? "Network error, check your network status." : "Some error occurred";
+
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 25,),
+        padding: const EdgeInsets.symmetric(vertical: 25),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: const [
-            HeroIcon(HeroIcons.exclamationCircle),
-            SizedBox(height: 8),
-            Text("Some error occurred", style: TextStyle(fontSize: 18)),
+          children: [
+            HeroIcon(icon),
+            const SizedBox(height: 8),
+            Text(text, style: const TextStyle(fontSize: 18)),
           ],
         ),
       ),
     );
   }
 }
-
-class NetworkErrorOccurred extends StatelessWidget {
-  const NetworkErrorOccurred({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 25,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            HeroIcon(HeroIcons.wifi),
-            SizedBox(height: 8),
-            Text("Network error, check your network status.",
-                style: TextStyle(fontSize: 12)),
-          ],
-        ),
-      ),
-    );
-  }
-}
-

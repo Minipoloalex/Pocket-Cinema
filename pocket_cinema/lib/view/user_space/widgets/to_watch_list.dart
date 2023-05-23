@@ -64,7 +64,7 @@ class ToWatchList extends ConsumerWidget {
       loading: () => const ShimmerEffect(child: HorizontalMediaListShimmer()),
       error: (error, stack) {
         Logger().e(error);
-        return const ErrorOccurred();
+        return ErrorOccurred(error: error);
       },
     );
   }

@@ -45,7 +45,6 @@ class MediaListPosterState extends ConsumerState<MediaListPoster> {
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => MediaListPage(
             name: widget.mediaList.name,
-            mediaList: widget.mediaList.media,
             listId: widget.mediaList.id),
       ));
     }
