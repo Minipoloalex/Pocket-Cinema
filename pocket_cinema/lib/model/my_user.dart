@@ -1,4 +1,3 @@
-//TODO: save the user id
 class MyUser {
   final String username;
   final String email;
@@ -17,12 +16,4 @@ class MyUser {
     'toWatch': toWatch,
     'lists': personalLists,
   };
-
-  static MyUser fromJson(Map<String, dynamic> json) => MyUser(
-    username: json['username'],
-    email: json['email'],
-    watched: json['watched'],
-    toWatch: json['toWatch'],
-    personalLists: json['personalLists'],
-  );
 }

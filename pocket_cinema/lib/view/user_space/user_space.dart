@@ -56,7 +56,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
     }
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
-      FirestoreDatabase.createPersonalList(listName);
+      FirestoreDatabase().createPersonalList(listName, currentUser.uid);
       Fluttertoast.showToast(msg: "Created a new list named '$listName'");
       ref.refresh(listsProvider).value;
       toggleCreateListFormVisibility();
@@ -90,7 +90,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
             onPressed: () {
               User? user = FirebaseAuth.instance.currentUser;
               if (user != null) {
-                Authentication.signOut();
+                Authentication().signOut();
               }
               Navigator.of(context).pop();
               Navigator.of(context).pushNamed('/login');

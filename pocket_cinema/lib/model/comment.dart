@@ -3,13 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Comment {
   String content;
   Timestamp createdAt;
-  String username;
+  String? username;
   String userId;
-  String? mediaID;
+  String mediaID;
 
   Comment({
-    this.mediaID,
-    required this.username,
+    this.username,
+    required this.mediaID,
     required this.userId,
     required this.content,
     required this.createdAt,

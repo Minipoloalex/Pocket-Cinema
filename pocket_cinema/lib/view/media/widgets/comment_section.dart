@@ -31,7 +31,7 @@ class CommentSectionState extends ConsumerState<CommentSection> {
   void _handleSubmit(String text) {
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
-      FirestoreDatabase.addComment(widget.mediaID, text);
+      FirestoreDatabase().addComment(widget.mediaID, text, FirebaseAuth.instance.currentUser!.uid);
     }
     _controller.clear();
     _node.unfocus();

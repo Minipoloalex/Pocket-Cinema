@@ -11,7 +11,7 @@ import '../../testable_widget.dart';
 void main() {
   final comment = Comment(
     mediaID: '123',
-    userId: '123',
+    userId: '456',
     username: 'John',
     content: 'Great movie!',
     createdAt: Timestamp.now(),
@@ -20,7 +20,7 @@ void main() {
   testWidgets('CommentWidget displays comment information', (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(CommentWidget(comment: comment)));
 
-    final usernameTextFinder = find.text(comment.username);
+    final usernameTextFinder = find.text(comment.username!);
     final contentTextFinder = find.text(comment.content);
     final dateTextFinder = find.text(timeago.format(comment.createdAt.toDate()).capitalize());
 
