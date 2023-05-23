@@ -22,7 +22,7 @@ Feature: Commenting on media and reading comments
     Then I am on the "MediaPage" page
     When I fill the "addCommentField" field without scrolling with "This is a comment"
     And I tap the "addCommentButton" button
-    Then I expect the comment "myUsername" "This is a comment" to be present
+    Then I expect the comment "myUsername" "This is a comment" "A moment ago" to be present
 
     # Going back to the search page
     When I tap the "backButton" button
@@ -46,7 +46,7 @@ Feature: Commenting on media and reading comments
     # Reading the comment
     When I tap the "The Matrix" element
     Then I am on the "MediaPage" page
-    And I expect the comment "myUsername" "This is a comment" to be present
+    And I expect the comment "myUsername" "This is a comment" "A moment ago" to be present
 
     # Going back to the search page
     When I tap the "backButton" button
