@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
@@ -28,7 +29,13 @@ class SearchResult extends ConsumerWidget {
                 height: 150,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(media.posterImage),
+                    image: FadeInImage(
+                      placeholder: const AssetImage('assets/images/placeholder.png'),
+                      image: CachedNetworkImageProvider(media.posterImage),
+                      fadeInDuration: const Duration(milliseconds: 500),
+                      fadeOutDuration: const Duration(milliseconds: 500),
+                      imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                    ).image,
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(5),
