@@ -27,7 +27,7 @@ void main() {
       expect(find.text(media.description!), findsOneWidget);
 
       final posterImageFinder = find.byWidgetPredicate((widget) =>
-          widget is Container &&
+      widget is Container &&
           widget.decoration is BoxDecoration &&
           (widget.decoration as BoxDecoration).image is DecorationImage &&
           ((widget.decoration as BoxDecoration).image as DecorationImage)

@@ -20,6 +20,7 @@ void main() {
         backgroundImage: "https://m.media-amazon.com/images/M/MV5BYzExZDkwNzYtYmI0Mi00OThhLWFhNmMtZTZjYWU2MTdkMDAzXkEyXkFqcGdeQWRpZWdtb25n._V1_.jpg",
         rating: "7.9",
         nRatings: 1215514,
+        releaseDate: '1997-12-19',
         description: 'A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.',
         type: MediaType.movie,
       );

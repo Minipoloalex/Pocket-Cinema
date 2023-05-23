@@ -1,5 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class Poster extends StatelessWidget {
   final String name;
@@ -9,28 +9,36 @@ class Poster extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-        width: 125,
-        height: 187.5,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: FadeInImage.memoryNetwork(
-                    image: url, placeholder: kTransparentImage)
-                .image,
-            fit: BoxFit.cover,
+    return SizedBox(
+      width: 130,
+      child: Column(children: [
+        Container(
+          width: 125,
+          height: 187.5,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: FadeInImage(
+                placeholder: const AssetImage('assets/images/placeholder.png'),
+                image: CachedNetworkImageProvider(url),
+                fadeInDuration: const Duration(milliseconds: 500),
+                fadeOutDuration: const Duration(milliseconds: 500),
+                imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+              ).image,
+              fit: BoxFit.cover,
+            ),
+            borderRadius: BorderRadius.circular(5),
           ),
-          borderRadius: BorderRadius.circular(5),
         ),
-      ),
-      Padding(
-          padding: const EdgeInsets.all(5),
-          child: SizedBox(
-              width: 125,
-              child: Text(name,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2)))
-    ]);
+        Flexible(
+            child: Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: Text(name,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2)
+            )
+        )
+      ]),
+    );
   }
 }

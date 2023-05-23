@@ -9,18 +9,59 @@ import 'package:pocket_cinema/view/common_widgets/horizontal_media_list_shimmer.
 import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 
 class ToWatchList extends ConsumerWidget {
-  const ToWatchList({super.key});
+  final Function() switchToSearch;
+  const ToWatchList({super.key, required this.switchToSearch});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<List<Media>> toWatchList = ref.watch(toWatchListProvider);
 
     return toWatchList.when(
-      data: (data) => HorizontalMediaList(
-        key: const Key("toWatchList"),
-        name: "In your pocket to Watch",
-        media: data,
-      ),
+      data: (data) {
+        if (data.isEmpty) {
+          return SizedBox(
+              height: 300,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          "Your pocket list is empty.",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          "Find the movies you would like to see next in here.",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: switchToSearch,
+                    child: const Text("Search"),
+                  ),
+                ],
+              ));
+        } else {
+          return HorizontalMediaList(
+            key: const Key("toWatchList"),
+            name: "In your pocket to Watch",
+            media: data,
+          );
+        }
+      },
       loading: () => const ShimmerEffect(child: HorizontalMediaListShimmer()),
       error: (error, stack) {
         Logger().e(error);

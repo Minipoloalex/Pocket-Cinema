@@ -45,6 +45,14 @@ class MyAppState extends ConsumerState<MyApp> {
         ref.invalidate(toWatchListProvider);
         ref.invalidate(listsProvider);
       }
+      if (user != null) {
+        setState(() {
+          selectedPage = 0;
+        });
+        ref.read(listsProvider).value;
+        ref.read(watchListProvider.notifier);
+        ref.read(toWatchListProvider).value;
+      }
     });
   }
 
@@ -60,6 +68,14 @@ class MyAppState extends ConsumerState<MyApp> {
         '/': (context) {
           final pageController = PageController(initialPage: 0);
 
+          switchPage(int newPage) {
+            if (newPage != selectedPage) {
+              pageController.animateToPage(newPage,
+                  duration: const Duration(microseconds: 300),
+                  curve: Curves.easeIn);
+            }
+          }
+
           return Scaffold(
             body: PageView(
               controller: pageController,
@@ -69,18 +85,18 @@ class MyAppState extends ConsumerState<MyApp> {
                   selectedPage = newIndex;
                 });
               },
-              children: const [
-                HomePage(),
-                SearchPage(),
-                UserSpacePage(),
+              children: [
+                const HomePage(),
+                const SearchPage(),
+                UserSpacePage(switchToSearch: () {
+                  switchPage(1);
+                }),
               ],
             ),
             bottomNavigationBar: NavigationBar(
               selectedIndex: selectedPage,
               onDestinationSelected: (int index) {
-                pageController.animateToPage(index,
-                    duration: const Duration(microseconds: 300),
-                    curve: Curves.easeIn);
+                switchPage(index);
               },
               backgroundColor: Theme.of(context).colorScheme.tertiary,
               surfaceTintColor: Theme.of(context).colorScheme.tertiary,

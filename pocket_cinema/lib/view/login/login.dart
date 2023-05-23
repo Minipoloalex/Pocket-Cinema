@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pocket_cinema/controller/authentication.dart';
 import 'package:pocket_cinema/controller/validate.dart';
 import 'package:pocket_cinema/model/my_user.dart';
@@ -6,7 +7,6 @@ import 'package:pocket_cinema/view/common_widgets/input_field_login_register.dar
 import 'package:pocket_cinema/view/common_widgets/login_register_tabs.dart';
 import 'package:pocket_cinema/view/common_widgets/password_form_field.dart';
 import 'package:pocket_cinema/view/common_widgets/topbar_logo.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,6 +18,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _userIdTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
+  final auth = Authentication();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                     key: const Key("loginButton"),
                     onPressed: () async {
                       Validate.login(_userIdTextController.text, _passwordTextController.text).then((value) {
-                        Authentication.signIn(_userIdTextController.text, _passwordTextController.text).then((value){
+                        auth.signIn(_userIdTextController.text, _passwordTextController.text).then((value){
                           Navigator.of(context).pop();
                           Navigator.pushNamed(context, '/');
                         }).catchError((error) {
@@ -58,10 +59,10 @@ class _LoginPageState extends State<LoginPage> {
                   const Divider(),
                   ElevatedButton(
                       onPressed: () {
-                        Authentication.signInWithGoogle().then((user) {
+                        auth.signInWithGoogle().then((user) {
                           if (user == null || user.displayName == null || user.email == null) return;
 
-                          Authentication.createUserGoogleSignIn(
+                          auth.createUserGoogleSignIn(
                             MyUser(username: user.displayName!, email: user.email!),
                           );
                           Navigator.of(context).pop();

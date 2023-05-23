@@ -1,11 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:pocket_cinema/controller/fetcher.dart';
 import 'package:pocket_cinema/controller/parser.dart';
 import 'package:pocket_cinema/model/media.dart';
-import 'package:pocket_cinema/view/common_widgets/trailer_player.dart';
 import 'package:pocket_cinema/view/media/media_page.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pocket_cinema/view/search/trailer_page.dart';
 
 class TrailerCard extends StatelessWidget {
   final Media media;
@@ -28,7 +29,13 @@ class TrailerCard extends StatelessWidget {
                 height: 100,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(media.posterImage),
+                    image: FadeInImage(
+                      placeholder: const AssetImage('assets/images/placeholder.png'),
+                      image: CachedNetworkImageProvider(media.posterImage),
+                      fadeInDuration: const Duration(milliseconds: 500),
+                      fadeOutDuration: const Duration(milliseconds: 500),
+                      imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                    ).image,
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(5),
@@ -90,7 +97,8 @@ class TrailerCard extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => TrailerPlayer(
+                                builder: (context) => TrailerPage(
+                                    media: media,
                                     videoUrl: playbacks[0]['url'])));
                       });
                     },
