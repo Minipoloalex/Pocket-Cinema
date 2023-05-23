@@ -231,6 +231,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                               const SizedBox(width: 20),
                               mediaInfo.when(
                                 data: (data) => CheckButton(
+                                    key: Key('${data.name} CheckButton'),
                                     mediaId: data.id,
                                     onPressed: () {
                                       ref
@@ -242,8 +243,8 @@ class MediaPageState extends ConsumerState<MediaPage> {
                               ),
                               mediaInfo.when(
                                 data: (data) => AddButton(
-                                    borderColor:
-                                        Theme.of(context).colorScheme.onPrimary,
+                                    key: Key('${data.name} AddButton'),
+                                    borderColor: Theme.of(context).colorScheme.onPrimary,
                                     onPressed: () {
                                       showModalBottomSheet<void>(
                                           context: context,

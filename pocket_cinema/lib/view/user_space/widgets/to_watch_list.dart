@@ -56,6 +56,7 @@ class ToWatchList extends ConsumerWidget {
               ));
         } else {
           return HorizontalMediaList(
+            key: const Key("toWatchList"),
             name: "In your pocket to Watch",
             media: data,
           );
