@@ -84,7 +84,7 @@ class CommentSectionState extends ConsumerState<CommentSection> {
             loading: () => Container(),
             error: (error, stack) {
               Logger().e(error);
-              return const ErrorOccurred();
+              return ErrorOccurred(error: error);
             },
           ),
         ),

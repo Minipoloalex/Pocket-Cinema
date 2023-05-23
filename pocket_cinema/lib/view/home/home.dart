@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -50,20 +48,8 @@ class NewsList extends ConsumerWidget {
           ),
         ),
         error: (error, stack) {
-          if (error is SocketException) {
-            return Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                ),
-                const SizedBox(height: 10),
-                const NetworkErrorOccurred(),
-              ],
-            );
-          } else {
-            Logger().e(error);
-            return const ErrorOccurred();
-          }
+          Logger().e(error);
+          return ErrorOccurred(error: error);
         },
       ),
     );

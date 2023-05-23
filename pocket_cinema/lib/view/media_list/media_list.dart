@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
 import 'package:pocket_cinema/model/media.dart';
+import 'package:pocket_cinema/view/common_widgets/error_widget.dart';
 import 'package:pocket_cinema/view/media_list/media_list_layout.dart';
 
 class MediaListPage extends ConsumerWidget {
@@ -37,7 +38,7 @@ class MediaListPage extends ConsumerWidget {
                   data.firstWhere((element) => element.id == listId).media,
               listId: listId,
             ),
-        loading: () => const Text("loading"),
-        error: (error, stack) => const Text("error"));
+        loading: () => Container(),
+        error: (error, stack) => ErrorOccurred(error: error));
   }
 }
