@@ -287,3 +287,4 @@ class MediaPageState extends ConsumerState<MediaPage> {
     );
   }
 }
+
