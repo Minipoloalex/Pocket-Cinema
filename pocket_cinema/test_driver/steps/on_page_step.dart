@@ -27,7 +27,7 @@ class ThenPage extends Then1WithWorld<String, FlutterWorld> {
   ThenPage() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:20));
   @override
   Future<void> executeStep(String input) async {
-    FlutterDriverUtils.waitForFlutter(world.driver);
+    await FlutterDriverUtils.waitForFlutter(world.driver);
     final page = find.byType(input);
     expect(
       await FlutterDriverUtils.isPresent(
@@ -37,7 +37,7 @@ class ThenPage extends Then1WithWorld<String, FlutterWorld> {
       true,
       reason: "Page $input is not present",
     );
-    FlutterDriverUtils.waitForFlutter(world.driver);
+    await FlutterDriverUtils.waitForFlutter(world.driver);
   }
 
   @override
