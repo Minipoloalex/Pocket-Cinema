@@ -16,7 +16,7 @@ class HorizontalMediaList extends StatelessWidget {
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MediaListPage(mediaList: media, name: name))),
+                builder: (context) => MediaListPage(name: name, mediaList: media))),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
               padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
