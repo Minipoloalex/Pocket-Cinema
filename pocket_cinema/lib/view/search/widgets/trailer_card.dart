@@ -7,6 +7,7 @@ import 'package:pocket_cinema/controller/parser.dart';
 import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/view/media/media_page.dart';
 import 'package:pocket_cinema/view/search/trailer_page.dart';
+import 'package:pocket_cinema/view/common_widgets/play_trailer_button.dart';
 
 class TrailerCard extends StatelessWidget {
   final Media media;
@@ -30,11 +31,13 @@ class TrailerCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: FadeInImage(
-                      placeholder: const AssetImage('assets/images/placeholder.png'),
+                      placeholder:
+                          const AssetImage('assets/images/placeholder.png'),
                       image: CachedNetworkImageProvider(media.posterImage),
                       fadeInDuration: const Duration(milliseconds: 500),
                       fadeOutDuration: const Duration(milliseconds: 500),
-                      imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                      imageErrorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.error),
                     ).image,
                     fit: BoxFit.cover,
                   ),
@@ -75,41 +78,12 @@ class TrailerCard extends StatelessWidget {
                         fontSize: 16, fontWeight: FontWeight.bold),
                   )),
               Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: IconButton(
-                    key: Key("playTrailer${key.toString()[key.toString().length - 1]}"),
-                    icon: const HeroIcon(HeroIcons.play,
-                        style: HeroIconStyle.solid),
-                    onPressed: () {
-                      if (media.trailer == null) {
-                        Fluttertoast.showToast(msg: "No trailer available");
-                        return;
-                      }
-
-                      Fetcher.getMovieTrailerPlaybacks(media.trailer!)
-                          .then((playbacksResponse) {
-                        final List playbacks =
-                            Parser.movieTrailerPlaybacks(playbacksResponse);
-                        if (playbacks.isEmpty) {
-                          Fluttertoast.showToast(msg: "No trailer available");
-                        }
-
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => TrailerPage(
-                                    media: media,
-                                    videoUrl: playbacks[0]['url'])));
-                      });
-                    },
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).colorScheme.primary),
-                        padding: MaterialStateProperty.all<EdgeInsets>(
-                            const EdgeInsets.all(5)),
-                        iconColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).colorScheme.onPrimary)),
-                  )),
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: PlayTrailerButton(
+                    key: Key(
+                        "playTrailer${key.toString()[key.toString().length - 1]}"),
+                    media: media),
+              ),
             ],
           ),
         ));
