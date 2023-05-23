@@ -59,6 +59,7 @@ class ToWatchList extends ConsumerWidget {
             key: const Key("toWatchList"),
             name: "In your pocket to Watch",
             media: data,
+            isToWatchProvider: true
           );
         }
       },
