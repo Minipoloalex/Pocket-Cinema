@@ -127,7 +127,6 @@ class MediaListPosterState extends ConsumerState<MediaListPoster> {
                               imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
                             ).image,
                             fit: BoxFit.cover,
-                            // alignment: Alignment.topCenter
                           ),
                           borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(5),

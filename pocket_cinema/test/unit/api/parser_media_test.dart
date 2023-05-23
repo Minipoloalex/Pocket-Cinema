@@ -23,6 +23,7 @@ void main() {
         releaseDate: '1997-12-19',
         description: 'A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.',
         type: MediaType.movie,
+        trailer: "/video/vi1740686617",
       );
 
       final parser = Parser.media(jsonString);

@@ -24,7 +24,6 @@ class BottomModal extends StatelessWidget {
                 child: ElevatedButton(
                     onPressed: () => addToWatchList(context, media),
                     style: ButtonStyle(
-                      //radius
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),

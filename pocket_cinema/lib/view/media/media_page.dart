@@ -13,6 +13,7 @@ import 'package:pocket_cinema/view/common_widgets/shimmer.dart';
 import 'package:pocket_cinema/view/media/widgets/comment_section.dart';
 import 'package:pocket_cinema/view/media/widgets/description_shimmer.dart';
 import 'package:text_scroll/text_scroll.dart';
+import 'package:pocket_cinema/view/common_widgets/play_trailer_button.dart';
 
 class MediaPage extends ConsumerStatefulWidget {
   final String id;
@@ -52,12 +53,14 @@ class MediaPageState extends ConsumerState<MediaPage> {
                 image: DecorationImage(
                   image: mediaInfo.when(
                     data: (data) => FadeInImage(
-                      placeholder: const AssetImage('assets/images/placeholder.png'),
+                      placeholder:
+                          const AssetImage('assets/images/placeholder.png'),
                       image: CachedNetworkImageProvider(data.backgroundImage!),
                       fit: BoxFit.cover,
                       fadeInDuration: const Duration(milliseconds: 500),
                       fadeOutDuration: const Duration(milliseconds: 500),
-                      imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                      imageErrorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.error),
                     ).image,
                     error: (error, stack) =>
                         const AssetImage('assets/images/placeholder.png'),
@@ -78,12 +81,14 @@ class MediaPageState extends ConsumerState<MediaPage> {
                     height: 150,
                     child: mediaInfo.when(
                       data: (data) => FadeInImage(
-                        placeholder: const AssetImage('assets/images/placeholder.png'),
+                        placeholder:
+                            const AssetImage('assets/images/placeholder.png'),
                         fit: BoxFit.cover,
                         image: CachedNetworkImageProvider(data.posterImage),
                         fadeInDuration: const Duration(milliseconds: 500),
                         fadeOutDuration: const Duration(milliseconds: 500),
-                        imageErrorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                        imageErrorBuilder: (context, error, stackTrace) =>
+                            const Icon(Icons.error),
                       ),
                       error: (error, stack) =>
                           Image.asset('assets/images/placeholder.png'),
@@ -97,7 +102,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                     ),
                   ),
                   Container(
-                      height: 100,
+                      height: 150,
                       width: MediaQuery.of(context).size.width - 150,
                       decoration: BoxDecoration(
                         boxShadow: [
@@ -105,7 +110,6 @@ class MediaPageState extends ConsumerState<MediaPage> {
                             color: Colors.black.withOpacity(0.7),
                             blurRadius: 30,
                             spreadRadius: 10,
-                            // offset: const Offset(0, 200),
                           ),
                         ],
                       ),
@@ -114,24 +118,31 @@ class MediaPageState extends ConsumerState<MediaPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           mediaInfo.when(
-                            data: (data) => Row(
-                              children: [
-                                Flexible(
-                                  child: TextScroll(
-                                    data.name,
-                                    mode: TextScrollMode.endless,
-                                    velocity: const Velocity(
-                                        pixelsPerSecond: Offset(50, 0)),
-                                    selectable: true,
-                                    pauseBetween: const Duration(seconds: 1),
-                                    fadedBorder: true,
-                                    fadeBorderSide: FadeBorderSide.right,
-                                    style: const TextStyle(
-                                      fontSize: 28,
-                                    ),
+                            data: (data) => Visibility(
+                                visible: data.trailer != null,
+                                child: Container(
+                                  margin: const EdgeInsets.only(left: 40),
+                                  child: PlayTrailerButton(
+                                      borderColor: const Color.fromARGB(255, 221, 221, 221),
+                                      media: data,
                                   ),
-                                )
-                              ],
+                                )),
+                            error: (error, stack) => const SizedBox.shrink(),
+                            loading: () => const SizedBox.shrink(),
+                          ),
+                          mediaInfo.when(
+                            data: (data) => TextScroll(
+                              data.name,
+                              mode: TextScrollMode.endless,
+                              velocity: const Velocity(
+                                  pixelsPerSecond: Offset(50, 0)),
+                              selectable: true,
+                              pauseBetween: const Duration(seconds: 1),
+                              fadedBorder: true,
+                              fadeBorderSide: FadeBorderSide.right,
+                              style: const TextStyle(
+                                fontSize: 28,
+                              ),
                             ),
                             error: (error, stack) => Text(error.toString()),
                             loading: () => ShimmerEffect(
@@ -154,7 +165,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                       ),
                                     );
                                   } else if (DateTime.parse(data.releaseDate!)
-                                      .compareTo(DateTime.now()) <
+                                          .compareTo(DateTime.now()) <
                                       0) {
                                     return Row(children: [
                                       const HeroIcon(HeroIcons.star,
@@ -174,10 +185,10 @@ class MediaPageState extends ConsumerState<MediaPage> {
                                             Text(error.toString()),
                                         loading: () => ShimmerEffect(
                                             child: Container(
-                                              height: 10,
-                                              width: 100,
-                                              color: Colors.black,
-                                            )),
+                                          height: 10,
+                                          width: 100,
+                                          color: Colors.black,
+                                        )),
                                       ),
                                       const SizedBox(width: 6),
                                       Tooltip(
@@ -231,16 +242,17 @@ class MediaPageState extends ConsumerState<MediaPage> {
                               ),
                               mediaInfo.when(
                                 data: (data) => AddButton(
-                                    borderColor: Theme.of(context).colorScheme.onPrimary,
+                                    borderColor:
+                                        Theme.of(context).colorScheme.onPrimary,
                                     onPressed: () {
-                                  showModalBottomSheet<void>(
-                                      context: context,
-                                      builder: (_) {
-                                        return BottomModal(
-                                          media: data,
-                                        );
-                                      });
-                                }),
+                                      showModalBottomSheet<void>(
+                                          context: context,
+                                          builder: (_) {
+                                            return BottomModal(
+                                              media: data,
+                                            );
+                                          });
+                                    }),
                                 loading: () => const SizedBox(),
                                 error: (error, stack) => Text(error.toString()),
                               ),

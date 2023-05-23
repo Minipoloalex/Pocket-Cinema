@@ -40,13 +40,12 @@ ThemeData applicationTheme = ThemeData(
 
     segmentedButtonTheme: SegmentedButtonThemeData(
     style: ButtonStyle(
-      // backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
       backgroundColor: MaterialStateProperty.resolveWith<Color?>(
             (Set<MaterialState> states) {
           if (states.contains(MaterialState.selected)) {
-            return _blue;// Theme.of(context).colorScheme.primary.withOpacity(0.5);
+            return _blue;
           }
-          return _white; // null to use the component's default.
+          return _white;
         },
       ),
       foregroundColor: MaterialStateProperty.resolveWith<Color?>(
