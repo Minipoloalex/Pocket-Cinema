@@ -78,15 +78,17 @@ class MyTrailerPageState extends ConsumerState<TrailerPage>
                     ],
                   ),
                 ),
-                AddButton(onPressed: () {
-                  showModalBottomSheet<void>(
-                      context: context,
-                      builder: (_) {
-                        return BottomModal(
-                          media: widget.media,
-                        );
-                      });
-                })
+                AddButton(
+                    borderColor: Theme.of(context).colorScheme.onPrimary,
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                          context: context,
+                          builder: (_) {
+                            return BottomModal(
+                              media: widget.media,
+                            );
+                          });
+                    })
               ],
             ),
           ),

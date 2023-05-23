@@ -119,10 +119,12 @@ class MediaPageState extends ConsumerState<MediaPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           mediaInfo.when(
-                            data: (data) => Container(
-                              margin: const EdgeInsets.only(left: 40),
-                              child: PlayTrailerButton(media: data),
-                            ),
+                            data: (data) => Visibility(
+                                visible: data.trailer != null,
+                                child: Container(
+                                  margin: const EdgeInsets.only(left: 40),
+                                  child: PlayTrailerButton(media: data),
+                                )),
                             error: (error, stack) => const SizedBox.shrink(),
                             loading: () => const SizedBox.shrink(),
                           ),

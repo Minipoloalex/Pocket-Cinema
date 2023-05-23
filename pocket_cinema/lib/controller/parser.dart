@@ -37,6 +37,9 @@ class Parser {
     final releaseDate = (date == null || date['year'] == null || date['month'] == null || date['day'] == null)
         ? null
         : '${date["year"]}-${date["month"].toString().padLeft(2, '0')}-${date["day"].toString().padLeft(2, '0')}';
+
+    final videos = map["props"]["pageProps"]["aboveTheFoldData"]["primaryVideos"]["edges"];
+    final trailerId = videos.isNotEmpty ? videos[0]["node"]["id"] : null;
     return Media(
         id: map["props"]["pageProps"]["tconst"],
         name: map["props"]["pageProps"]["aboveTheFoldData"]["titleText"]["text"],
@@ -53,7 +56,9 @@ class Parser {
         type: map["props"]["pageProps"]["aboveTheFoldData"]["titleType"]["id"] ==
                 "movie"
             ? MediaType.movie
-            : MediaType.series);
+            : MediaType.series,
+        trailer: "/video/$trailerId",
+    );
   }
 
   static List<Media> moviesInNearTheaters(String body) {
