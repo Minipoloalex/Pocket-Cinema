@@ -14,7 +14,7 @@ import 'steps/then_expect_comment.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
-  ..features = [Glob(r"test_driver/features/comments.feature")]
+  ..features = [Glob(r"test_driver/features/**.feature")]
   ..reporters = [
     ProgressReporter(),
     TestRunSummaryReporter(),
