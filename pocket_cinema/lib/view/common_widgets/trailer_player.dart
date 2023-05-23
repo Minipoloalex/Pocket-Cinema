@@ -9,12 +9,12 @@ class TrailerPlayer extends StatefulWidget {
   const TrailerPlayer({required this.videoUrl, Key? key}) : super(key: key);
 
   @override
-  State<TrailerPlayer> createState() => _TrailerPlayerState();
+  State<TrailerPlayer> createState() => TrailerPlayerState();
 }
 
-class _TrailerPlayerState extends State<TrailerPlayer> with AutomaticKeepAliveClientMixin{
-  late VideoPlayerController _controller;
-  late ChewieController _chewieController;
+class TrailerPlayerState extends State<TrailerPlayer> with AutomaticKeepAliveClientMixin{
+  late VideoPlayerController controller;
+  late ChewieController chewieController;
 
   @override
   bool get wantKeepAlive => true;
@@ -22,24 +22,24 @@ class _TrailerPlayerState extends State<TrailerPlayer> with AutomaticKeepAliveCl
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.videoUrl);
-    _chewieController = ChewieController(
-      videoPlayerController: _controller,
+    controller = VideoPlayerController.network(widget.videoUrl);
+    chewieController = ChewieController(
+      videoPlayerController: controller,
       aspectRatio: 16 / 9,
       autoPlay: true,
     );
 
     WidgetsBinding.instance
         .addPostFrameCallback((_) => {
-          _chewieController.enterFullScreen(),
+          chewieController.enterFullScreen(),
           SystemChrome.setPreferredOrientations([
             DeviceOrientation.landscapeLeft,
             DeviceOrientation.landscapeRight,
           ]),
     });
 
-    _chewieController.addListener(() {
-      if (!_chewieController.isFullScreen) {
+    chewieController.addListener(() {
+      if (!chewieController.isFullScreen) {
         SystemChrome.setPreferredOrientations([
           DeviceOrientation.portraitUp,
           DeviceOrientation.portraitDown,
@@ -50,8 +50,8 @@ class _TrailerPlayerState extends State<TrailerPlayer> with AutomaticKeepAliveCl
 
   @override
   void dispose() {
-    _controller.dispose();
-    _chewieController.dispose();
+    controller.dispose();
+    chewieController.dispose();
     super.dispose();
   }
 
@@ -62,7 +62,7 @@ class _TrailerPlayerState extends State<TrailerPlayer> with AutomaticKeepAliveCl
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AspectRatio(
-            aspectRatio: 16 / 9, child: Chewie(controller: _chewieController)),
+            aspectRatio: 16 / 9, child: Chewie(controller: chewieController)),
       ],
     );
   }
