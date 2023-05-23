@@ -219,7 +219,7 @@ class MediaPageState extends ConsumerState<MediaPage> {
                               ),
                               const SizedBox(width: 20),
                               mediaInfo.when(
-                                data: (data) => CheckButton(´
+                                data: (data) => CheckButton(
                                     key: Key('${data.name} CheckButton'),
                                     mediaId: data.id,
                                     onPressed: () {

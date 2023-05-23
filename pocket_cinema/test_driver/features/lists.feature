@@ -46,6 +46,7 @@ Feature: Adding media to lists
     Then I am on the "MediaPage" page
     When I tap the "Titanic CheckButton" button
     Then I wait until the "checkButton unchecked" is present
+    When I pause for 5 seconds
 
     When I tap the "backButton" button
     Then I am on the "MediaListPage" page
