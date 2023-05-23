@@ -24,3 +24,31 @@ Feature: Commenting on media and reading comments
     And I tap the "addCommentButton" button
     Then I expect the comment "myUsername" "This is a comment" to be present
 
+    # Going back to the search page
+    When I tap the "backButton" button
+    And I tap the "backButtonSearch" button
+    Then I am on the "SearchPage" page
+
+  Scenario: Reading comments from a movie
+    Given I am not authenticated
+    And I authenticate as "admin" with password "123456"
+    Then I am on the "HomePage" page
+
+    # Finding the movie
+    Given I am on the "HomePage" page
+    When I tap the "searchNavigationButton" button
+    Then I am on the "SearchPage" page
+    When I fill the "searchField" field without scrolling with "matrix"
+    Then I am on the "SearchResultsPage" page
+    And I expect the text "The Matrix" to be present
+    And I expect the text "The Matrix Resurrections" to be present
+
+    # Reading the comment
+    When I tap the "The Matrix" element
+    Then I am on the "MediaPage" page
+    And I expect the comment "myUsername" "This is a comment" to be present
+
+    # Going back to the search page
+    When I tap the "backButton" button
+    And I tap the "backButtonSearch" button
+    Then I am on the "SearchPage" page
