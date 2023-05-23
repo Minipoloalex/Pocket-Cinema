@@ -56,6 +56,7 @@ class ToWatchList extends ConsumerWidget {
               ));
         } else {
           return HorizontalMediaList(
+            key: const Key("toWatchList"),
             name: "In your pocket to Watch",
             media: data,
           );
@@ -64,7 +65,7 @@ class ToWatchList extends ConsumerWidget {
       loading: () => const ShimmerEffect(child: HorizontalMediaListShimmer()),
       error: (error, stack) {
         Logger().e(error);
-        return const ErrorOccurred();
+        return ErrorOccurred(error: error);
       },
     );
   }

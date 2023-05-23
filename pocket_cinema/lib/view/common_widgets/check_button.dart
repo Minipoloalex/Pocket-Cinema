@@ -24,10 +24,10 @@ class CheckButton extends ConsumerWidget {
 
     List<Media> watchedList = ref.watch(watchListProvider);
     bool checked = watchedList.any((element) => element.id == mediaId);
-
     return Tooltip(
       message: tooltip ?? 'Mark this movie as watched',
       child: IconButton(
+        key: Key('checkButton ${checked ? 'checked' : 'unchecked'}'),
         icon: const HeroIcon(HeroIcons.check),
         onPressed: () {
           onPressed();

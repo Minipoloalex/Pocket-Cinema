@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pocket_cinema/controller/lists_provider.dart';
@@ -17,10 +18,8 @@ class SearchResult extends ConsumerWidget {
         margin: const EdgeInsets.only(bottom: 10),
         child: GestureDetector(
           key: Key(media.name),
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => MediaPage(id: media.id))),
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MediaPage(id: media.id))),
           child: Row(
             children: [
               Container(
@@ -28,7 +27,15 @@ class SearchResult extends ConsumerWidget {
                 height: 150,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(media.posterImage),
+                    image: FadeInImage(
+                      placeholder:
+                          const AssetImage('assets/images/placeholder.png'),
+                      image: CachedNetworkImageProvider(media.posterImage),
+                      fadeInDuration: const Duration(milliseconds: 500),
+                      fadeOutDuration: const Duration(milliseconds: 500),
+                      imageErrorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.error),
+                    ).image,
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(5),
@@ -59,11 +66,14 @@ class SearchResult extends ConsumerWidget {
               Row(
                 children: [
                   CheckButton(
+                      key: Key('${media.name} CheckButton'),
                       mediaId: media.id,
                       onPressed: () {
                         ref.read(watchListProvider.notifier).toggle(media);
                       }),
                   AddButton(
+                    key: Key('${media.name} AddButton'),
+                    borderColor: Theme.of(context).colorScheme.onPrimary,
                     onPressed: () {
                       showModalBottomSheet<void>(
                           context: context,

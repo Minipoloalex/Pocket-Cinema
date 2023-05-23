@@ -35,9 +35,9 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
   void initState() {
     super.initState();
     authSubscription = auth.authStateChanges().listen((User? user) {
-      ref.read(watchListProvider.notifier).getWatchList();
-      ref.read(toWatchListProvider).value;
-      ref.read(listsProvider).value;
+      ref.refresh(watchListProvider.notifier).getWatchList();
+      ref.refresh(toWatchListProvider).value;
+      ref.refresh(listsProvider).value;
     });
   }
   @override
@@ -111,14 +111,15 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       ListButton(
+                          key: const Key("watchedListButton"),
                           icon: const HeroIcon(HeroIcons.checkCircle,
                               style: HeroIconStyle.solid),
                           labelText: "Watched",
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => MediaListPage(
-                                  name: "Watched",
-                                  mediaList: ref.watch(watchListProvider)),
+                              builder: (context) => const MediaListPage(
+                                    name: "Watched"
+                                  ),
                             ));
                           }),
                     ]),
@@ -134,6 +135,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: CommentAndListForm(
+                    key: const Key("createListField"),
                     controller: _controller,
                     focusNode: _node,
                     handleSubmit: _handleSubmit,
@@ -153,6 +155,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
                       },
                     ),
                     suffixIcon: IconButton(
+                      key: const Key("submitNewListButton"),
                       color: Colors.white,
                       icon: const HeroIcon(HeroIcons.plus),
                       onPressed: () {
@@ -168,6 +171,7 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
       floatingActionButton: Visibility(
           visible: !_isFormVisible,
           child: AddButton(
+            key: const Key("addListButton"),
             onPressed: () => {
               toggleCreateListFormVisibility(),
               _node.requestFocus(),

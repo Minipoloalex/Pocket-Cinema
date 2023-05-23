@@ -7,7 +7,7 @@ class ThenNoResultsFound extends Then1WithWorld<String, FlutterWorld> {
   ThenNoResultsFound() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:15));
   @override
   Future<void> executeStep(String input) async {
-    FlutterDriverUtils.waitForFlutter(world.driver);
+    await FlutterDriverUtils.waitForFlutter(world.driver);
     if (input == "movies") {
       final movies = find.byValueKey("noResultsMovies");
       expect(
@@ -31,7 +31,7 @@ class ThenNoResultsFound extends Then1WithWorld<String, FlutterWorld> {
       );
     }
 
-    FlutterDriverUtils.waitForFlutter(world.driver);
+    await FlutterDriverUtils.waitForFlutter(world.driver);
     final searchResultsFinder = find.byType("SearchResult");
 
     expect(

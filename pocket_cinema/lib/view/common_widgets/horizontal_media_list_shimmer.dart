@@ -1,4 +1,3 @@
-// stateless widget for horizontal media list shimmer
 import 'package:flutter/material.dart';
 import 'package:pocket_cinema/view/common_widgets/poster_shimmer.dart';
 
