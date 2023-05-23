@@ -35,9 +35,9 @@ class MyUserSpacePageState extends ConsumerState<UserSpacePage> {
   void initState() {
     super.initState();
     authSubscription = auth.authStateChanges().listen((User? user) {
-      ref.read(watchListProvider.notifier).getWatchList();
-      ref.read(toWatchListProvider).value;
-      ref.read(listsProvider).value;
+      ref.refresh(watchListProvider.notifier).getWatchList();
+      ref.refresh(toWatchListProvider).value;
+      ref.refresh(listsProvider).value;
     });
   }
   @override
