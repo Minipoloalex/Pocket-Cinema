@@ -100,7 +100,7 @@ void main() {
       createDefaultUser(database, username, email, id);
       await database.addMediaToWatch(media, id);
 
-      final List<Media> toWatchList = await database.getPredefinedList('ToWatch', id);
+      final List<Media> toWatchList = await database.getPredefinedList('toWatch', id);
       expect(toWatchList.length, 1);
       expect(toWatchList[0].id, mediaId);
       expect(toWatchList[0].name, title);

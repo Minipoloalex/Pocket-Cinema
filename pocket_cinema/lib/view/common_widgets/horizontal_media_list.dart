@@ -6,9 +6,10 @@ import 'package:pocket_cinema/view/media_list/media_list.dart';
 class HorizontalMediaList extends StatelessWidget {
   final String name;
   final List<Media> media;
+  final bool isToWatchProvider;
 
   const HorizontalMediaList(
-      {super.key, required this.name, required this.media});
+      {super.key, required this.name, required this.media, this.isToWatchProvider = false});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class HorizontalMediaList extends StatelessWidget {
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MediaListPage(name: name, mediaList: media))),
+                builder: (context) => MediaListPage(name: name, mediaList: media, isToWatchProvider: isToWatchProvider))),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
               padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),

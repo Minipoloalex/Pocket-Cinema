@@ -5,7 +5,7 @@ import 'package:pocket_cinema/model/media.dart';
 import 'package:pocket_cinema/model/media_list.dart';
 
 final toWatchListProvider = FutureProvider<List<Media>>((ref) async {
-  return await FirestoreDatabase().getPredefinedList("ToWatch", FirebaseAuth.instance.currentUser?.uid);
+  return await FirestoreDatabase().getPredefinedList("toWatch", FirebaseAuth.instance.currentUser?.uid);
 });
 
 final listsProvider = FutureProvider<List<MediaList>>((ref) async {

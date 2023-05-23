@@ -7,7 +7,8 @@ import 'package:pocket_cinema/model/media_list.dart';
 import 'package:pocket_cinema/model/my_user.dart';
 
 class FirestoreDatabase {
-  FirestoreDatabase({FirebaseFirestore? firestore}) : firestore = firestore ?? FirebaseFirestore.instance;
+  FirestoreDatabase({FirebaseFirestore? firestore})
+      : firestore = firestore ?? FirebaseFirestore.instance;
   final FirebaseFirestore firestore;
 
   Future<String> getUsernameById(String id) async {
@@ -68,7 +69,8 @@ class FirestoreDatabase {
   }
 
   Future<bool> userExists(MyUser user) async {
-    final QuerySnapshot snapshot = await firestore.collection('users')
+    final QuerySnapshot snapshot = await firestore
+        .collection('users')
         .where("username", isEqualTo: user.username)
         .where("email", isEqualTo: user.email)
         .get();
@@ -76,14 +78,16 @@ class FirestoreDatabase {
   }
 
   Future<bool> emailExists(String email) async {
-    final QuerySnapshot snapshot = await firestore.collection('users')
+    final QuerySnapshot snapshot = await firestore
+        .collection('users')
         .where("email", isEqualTo: email)
         .get();
     return snapshot.docs.isNotEmpty;
   }
 
   Future<bool> usernameExists(String username) async {
-    final QuerySnapshot snapshot = await firestore.collection('users')
+    final QuerySnapshot snapshot = await firestore
+        .collection('users')
         .where("username", isEqualTo: username)
         .get();
     return snapshot.docs.isNotEmpty;
@@ -128,15 +132,20 @@ class FirestoreDatabase {
       final createdAt = doc.data()['createdAt'] as Timestamp;
       final lastUpdatedAt = doc.data()['lastUpdatedAt'] as Timestamp;
       final List<Media> media = await Future.wait(mediaIds.map((mediaId) async {
-        final mediaSnapshot = await firestore.collection('medias')
-            .doc(mediaId).get();
+        final mediaSnapshot =
+            await firestore.collection('medias').doc(mediaId).get();
         return Media(
           id: mediaSnapshot.id,
           name: mediaSnapshot.get('name'),
           posterImage: mediaSnapshot.get('posterUrl'),
         );
       }));
-      mediaLists.add(MediaList(id: id, name: name, media: media, createdAt: createdAt, lastUpdatedAt: lastUpdatedAt));
+      mediaLists.add(MediaList(
+          id: id,
+          name: name,
+          media: media,
+          createdAt: createdAt,
+          lastUpdatedAt: lastUpdatedAt));
     }
     return mediaLists;
   }
@@ -152,6 +161,7 @@ class FirestoreDatabase {
       'personalLists': FieldValue.arrayRemove([listId])
     });
   }
+
   Future<bool> mediaIsInList(Media media, String listId) async {
     final docList = firestore.collection('lists').doc(listId);
     final docSnapshot = await docList.get();
@@ -207,22 +217,23 @@ class FirestoreDatabase {
     final docUser = firestore.collection('users').doc(userId);
 
     final userSnapshot = await docUser.get();
-    final List listMedia = userSnapshot.data()?["ToWatch"] ?? [];
+    final List listMedia = userSnapshot.data()?["toWatch"] ?? [];
     if (listMedia.contains(media.id)) {
       throw Exception("Already added");
     }
     await docUser.update({
-      "ToWatch": FieldValue.arrayUnion([media.id])
+      "toWatch": FieldValue.arrayUnion([media.id])
     });
     return;
   }
 
-  Future<void> toggleMediaStatus(Media media, String listName, String? userId) async {
+  Future<void> toggleMediaStatus(
+      Media media, String listName, String? userId) async {
     if (listName != 'watched' && listName != 'toWatch') {
       throw Exception('Invalid list');
     }
 
-    if(userId == null) {
+    if (userId == null) {
       throw Exception('User not logged in');
     }
     mediaExists(media);
@@ -242,8 +253,23 @@ class FirestoreDatabase {
     }
   }
 
+  Future<void> removeMediaFromPredifinedList(
+      Media media, String listName, String? userId) async {
+    if (listName != 'watched' && listName != 'toWatch') {
+      throw Exception('Invalid list');
+    }
+
+    if (userId == null) {
+      throw Exception('User not logged in');
+    }
+    final docUser = firestore.collection('users').doc(userId);
+    await docUser.update({
+      listName: FieldValue.arrayRemove([media.id])
+    });
+  }
+
   Future<List<Media>> getPredefinedList(String listName, String? userId) async {
-    if (listName != "watched" && listName != "ToWatch") {
+    if (listName != "watched" && listName != "toWatch") {
       throw Exception("List name given incorrect");
     }
     if (userId == null) {
@@ -253,11 +279,9 @@ class FirestoreDatabase {
 
     final List list = userSnapshot.data()?[listName] ?? [];
 
-    final List<Media> medias =
-        await Future.wait(list.map((mediaId) async {
-      final mediaSnapshot = await firestore.collection('medias')
-          .doc(mediaId)
-          .get();
+    final List<Media> medias = await Future.wait(list.map((mediaId) async {
+      final mediaSnapshot =
+          await firestore.collection('medias').doc(mediaId).get();
       return Media(
         id: mediaSnapshot.id,
         name: mediaSnapshot.get('name'),
