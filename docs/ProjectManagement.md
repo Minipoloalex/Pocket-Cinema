@@ -34,10 +34,10 @@ All the management of the project is done using this [Github Project board](http
 ---
 
 ## Iteration **#1**
-Begin
-<img src="../images/iterations/iteration01-begin.png">
-End
-<img src="../iamges/iterations/iteration01-end.png">
+
+| <img src="../images/iterations/iteration01-begin.png"> |
+| :--: |
+| Begin |
 
 ## Retrospective **#1**
 
@@ -59,11 +59,11 @@ End
 ---
 
 ## Iteration **#2**
-Begin
-<img src="../images/iterations/iteration02-begin.png">
-End
-<img src="../images/iterations/iteration02-end.png">
-
+| <img src="../images/iterations/iteration02-begin.png"> |
+| :--: |
+| Begin |
+| <img src="../images/iterations/iteration02-end.png"> |
+| End |
 ## Retrospective **#2**
 
 ### Positive Aspects
@@ -77,8 +77,9 @@ End
 ### Puzzles
 - Firebase test mode and security rules
 ## Iteration **#3**
-End
-<img src="../images/iterations/iteration03-end.png">
+| <img src="../images/iterations/iteration03-end.png"> |
+| :--: |
+| End |
 
 ## Retrospective **#3**
 
@@ -91,3 +92,8 @@ End
 
 ### Puzzles
 - We are not sure if we will be able to implement all the features we want in time: we have to make sure everything gets implemented well
+
+## Iteration **#4**
+| <img src="../images/iterations/iteration04-end.png"> |
+| :--: |
+| End |
