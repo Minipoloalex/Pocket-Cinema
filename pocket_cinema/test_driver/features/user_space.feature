@@ -20,6 +20,7 @@ Feature: Accessing user space and lists
 
   Scenario: Entering pocket to watch list
     Given I am on the "UserSpacePage" page
+    Then I expect the element "toWatchList" to be present within 10 seconds
     When I tap the "toWatchList" widget
     Then I am on the "MediaListPage" page
     And I expect the text "In your pocket to Watch" to be present

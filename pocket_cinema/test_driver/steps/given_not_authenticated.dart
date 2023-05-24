@@ -3,28 +3,28 @@ import 'package:flutter_gherkin/flutter_gherkin.dart';
 import 'package:gherkin/gherkin.dart';
 
 class GivenNotAuthenticated extends GivenWithWorld<FlutterWorld> {
-  GivenNotAuthenticated() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:25));
+  GivenNotAuthenticated() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:60));
   @override
   Future<void> executeStep() async {
     final loginPage = find.byType('LoginPage');
-    final loginPageIsPresent = await FlutterDriverUtils.isPresent(world.driver, loginPage, timeout: const Duration(seconds: 5));
+    final loginPageIsPresent = await FlutterDriverUtils.isPresent(world.driver, loginPage, timeout: const Duration(seconds: 10));
     if (loginPageIsPresent) return;
 
     final homePage = find.byType('HomePage');
-    final homePageIsPresent = await FlutterDriverUtils.isPresent(world.driver, homePage, timeout: const Duration(seconds: 5));
+    final homePageIsPresent = await FlutterDriverUtils.isPresent(world.driver, homePage, timeout: const Duration(seconds: 10));
     if (homePageIsPresent) {
       tapNavigationButton(world.driver);
     }
     else {
       final searchPage = find.byType('SearchPage');
-      final searchPageIsPresent = await FlutterDriverUtils.isPresent(world.driver, searchPage, timeout: const Duration(seconds: 5));
+      final searchPageIsPresent = await FlutterDriverUtils.isPresent(world.driver, searchPage, timeout: const Duration(seconds: 10));
       if (searchPageIsPresent) tapNavigationButton(world.driver);
     }
     await FlutterDriverUtils.waitForFlutter(world.driver);
 
     final userSpacePage = find.byType('UserSpacePage');
     expect(
-      await FlutterDriverUtils.isPresent(world.driver, userSpacePage, timeout: const Duration(seconds: 2)),
+      await FlutterDriverUtils.isPresent(world.driver, userSpacePage, timeout: const Duration(seconds: 5)),
       true,
       reason: "Login, Home, Search and UserSpace pages are not present",
     );

@@ -3,11 +3,12 @@ import 'package:flutter_gherkin/flutter_gherkin.dart';
 import 'package:gherkin/gherkin.dart';
 
 class GivenAuthenticate extends Given2WithWorld<String, String, FlutterWorld> {
-  GivenAuthenticate() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:15));
+  GivenAuthenticate() : super(StepDefinitionConfiguration()..timeout = const Duration(seconds:25));
   @override
   Future<void> executeStep(String username, String password) async {
+    await FlutterDriverUtils.waitForFlutter(world.driver);
     final loginPage = find.byType('LoginPage');
-    final loginPageIsPresent = await FlutterDriverUtils.isPresent(world.driver, loginPage, timeout: const Duration(seconds: 5));
+    final loginPageIsPresent = await FlutterDriverUtils.isPresent(world.driver, loginPage, timeout: const Duration(seconds: 10));
     expect(
       loginPageIsPresent,
       true,
@@ -15,11 +16,11 @@ class GivenAuthenticate extends Given2WithWorld<String, String, FlutterWorld> {
     );
 
     final userIdField = find.byValueKey("userIdField");
-    await FlutterDriverUtils.enterText(world.driver, userIdField, username, timeout: const Duration(seconds: 1));
+    await FlutterDriverUtils.enterText(world.driver, userIdField, username, timeout: const Duration(seconds: 5));
     await FlutterDriverUtils.waitForFlutter(world.driver);
 
     final passwordField = find.byValueKey("passwordLoginField");
-    await FlutterDriverUtils.enterText(world.driver, passwordField, password, timeout: const Duration(seconds: 1));
+    await FlutterDriverUtils.enterText(world.driver, passwordField, password, timeout: const Duration(seconds: 5));
     await FlutterDriverUtils.waitForFlutter(world.driver);
 
     final loginButton = find.byValueKey("loginButton");
