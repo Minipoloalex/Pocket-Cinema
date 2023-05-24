@@ -14,7 +14,7 @@ Welcome to the documentation pages of Pocket Cinema
 You can find here details about the product, from a high-level vision to low-level implementation decisions, a kind of Software Development Report, organized by discipline (as of Rational Unified Process):
 - Business modeling
     * [Product Vision](docs/ProductVision.md)
-    * Elevator Pitch
+    * [Elevator Pitch](docs/ElevatorPitch.md)
 - Requirements
     * [User stories](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC13T1/issues?q=is%3Aissue+label%3A%22user+story%22)
     * [Domain model](docs/requirements.md)
