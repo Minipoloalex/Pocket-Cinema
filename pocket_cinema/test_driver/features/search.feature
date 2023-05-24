@@ -15,8 +15,8 @@ Feature: Searching for movies/series by title
     Given I am on the "SearchPage" page
     When I fill the "searchField" field without scrolling with "matrix"
     Then I am on the "SearchResultsPage" page
-    And I expect the text "The Matrix" to be present
-    And I expect the text "The Matrix Resurrections" to be present
+    And I expect the text "The Matrix" to be present within 10 seconds
+    And I expect the text "The Matrix Resurrections" to be present within 5 seconds
 
   Scenario: Clicking searched movie
     Given I am on the "SearchResultsPage" page
